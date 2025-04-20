@@ -119,13 +119,16 @@ def find_closest_datetime(datetime_list, target_datetime):
 
     return min(datetime_list, key=lambda x: abs(x - target_datetime))
 
-def get_finance_api_data(url, max_retries=3, wait_time=5):
+def get_finance_api_data(url, max_retries=3, wait_time=5, key_only=False):
     retries = 0
 
     while retries < max_retries:
         try:
             headers = {"User-Agent": "Mozilla/5.0"}
-            response = requests.get(f"{url}&apikey={FINANCIAL_KEY}",headers=headers)
+            if key_only is True: 
+                response = requests.get(f"{url}?apikey={FINANCIAL_KEY}",headers=headers)
+            else: 
+                response = requests.get(f"{url}&apikey={FINANCIAL_KEY}",headers=headers)
 
             response.raise_for_status()
             return response.json()

@@ -5,8 +5,8 @@
 api_key_25d = 'PK44IV49E4VZF809A5TU'
 secret_key_25d = 'kgaLpj8OHinMn8ZpVEWQJdLATBLKB25FxKkcbmwc'
 
-api_key_4d = 'PKC1SLBE8IF8QZM8XLEO'
-secret_key_4d = 'uGVS94NLjmAjNao3i6stO7luJAdvITf8vU2ik5pB'
+api_key_5d = 'PKC1SLBE8IF8QZM8XLEO'
+secret_key_5d = 'uGVS94NLjmAjNao3i6stO7luJAdvITf8vU2ik5pB'
 
 #### We use paper environment for this example ####
 paper = True # Please do not modify this. This example is for paper trading only.
@@ -115,13 +115,14 @@ def make_portfolio_buy_25d(latest_price_D, trade_client, total_portfolio_usd_amo
     record_filename = 'trade_record_25d_'+timestamp.replace(' ', '_')+'.pkl'
     pickle.dump(trade_record, open('/home/ubuntu/code/angle_rl/invest/data/prod/trades/'+record_filename, 'wb'))
 
-def make_portfolio_buy_4d(latest_price_D, trade_client, total_portfolio_usd_amount=10000): 
-    D4d = pickle.load(open('/home/ubuntu/code/angle_rl/invest/data/prod/prod_4d_model_prediction.pkl', 'rb')) 
-    scores = D4d['scores'] 
-    tickers = D4d['tickers'] 
+def make_portfolio_buy_5d(latest_price_D, trade_client, total_portfolio_usd_amount=10000): 
+    D5d = pickle.load(open('/home/ubuntu/code/angle_rl/invest/data/prod/prod_5d_model_prediction.pkl', 'rb')) 
+    scores = D5d['scores'] 
+    tickers = D5d['tickers'] 
     trade_record = dict() 
     trade_record['shares_amount'] = dict()
     trade_record['usd_amount'] = dict()
+    trade_record['exceptions'] = dict()
     for i in range(len(tickers)): 
         ticker = tickers[i] 
         latest_price = latest_price_D[ticker] 
@@ -145,16 +146,16 @@ def make_portfolio_buy_4d(latest_price_D, trade_client, total_portfolio_usd_amou
             print(f"--> ]Trade Error]: {e}")
     
     timestamp = datetime.strftime(datetime.now(), "%Y-%m-%d %H:%M:%S")
-    record_filename = 'trade_record_4d_'+timestamp.replace(' ', '_')+'.pkl'
+    record_filename = 'trade_record_5d_'+timestamp.replace(' ', '_')+'.pkl'
     pickle.dump(trade_record, open('/home/ubuntu/code/angle_rl/invest/data/prod/trades/'+record_filename, 'wb'))
         
 
 if __name__ == "__main__":
-    total_portfolio_usd_amount_4d = 10000
+    total_portfolio_usd_amount_5d = 10000
     total_portfolio_usd_amount_25d = 10000
     nest_asyncio.apply()
     trade_client_25d = TradingClient(api_key=api_key_25d, secret_key=secret_key_25d, paper=paper, url_override=trade_api_url)
-    trade_client_4d = TradingClient(api_key=api_key_4d, secret_key=secret_key_4d, paper=paper, url_override=trade_api_url)
+    trade_client_5d = TradingClient(api_key=api_key_5d, secret_key=secret_key_5d, paper=paper, url_override=trade_api_url)
 
     ## load and process latest prices 
     latest_price_D = dict() 
@@ -167,5 +168,5 @@ if __name__ == "__main__":
         if len(Dnyse[k]['prices']._bD) > 0:
             latest_price_D[k] = Dnyse[k]['prices'][Dnyse[k]['prices']._bD.inv[len(Dnyse[k]['prices']._bD) - 1]]
     
-    #make_portfolio_buy_4d(latest_price_D, trade_client_4d, total_portfolio_usd_amount_4d)
-    make_portfolio_buy_25d(latest_price_D, trade_client_25d, total_portfolio_usd_amount_25d)
+    make_portfolio_buy_5d(latest_price_D, trade_client_5d, total_portfolio_usd_amount_5d)
+    #make_portfolio_buy_25d(latest_price_D, trade_client_25d, total_portfolio_usd_amount_25d)

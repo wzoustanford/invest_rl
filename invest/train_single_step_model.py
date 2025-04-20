@@ -1,5 +1,5 @@
 import torch, pickle, argparse, pdb
-from model.iimodel import IIMODEL, IIMODELWITHNEWS
+from model.iimodel import IIMODEL, IIMODELWITHNEWS, IIMODELMARGIN
 
 
 def train_single_step_model(
@@ -14,11 +14,11 @@ def train_single_step_model(
         eval_interval = 50,
         is_prod = False,
         seed = 5,
-        with_news = False,
+        model_type = 'iimodel',
     ):
     
     data_id = data_filename.split('single_step')[1].split('alpaca')[0]
-    model_id = 'single_action_m_'+ exp_id +'_dropout'+str(dropout_ratio)+'_objmeanret'+str(obj_use_mean_return)+'_steps'+str(steps)+'_lr'+str(lr)+'_'
+    model_id = 'oneact_m_'+ exp_id +'_drop'+str(dropout_ratio)+'_objmeanret'+str(obj_use_mean_return)+'_steps'+str(steps)+'_lr'+str(lr)+'_mt'+model_type+'_'
     root_dir = '/home/ubuntu/code/angle_rl/invest/data/'+exp_id+'/'
 
     ## -- model training log -- 
@@ -61,31 +61,42 @@ def train_single_step_model(
     data = pickle.load(open(data_filename, 'rb'))
     features = data['trainFeature'].to(device)
     series = data['train_in_portfolio_series'].to(device)
+    if 'train_margin_mask' in data: 
+        train_margin_mask = data['train_margin_mask'].to(device)
+    else: 
+        train_margin_mask = None 
     
     eval_features = data['testFeature'].to(device)
     eval_series = data['test_in_portfolio_series']
+    if 'test_margin_mask' in data: 
+        test_margin_mask = data['test_margin_mask'].to(device)
+    else: 
+        test_margin_mask = None 
+    
     if eval_series is not None:
         eval_series = eval_series.to(device)
 
-    if with_news is True: 
+    if model_type == 'iimodelwithnews': 
         news_features = data['trainNewsFeatures'].to(device)
         eval_news_features = data['testNewsFeatures'].to(device)
         model = IIMODELWITHNEWS(dropout_ratio=dropout_ratio).to(device)
+    elif model_type == 'iimodelmargin': 
+        model = IIMODELMARGIN(train_margin_mask, dropout_ratio=dropout_ratio).to(device)
     else: 
         model = IIMODEL(dropout_ratio=dropout_ratio).to(device)
-    
     optimizer = torch.optim.Adam(model.parameters(), lr=lr)
     optimizer.zero_grad()
 
     for step in range(1, steps + 1):
         model.train()
-        if with_news: 
+        model.mask = train_margin_mask
+        if model_type == 'iimodelwithnews': 
             output = model(features, news_features)
         else: 
             output = model(features)
 
         # assume we have a 1 dollar portfolio 
-        # this is how many shares in the portfolio
+        # this is how many shares in the portfolio # gracefully, for margin trading, the rest of the objective is the same assuming b < 1
         portfolio_shares = output / torch.unsqueeze((series[:, 0] + 1e-10), 1)
         actual_return = torch.sum(torch.unsqueeze((series[:, -1] - series[:, 0]), 1) * portfolio_shares)
 
@@ -122,7 +133,8 @@ def train_single_step_model(
         
         if step % eval_interval == 0:
             model.eval()
-            if with_news: 
+            model.mask = test_margin_mask
+            if model_type == 'iimodelwithnews': 
                 eval_output = model(eval_features, eval_news_features)
             else: 
                 eval_output = model(eval_features)
