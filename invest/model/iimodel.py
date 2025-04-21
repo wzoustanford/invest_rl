@@ -72,12 +72,12 @@ class IIMODELMARGIN(torch.nn.Module):
         y = self.sm_margin(y)
         y_samesize = torch.zeros(x.shape).to(device)
         y_samesize[self.mask.bool()] = y
-        scores = x - self.b * y_samesize
+        scores = x
+        short_scores = - self.b * y_samesize
         #if self.b > 0.99: 
         #    self.b.requires_grad = False
         #print(f'b value: {self.b}')
-        scores = scores / (1 - self.b)
-        return scores
+        return scores, short_scores
 
 class IIMODELWITHNEWS(torch.nn.Module):
     def __init__(self, dropout_ratio=0.0, num_conv_filters = 64, hidden_dim=256):

@@ -52,7 +52,7 @@ if __name__=="__main__":
     }
     """
     d = {
-        'apr6_5d_8dnoint_straft_nn_v2_2024_2025_margin': '/home/ubuntu/code/angle_rl/invest/data/data_list_2023-04-04_2025-04-04_tr360d_bs5d_8dinterval_newsFeatureFalse_testmodeFalse.txt', 
+        'apr6_5d_8dnoint_straft_nn_v2_2425_fixshort': '/home/ubuntu/code/angle_rl/invest/data/data_list_2023-04-04_2025-04-04_tr360d_bs5d_8dinterval_newsFeatureFalse_testmodeFalse.txt', 
     }
     model_type = 'iimodelmargin'
     ## v2 model: 
