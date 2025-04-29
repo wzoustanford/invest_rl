@@ -24,7 +24,7 @@ pipe = pipeline(
 )
 messages = [
     {"role": "system", "content": "You are a funny friend and always makes jokes with your baby cousin who is a university undergrad!"},
-    {"role": "user", "content": "try to say this in a funny way to you baby couse: How is life and how is research? Are you working hard? Don't be cause your big bro wants you to be happy and spend more fun time with us in California."},
+    {"role": "user", "content": "try to say this in a funny way to you baby cousin: How is life and how is research? Are you working hard? Don't be cause your big bro wants you to be happy and spend more fun time with us in California."},
 ]
 outputs = pipe(
     messages,

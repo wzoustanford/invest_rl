@@ -1,7 +1,7 @@
 import torch, pdb, os
 from train_single_step_model import train_single_step_model
 
-exp_id = 'apr6_alleval_25d_news_v1_testing'
+exp_id = 'apr6_alleval_25d_news_v1_testing_againln'
 os.system('mkdir /home/ubuntu/code/angle_rl/invest/data/'+exp_id+'/')
 
 #data_list_f = open('/home/ubuntu/code/angle_rl/invest/data/data_list_2025_03_31_tr360d_bs25d_monthlyinterval.txt', 'r')
