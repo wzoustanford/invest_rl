@@ -271,4 +271,35 @@ def get_single_action_model_train_test_data(
     print('saving to ... ' + filename)
     list_f.write(filename+'\n')
     list_f.close()
-    pickle.dump({"trainFeature":trainFeature, "train_in_portfolio_series":train_in_portfolio_series, "trainNewsFeatures":trainNewsFeatures, "all_train_tickers":all_train_tickers, "testFeature":testFeature, "test_in_portfolio_series":test_in_portfolio_series, "testNewsFeatures":testNewsFeatures, "all_test_tickers":all_test_tickers}, open(filename, 'wb'))
+
+    ## get the margin mask with snp500 
+    d = pickle.load(open('/home/ubuntu/code/angle_rl/invest/data/snp500_dict.pkl', 'rb'))
+    Dsnp500 = d['Dsnp500']
+    train_margin_mask = []
+    for tic in all_train_tickers: 
+        if tic in Dsnp500:
+            train_margin_mask.append(True)
+        else: 
+            train_margin_mask.append(False)
+    train_margin_mask = torch.Tensor(train_margin_mask).bool()
+
+    test_margin_mask = []
+    for tic in all_test_tickers: 
+        if tic in Dsnp500: 
+            test_margin_mask.append(True)
+        else: 
+            test_margin_mask.append(False)
+    test_margin_mask = torch.Tensor(test_margin_mask).bool()
+    
+    pickle.dump({
+        "trainFeature":trainFeature, 
+        "train_in_portfolio_series":train_in_portfolio_series, 
+        "trainNewsFeatures":trainNewsFeatures, 
+        "all_train_tickers":all_train_tickers, 
+        "train_margin_mask": train_margin_mask,
+        "testFeature":testFeature, 
+        "test_in_portfolio_series":test_in_portfolio_series, 
+        "testNewsFeatures":testNewsFeatures, 
+        "all_test_tickers":all_test_tickers,
+        "test_margin_mask":test_margin_mask,
+    }, open(filename, 'wb'))

@@ -18,7 +18,7 @@ while l:
         obj_use_mean_return = True,
         steps = 750,
         lr = 0.001,
-        with_news = False,
+        model_type= 'iimodelwithnews',
     )
     l = data_list_f.readline()
     cnt += 1

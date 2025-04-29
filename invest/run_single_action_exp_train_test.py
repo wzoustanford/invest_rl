@@ -1,7 +1,7 @@
 import torch, pdb, os
 from train_single_step_model import train_single_step_model
 
-def run_single_action_exp_train_test(exp_id, data_list_filename):
+def run_single_action_exp_train_test(exp_id, data_list_filename, model_type='iimodel'):
     #exp_id = 'apr5_alleval_25d_news_nonews_v1'
 
     #exp_id = 'apr6_repro_25d_straft_nonews_convk128_h256_v3'
@@ -33,6 +33,7 @@ def run_single_action_exp_train_test(exp_id, data_list_filename):
             obj_use_mean_return = True,
             steps = 750,
             lr = 0.001,
+            model_type = model_type,
         )
         l = data_list_f.readline()
         cnt += 1
@@ -45,12 +46,15 @@ if __name__=="__main__":
         'apr6_5d_8dnoint_straft_nn_v2_2022_2023': '/home/ubuntu/code/angle_rl/invest/data/data_list_2021-04-04_2023-04-04_tr360d_bs5d_8dinterval_newsFeatureFalse_testmodeFalse.txt',
         'apr6_5d_8dnoint_straft_nn_v2_2021_2022': '/home/ubuntu/code/angle_rl/invest/data/data_list_2020-04-04_2022-04-04_tr360d_bs5d_8dinterval_newsFeatureFalse_testmodeFalse.txt', 
     }
-    """
     d = {
         'apr6_5d_8dnoint_straft_nn_v1_22_23_rerun_c64': '/home/ubuntu/code/angle_rl/invest/data/data_list_2021-04-04_2023-04-04_tr360d_bs5d_8dinterval_newsFeatureFalse_testmodeFalse.txt',
         'apr6_5d_8dnoint_straft_nn_v1_21_22_rerun_c64': '/home/ubuntu/code/angle_rl/invest/data/data_list_2020-04-04_2022-04-04_tr360d_bs5d_8dinterval_newsFeatureFalse_testmodeFalse.txt', 
     }
-
+    """
+    d = {
+        'apr6_5d_8dnoint_straft_nn_v2_2425_fixshort': '/home/ubuntu/code/angle_rl/invest/data/data_list_2023-04-04_2025-04-04_tr360d_bs5d_8dinterval_newsFeatureFalse_testmodeFalse.txt', 
+    }
+    model_type = 'iimodelmargin'
     ## v2 model: 
     for k, v in d.items(): 
-        run_single_action_exp_train_test(k, v) 
+        run_single_action_exp_train_test(k, v, model_type) 

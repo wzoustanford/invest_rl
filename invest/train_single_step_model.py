@@ -1,5 +1,5 @@
 import torch, pickle, argparse, pdb
-from model.iimodel import IIMODEL, IIMODELWITHNEWS
+from model.iimodel import IIMODEL, IIMODELWITHNEWS, IIMODELMARGIN
 
 
 def train_single_step_model(
@@ -14,11 +14,11 @@ def train_single_step_model(
         eval_interval = 50,
         is_prod = False,
         seed = 5,
-        with_news = False,
+        model_type = 'iimodel',
     ):
     
     data_id = data_filename.split('single_step')[1].split('alpaca')[0]
-    model_id = 'single_action_m_'+ exp_id +'_dropout'+str(dropout_ratio)+'_objmeanret'+str(obj_use_mean_return)+'_steps'+str(steps)+'_lr'+str(lr)+'_'
+    model_id = 'oneact_m_'+ exp_id +'_drop'+str(dropout_ratio)+'_objmeanret'+str(obj_use_mean_return)+'_steps'+str(steps)+'_lr'+str(lr)+'_mt'+model_type+'_'
     root_dir = '/home/ubuntu/code/angle_rl/invest/data/'+exp_id+'/'
 
     ## -- model training log -- 
@@ -61,32 +61,53 @@ def train_single_step_model(
     data = pickle.load(open(data_filename, 'rb'))
     features = data['trainFeature'].to(device)
     series = data['train_in_portfolio_series'].to(device)
+    if 'train_margin_mask' in data: 
+        train_margin_mask = data['train_margin_mask'].to(device)
+    else: 
+        train_margin_mask = None 
     
     eval_features = data['testFeature'].to(device)
     eval_series = data['test_in_portfolio_series']
+    if 'test_margin_mask' in data: 
+        test_margin_mask = data['test_margin_mask'].to(device)
+    else: 
+        test_margin_mask = None 
+    
     if eval_series is not None:
         eval_series = eval_series.to(device)
 
-    if with_news is True: 
+    if model_type == 'iimodelwithnews': 
         news_features = data['trainNewsFeatures'].to(device)
         eval_news_features = data['testNewsFeatures'].to(device)
         model = IIMODELWITHNEWS(dropout_ratio=dropout_ratio).to(device)
+    elif model_type == 'iimodelmargin': 
+        model = IIMODELMARGIN(train_margin_mask, dropout_ratio=dropout_ratio).to(device)
     else: 
         model = IIMODEL(dropout_ratio=dropout_ratio).to(device)
-    
     optimizer = torch.optim.Adam(model.parameters(), lr=lr)
     optimizer.zero_grad()
 
     for step in range(1, steps + 1):
         model.train()
-        if with_news: 
+        model.mask = train_margin_mask
+        if model_type == 'iimodelwithnews': 
             output = model(features, news_features)
+        elif model_type == 'iimodelmargin': 
+            output, short_scores = model(features)
         else: 
             output = model(features)
 
         # assume we have a 1 dollar portfolio 
-        # this is how many shares in the portfolio
+        # this is how many shares in the portfolio # gracefully, for margin trading, the rest of the objective is the same assuming b < 1
         portfolio_shares = output / torch.unsqueeze((series[:, 0] + 1e-10), 1)
+        if model_type == 'iimodelmargin': 
+            #asssume you can margin to borrow at 50% the base funds (1.5 base), and for free, really, let's leave this here since the bundle borrow rate is too high 
+            short_shares = short_scores / torch.unsqueeze((series[:, 0] + 1e-10), 1)
+            #short_shares = short_shares / 100 # determine the number of lots
+            short_shares[short_shares < 0] = torch.round(short_shares[short_shares < 0]) # round to the nearest lot, otherwise it's not worth shorting with the fee 
+            #short_shares = short_shares * 100 # round it back to normal shares 
+            portfolio_shares = portfolio_shares + short_shares
+            #print(f'all negative shares: {portfolio_shares[portfolio_shares<0]}')
         actual_return = torch.sum(torch.unsqueeze((series[:, -1] - series[:, 0]), 1) * portfolio_shares)
 
         returns_series = torch.sum(series[:, 1:] * portfolio_shares - torch.unsqueeze(series[:, 0], 1) * portfolio_shares, dim=0)
@@ -122,8 +143,11 @@ def train_single_step_model(
         
         if step % eval_interval == 0:
             model.eval()
-            if with_news: 
+            model.mask = test_margin_mask
+            if model_type == 'iimodelwithnews': 
                 eval_output = model(eval_features, eval_news_features)
+            elif model_type == 'iimodelmargin':
+                eval_output, eval_short_scores = model(eval_features)
             else: 
                 eval_output = model(eval_features)
 
@@ -131,6 +155,14 @@ def train_single_step_model(
             # this is how many shares in the portfolio 
             if eval_series is not None: 
                 eval_portfolio_shares = eval_output / torch.unsqueeze((eval_series[:, 0] + 1e-10), 1)
+                if model_type == 'iimodelmargin': 
+                    eval_short_shares = eval_short_scores / torch.unsqueeze((eval_series[:, 0] + 1e-10), 1)
+                    #eval_short_shares = eval_short_shares / 100 # determine the number of lots
+                    eval_short_shares[eval_short_shares < 0] = torch.round(eval_short_shares[eval_short_shares < 0]) # round to the nearest lot, otherwise it's not worth shorting with the fee 
+                    #eval_short_shares = eval_short_shares * 100 # round it back to normal shares 
+                    eval_portfolio_shares = eval_portfolio_shares + eval_short_shares
+                    print(f'all negative shares: {eval_portfolio_shares[eval_portfolio_shares<0]}')
+
                 eval_actual_return = torch.sum(torch.unsqueeze((eval_series[:, -1] - eval_series[:, 0]), 1) * eval_portfolio_shares)
 
                 eval_returns_series = torch.sum(eval_series[:, 1:] * eval_portfolio_shares - torch.unsqueeze(eval_series[:, 0], 1) * eval_portfolio_shares, dim=0)
