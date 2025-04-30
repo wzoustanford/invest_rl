@@ -98,6 +98,7 @@ class IIMODELWITHNEWS(torch.nn.Module):
             torch.nn.Tanh(),
         )
 
+        self.ln_news = torch.nn.LayerNorm(normalized_shape=3072, elementwise_affine=False)
         self.fc_news = torch.nn.Sequential(
             torch.nn.Linear(3072, hidden_dim), 
             torch.nn.Tanh(),
@@ -119,7 +120,7 @@ class IIMODELWITHNEWS(torch.nn.Module):
         x = self.fc1(x)
 
         nf = self.fc_news(nf)
-
+        
         x = torch.concat([x, nf], dim=1)
 
         x = self.fc2(x)

@@ -8,7 +8,7 @@ import pickle, numpy, os
 #exp_id = 'apr6_5d_8dnoint_straft_nn_v1_2022_2023'
 
 #exp_id = 'apr6_5d_8dnoint_straft_nn_v1_2021_2022'
-exp_id = 'apr6_5d_8dnoint_straft_nn_v2_2024_2025_margin'
+exp_id = 'apr6_5d_8dnoint_straft_nn_v2_2425_fixshort'
 #'apr6_5d_8dnoint_straft_nn_v1_21_22_rerun_c64'
 #        'apr6_5d_8dnoint_straft_nn_v1_22_23_rerun_c64': '/home/ubuntu/code/angle_rl/invest/data/data_list_2021-04-04_2023-04-04_tr360d_bs5d_8dinterval_newsFeatureFalse_testmodeFalse.txt',
 #        'apr6_5d_8dnoint_straft_nn_v1_21_22_rerun_c64': '/home/ubuntu/code/angle_rl/invest/data/data_list_2020-04-04_2022-04-04_tr360d_bs5d_8dinterval_newsFeatureFalse_testmodeFalse.txt', 

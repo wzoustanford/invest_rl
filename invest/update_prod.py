@@ -1,10 +1,11 @@
-import pickle, hashlib, os, pdb, torch
+import pickle, hashlib, os, pdb, torch, requests, json
 from train_single_step_model import train_single_step_model 
 from datetime import datetime, timedelta 
 from utils import get_finance_api_data, find_file_in_dir
 from ts_data_struct import BiHashList 
 from data_proc import get_single_action_model_train_test_data_from_config, DataProcConfig
 from model.iimodel import IIMODEL 
+from trade import api_key_5d, secret_key_5d
 
 def update_price_history_data():
     ## determine start date for the update
@@ -208,8 +209,25 @@ def update_predictions():
     D['tickers'] = test_tickers
     pickle.dump(D, open('/home/ubuntu/code/angle_rl/invest/data/prod/prod_25d_model_prediction.pkl', 'wb'))
 
+def update_alpaca_active_list():
+    ## [safeguard] ensure alpaca active list is maintained 
+
+    url = "https://paper-api.alpaca.markets/v2/assets?status=active&asset_class=us_equity&attributes="
+
+    headers = {
+        "accept": "application/json",
+        "APCA-API-KEY-ID": api_key_5d,
+        "APCA-API-SECRET-KEY": secret_key_5d,
+    }
+
+    response = requests.get(url, headers=headers)
+    list_data = response.json()
+    with open('/home/ubuntu/code/angle_rl/invest/data/alpaca_trading_us_equity_active.txt', 'w') as f:
+        json.dump(list_data, f)
+
 
 if __name__ == '__main__':
+    update_alpaca_active_list()
     update_price_history_data()
     update_train_test_model_5d()    
     update_train_test_model_25d()
