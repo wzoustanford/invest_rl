@@ -138,12 +138,16 @@ def get_single_action_model_data(
     return trainFeatures, in_portfolio_series, all_train_tickers, trainNewsFeatures
 
 def get_openai_embedding_features(all_tickers, start_date, end_date): 
-    newsFeatures = torch.unsqueeze(torch.tensor(get_news_embedding('AAPL', start_date, end_date)), 0)
+    newsFeatures = {}
+    newsFeatures['embs'] = torch.Tensor() 
+    newsFeatures['strs'] = []
 
     for symbol in all_tickers: 
-        newsFeatures = torch.cat([newsFeatures, torch.unsqueeze(torch.tensor(get_news_embedding(symbol, start_date, end_date)), 0)], dim=0)
+        emb, st = get_news_embedding(symbol, start_date, end_date)
+        newsFeatures['embs'] = torch.cat([newsFeatures['embs'], torch.unsqueeze(torch.tensor(emb), 0)], dim=0)
+        newsFeatures['strs'].append(st)
     
-    newsFeatures = newsFeatures[1:,:]
+    #newsFeatures = newsFeatures[1:,:]
     return newsFeatures
 
 def get_single_action_model_train_test_data_from_config(
@@ -237,9 +241,9 @@ def get_single_action_model_train_test_data(
     print(trainFeature.shape)
     print(train_in_portfolio_series.shape)
     print(len(all_train_tickers))
-    if trainNewsFeatures is not None:
-        print('trainNewsFeatures:')
-        print(trainNewsFeatures.shape)
+    #if trainNewsFeatures is not None:
+        #print('trainNewsFeatures:')
+        #print(trainNewsFeatures)
     
     ### --- obtain test data --- 
     #test_data_start_date = test_data_start_date #'2023-10-01' # v3: 2024-01-01 #v4: 2023-11-01
@@ -258,9 +262,9 @@ def get_single_action_model_train_test_data(
     if test_in_portfolio_series is not None: 
         print(test_in_portfolio_series.shape)
     print(len(all_test_tickers))
-    if testNewsFeatures is not None:
-        print('testNewsFeatures:')
-        print(testNewsFeatures.shape)
+    #if testNewsFeatures is not None:
+    #    print('testNewsFeatures:')
+    #    print(testNewsFeatures.shape)
     
     if is_prod:
         filename = f"/home/ubuntu/code/angle_rl/invest/data/prod/model_data_single_step_trainingtimelength{str(training_time_length_days)}d_buyselltimelength{str(buy_sell_time_length_days)}d_training_data_start_date_{training_data_start_date.strip().replace('-', '_')}_test_data_start_date_{test_data_start_date.strip().replace('-', '_')}_newsFeatures{get_news_features}_alpacafracfiltered.pkl"
@@ -271,7 +275,7 @@ def get_single_action_model_train_test_data(
     print('saving to ... ' + filename)
     list_f.write(filename+'\n')
     list_f.close()
-
+    
     ## get the margin mask with snp500 
     d = pickle.load(open('/home/ubuntu/code/angle_rl/invest/data/snp500_dict.pkl', 'rb'))
     Dsnp500 = d['Dsnp500']
