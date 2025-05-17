@@ -77,8 +77,8 @@ def train_single_step_model(
         eval_series = eval_series.to(device)
 
     if model_type == 'iimodelwithnews': 
-        news_features = data['trainNewsFeatures'].to(device)
-        eval_news_features = data['testNewsFeatures'].to(device)
+        news_features = data['trainNewsFeatures']['embs'].to(device)
+        eval_news_features = data['testNewsFeatures']['embs'].to(device)
         model = IIMODELWITHNEWS(dropout_ratio=dropout_ratio).to(device)
     elif model_type == 'iimodelmargin': 
         model = IIMODELMARGIN(train_margin_mask, dropout_ratio=dropout_ratio).to(device)

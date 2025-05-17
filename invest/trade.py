@@ -151,8 +151,8 @@ def make_portfolio_buy_5d(latest_price_D, trade_client, total_portfolio_usd_amou
         
 
 if __name__ == "__main__":
-    total_portfolio_usd_amount_5d = 10000
-    total_portfolio_usd_amount_25d = 10000
+    total_portfolio_usd_amount_5d = 100000
+    total_portfolio_usd_amount_25d = 100000
     nest_asyncio.apply()
     trade_client_25d = TradingClient(api_key=api_key_25d, secret_key=secret_key_25d, paper=paper, url_override=trade_api_url)
     trade_client_5d = TradingClient(api_key=api_key_5d, secret_key=secret_key_5d, paper=paper, url_override=trade_api_url)
@@ -169,4 +169,4 @@ if __name__ == "__main__":
             latest_price_D[k] = Dnyse[k]['prices'][Dnyse[k]['prices']._bD.inv[len(Dnyse[k]['prices']._bD) - 1]]
     
     make_portfolio_buy_5d(latest_price_D, trade_client_5d, total_portfolio_usd_amount_5d)
-    #make_portfolio_buy_25d(latest_price_D, trade_client_25d, total_portfolio_usd_amount_25d)
+    make_portfolio_buy_25d(latest_price_D, trade_client_25d, total_portfolio_usd_amount_25d)

@@ -1,10 +1,10 @@
-import requests, pdb, json, os, re, copy
+import requests, pdb, json, os, re, copy, time
 from datetime import datetime
 from ts_data_struct import BiHashList
 from openai import OpenAI
 
-FINANCIAL_KEY = "897d694a6ab563cb079534513ee9ea1a"#"1e347f859bc1eaa56334ad8c5dc10924"
-OPENAI_KEY = "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"
+FINANCIAL_KEY = "1e347f859bc1eaa56334ad8c5dc10924" #"897d694a6ab563cb079534513ee9ea1a"#"1e347f859bc1eaa56334ad8c5dc10924"
+OPENAI_KEY = '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'#"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"
 
 def find_file_in_dir(dir, reg_pattern):
     files_and_dirs = os.listdir(dir)
@@ -176,14 +176,15 @@ def build_price_volume_chart_data(stock_list, start_date, end_date, url_str):
         D[symbol] = {'prices':prices, 'volumes':volumes}
     return D
 
-def get_news_full_string_ticker(tickers, from_date, to_date, page_limit=3):
+def get_news_full_string_ticker(tickers, from_date, to_date, page_limit=1):
     text_str = ""
     for page in range(page_limit):
         url = f"https://financialmodelingprep.com/api/v3/stock_news?tickers={tickers}&page={page+1}&from={from_date}&to={to_date}"
         res = get_finance_api_data(url)
         additional_str = ""
         if res: 
-            for r in res:
+            for i in range(len(res) - 1, -1, -1):
+                r = res[i]
                 #print(r["publishedDate"])
                 #print(len(r["text"].split(" ")))
                 additional_str += " published date:"+r["publishedDate"]+" title: "+r["title"]+" text: "+r["text"]
@@ -227,9 +228,9 @@ def get_openai_embedding(text_str, max_retries=3, wait_time=5):
     default_vec = [0.0 for i in range(3072)]
     return default_vec
 
-def get_news_embedding(tickers, from_date, to_date, page_limit=3):
+def get_news_embedding(tickers, from_date, to_date, page_limit=1):
     print(f"getting news embedding for ticker {tickers}, from date: {from_date}, to date: {to_date}")
-    text_str = get_news_full_string_ticker(tickers, from_date, to_date, page_limit=3)
+    text_str = get_news_full_string_ticker(tickers, from_date, to_date, page_limit=page_limit)
     res = get_openai_embedding(text_str)
-    return res 
+    return res, text_str
 
