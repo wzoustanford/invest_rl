@@ -151,12 +151,12 @@ def make_portfolio_buy_5d(latest_price_D, trade_client, total_portfolio_usd_amou
         
 
 if __name__ == "__main__":
-    total_portfolio_usd_amount_5d = 20000
+    total_portfolio_usd_amount_5d = 65000
     total_portfolio_usd_amount_25d = 10000
     nest_asyncio.apply()
     trade_client_25d = TradingClient(api_key=api_key_25d, secret_key=secret_key_25d, paper=paper, url_override=trade_api_url)
     trade_client_5d = TradingClient(api_key=api_key_5d, secret_key=secret_key_5d, paper=paper, url_override=trade_api_url)
-
+    
     ## load and process latest prices 
     latest_price_D = dict() 
     Dnasdaq = pickle.load(open('/home/ubuntu/code/angle_rl/invest/data/nasdaq_daily_price_volume_data.pkl', 'rb'))

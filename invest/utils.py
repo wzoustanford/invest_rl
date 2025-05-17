@@ -1,9 +1,9 @@
-import requests, pdb, json, os, re, copy
+import requests, pdb, json, os, re, copy, time
 from datetime import datetime
 from ts_data_struct import BiHashList
 from openai import OpenAI
 
-FINANCIAL_KEY = "897d694a6ab563cb079534513ee9ea1a"#"1e347f859bc1eaa56334ad8c5dc10924"
+FINANCIAL_KEY = "1e347f859bc1eaa56334ad8c5dc10924" #"897d694a6ab563cb079534513ee9ea1a"#"1e347f859bc1eaa56334ad8c5dc10924"
 OPENAI_KEY = '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'#"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"
 
 def find_file_in_dir(dir, reg_pattern):

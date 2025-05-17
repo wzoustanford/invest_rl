@@ -234,6 +234,6 @@ def update_alpaca_active_list():
 if __name__ == '__main__':
     update_alpaca_active_list()
     update_price_history_data()
-    update_train_test_model_5d)
+    update_train_test_model_5d()
     update_train_test_model_25d()
     update_predictions()
