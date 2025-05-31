@@ -8,7 +8,7 @@ def run_single_action_exp_train_test(exp_id, data_list_filename, model_type='iim
     #exp_id = 'apr6_5d_8dnoint_straft_nn_v1_rerun_500it'
     #exp_id = 'apr6_5d_8dnoint_straft_nn_v1_2023_2024'
     #exp_id = 'apr6_5d_8dnoint_straft_nn_v1_2023_2024_rr500it'
-    exp_id = 'may1_5d_model_news_3months_no_news'
+    #exp_id = 'may1_5d_model_news_3months_no_news'
     #exp_id = 'apr6_5d_8dnoint_straft_nn_v1_2022_2023'
     #exp_id = 'apr6_5d_8dnoint_straft_nn_v1_2021_2023'
 

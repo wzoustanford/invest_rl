@@ -1,9 +1,9 @@
 import torch, pickle, argparse, pdb
 from copy import deepcopy
-from model.iimodel import IIMODEL, IIMODELWITHNEWS, IIMODELMARGIN, IIMODELWITHNEWSADDTIONALNORM
+from model.iimodel import IIMODEL, IIMODELWITHNEWS, IIMODELMARGIN, IIMODELWITHNEWSADDTIONALNORM, SELLACTIONMODEL
 
 
-def train_single_step_model(
+def train_single_step_model_day_sell(
         exp_id,
         data_filename,
         dropout_ratio,
@@ -40,6 +40,7 @@ def train_single_step_model(
     log_D['sharpe'] = []
 
     log_D['eval_portfolio_shares'] = []
+    log_D['eval_day_sold_return'] = []
     log_D['eval_actual_return'] = []
     log_D['eval_mean_return'] = []
     log_D['eval_stddev'] = []
@@ -94,10 +95,10 @@ def train_single_step_model(
     if eval_series is not None:
         eval_series = eval_series.to(device)
 
-    if model_type == 'iimodelwithnews' or model_type == 'iimodelwithnewsadditionalnorm': 
+    if model_type == 'iimodelwithnews' or model_type == 'iimodelwithnewsadditionalnorm' or model_type == 'sell_action_model':
         news_features = data['trainNewsFeatures']['embs'].to(device)
         eval_news_features = data['testNewsFeatures']['embs'].to(device)
-        if model_type == 'iimodelwithnews':
+        if model_type == 'iimodelwithnews' or model_type == 'sell_action_model':
             model = IIMODELWITHNEWS(dropout_ratio=dropout_ratio).to(device) 
         else: 
             model = IIMODELWITHNEWSADDTIONALNORM(dropout_ratio=dropout_ratio).to(device) 
@@ -105,14 +106,18 @@ def train_single_step_model(
         model = IIMODELMARGIN(train_margin_mask, dropout_ratio=dropout_ratio).to(device)
     else: 
         model = IIMODEL(dropout_ratio=dropout_ratio).to(device)
-    optimizer = torch.optim.Adam(model.parameters(), lr=lr) #betas=(0.5, 0.999)
+    sell_action_model = SELLACTIONMODEL().to(device) 
+    optimizer = torch.optim.Adam(model.parameters(), lr=lr) 
+    optimizer_sell = torch.optim.Adam(sell_action_model.parameters(), lr=lr) 
+    optimizer.zero_grad()
+    optimizer_sell.zero_grad()
     
     for step in range(1, steps + 1):
         model.train()
-        optimizer.zero_grad()
+        sell_action_model.train()
         model.mask = train_margin_mask
-        if model_type == 'iimodelwithnews' or model_type == 'iimodelwithnewsadditionalnorm': 
-            output, _ = model(features, news_features)
+        if model_type == 'iimodelwithnews' or model_type == 'iimodelwithnewsadditionalnorm' or model_type == 'sell_action_model': 
+            output, acts = model(features, news_features)
         elif model_type == 'iimodelmargin': 
             output, short_scores = model(features)
         else: 
@@ -134,15 +139,49 @@ def train_single_step_model(
         returns_series = torch.sum(series[:, 1:] * portfolio_shares - torch.unsqueeze(series[:, 0], 1) * portfolio_shares, dim=0)
         mean_return = torch.mean(returns_series, dim=0)
         stddev = torch.std(returns_series, dim=0)
-
-        if obj_use_mean_return: 
+        torch.autograd.set_detect_anomaly(True)
+        if model_type == 'sell_action_model':
+            ### sell action model 
+            DAYS = series.shape[1]
+            sell_proportion_probs = torch.zeros((1, DAYS-1)).to(device)
+            cum_sum_probs = 0 
+            day_sold_return = torch.Tensor([0.0]).to(device)
+            #day_sold_return = torch.zeros((DAYS)).to(device) # leave the first element as 0, DAYS-1 element as sell_proportion_probs
+            for i in range(2, DAYS):
+                aa = series[:, :i].unsqueeze(1)
+                bb = (series[:, :i] - series[:, 0].unsqueeze(1)).unsqueeze(1)
+                cc = torch.cat((aa, bb), dim = 1)
+                aaa = returns_series[:i].unsqueeze(0).unsqueeze(1)
+                bbb = (returns_series[:i] - returns_series[0]).unsqueeze(0).unsqueeze(1)
+                ccc = torch.cat((aaa, bbb), dim = 1)
+                #torch.cat((series[:, :i], ), dim = 
+                before_sm_acts = sell_action_model(acts, cc, ccc) # first argument acts from iimodelwithnews 
+                cur_probs = torch.nn.Softmax(dim=1)(before_sm_acts[:, i-2:DAYS-1]) 
+                sell_proportion_probs[:, i-2] = cur_probs[0][0] * (1 - cum_sum_probs)
+                if i == DAYS-1: 
+                    sell_proportion_probs[:, -1] = cur_probs[0][1]* (1 - cum_sum_probs)
+                    cum_sum_probs += sell_proportion_probs[:, -1]
+                cum_sum_probs += sell_proportion_probs[:, i-2]
+                day_sold_return = day_sold_return + sell_proportion_probs[:, i-2].clone() * torch.sum(torch.unsqueeze((series[:, i-1] - series[:, 0]), 1) * portfolio_shares.clone())
+                if i == DAYS-1:
+                    day_sold_return = day_sold_return + sell_proportion_probs[:, -1].clone() * torch.sum(torch.unsqueeze((series[:, -1] - series[:, 0]), 1) * portfolio_shares.clone())
+            assert(cum_sum_probs.item() > 1-1e-4 and cum_sum_probs.item() < 1+1e-4)
+        else: 
+            day_sold_return = -1
+        
+        #sell_action_model(features, series[:, :5])
+        if model_type == 'sell_action_model':
+            sharpe = day_sold_return / (stddev + 1e-10)
+        elif obj_use_mean_return: 
             sharpe = mean_return / (stddev + 1e-10)
         else: 
             sharpe = actual_return / (stddev + 1e-10)
+        
         loss = - sharpe 
         
         loss.backward()
         optimizer.step()
+        optimizer_sell.step()
 
         if step % log_interval == 0:
             log_D['portfolio_shares'].append(portfolio_shares)
@@ -151,12 +190,13 @@ def train_single_step_model(
             log_D['stddev'].append(stddev.item()) 
             log_D['sharpe'].append(sharpe.item())
             
-            print('Train step: {} [{}/{} ({:.0f}%)]\tLoss (Sharpe ratio): {:.6f}\tMean Return: {:.6f}\tActual Return: {:.6f}\tStd Dev: {:.6f}'.format(
+            print('Train step: {} [{}/{} ({:.0f}%)]\tLoss (Sharpe ratio): {:.6f}\tDaySold Return: {:.6f}\tMean Return: {:.6f}\tActual Return: {:.6f}\tStd Dev: {:.6f}'.format(
                 step, 
                 step, 
                 steps,
                 100. * step / steps, 
                 loss.item(), 
+                day_sold_return.item(),
                 mean_return.item(),
                 actual_return.item(),
                 stddev.item(),
@@ -164,9 +204,10 @@ def train_single_step_model(
         
         if step % eval_interval == 0:
             model.eval()
+            sell_action_model.eval()
             model.mask = test_margin_mask
-            if model_type == 'iimodelwithnews' or model_type == 'iimodelwithnewsadditionalnorm': 
-                eval_output, _ = model(eval_features, eval_news_features)
+            if model_type == 'iimodelwithnews' or model_type == 'iimodelwithnewsadditionalnorm' or model_type == 'sell_action_model':
+                eval_output, eval_acts = model(eval_features, eval_news_features)
             elif model_type == 'iimodelmargin':
                 eval_output, eval_short_scores = model(eval_features)
             else: 
@@ -191,8 +232,35 @@ def train_single_step_model(
                 eval_mean_return = torch.mean(eval_returns_series, dim=0)
                 eval_stddev = torch.std(eval_returns_series, dim=0)
                 
+                if model_type == 'sell_action_model':
+                    ### sell action model 
+                    EDAYS = eval_series.shape[1]
+                    eval_sell_proportion_probs = torch.zeros((1, EDAYS-1)).to(device)
+                    eval_cum_sum_probs = 0 
+                    eval_day_sold_return = torch.Tensor([0.0]).to(device)
+                    for i in range(2, EDAYS):
+                        aa = eval_series[:, :i].unsqueeze(1)
+                        bb = (eval_series[:, :i] - eval_series[:, 0].unsqueeze(1)).unsqueeze(1)
+                        cc = torch.cat((aa, bb), dim = 1)
+                        aaa = eval_returns_series[:i].unsqueeze(0).unsqueeze(1)
+                        bbb = (eval_returns_series[:i] - eval_returns_series[0]).unsqueeze(0).unsqueeze(1)
+                        ccc = torch.cat((aaa, bbb), dim = 1)
+                        eval_before_sm_acts = sell_action_model(eval_acts, cc, ccc) # first argument acts from iimodelwithnews 
+                        eval_cur_probs = torch.nn.Softmax(dim=1)(eval_before_sm_acts[:, i-2:EDAYS-1]) 
+                        eval_sell_proportion_probs[:, i-2] = eval_cur_probs[0][0] * (1 - eval_cum_sum_probs)
+                        if i == EDAYS-1: 
+                            eval_sell_proportion_probs[:, -1] = eval_cur_probs[0][1]* (1 - eval_cum_sum_probs)
+                            eval_cum_sum_probs += eval_sell_proportion_probs[:, -1]
+                            eval_day_sold_return = eval_day_sold_return + eval_sell_proportion_probs[:, -1].clone() * torch.sum(torch.unsqueeze((eval_series[:, -1] - eval_series[:, 0]), 1) * eval_portfolio_shares.clone())
+                        eval_cum_sum_probs += eval_sell_proportion_probs[:, i-2]
+                        eval_day_sold_return = eval_day_sold_return + eval_sell_proportion_probs[:, i-2].clone() * torch.sum(torch.unsqueeze((eval_series[:, i-1] - eval_series[:, 0]), 1) * eval_portfolio_shares.clone())
+                    assert(eval_cum_sum_probs.item() > 1-1e-4 and eval_cum_sum_probs.item() < 1+1e-4)
+
                 #eval_sharpe = eval_mean_return / eval_stddev 
-                eval_sharpe = eval_actual_return / (eval_stddev + 1e-10)
+                if model_type == 'sell_action_model':
+                    eval_sharpe = eval_day_sold_return / (eval_stddev + 1e-10)
+                else: 
+                    eval_sharpe = eval_actual_return / (eval_stddev + 1e-10)
                 eval_loss = - eval_sharpe 
                 
                 _, top20_stocks_indices = torch.topk(eval_output, 20, dim=0)
@@ -200,7 +268,10 @@ def train_single_step_model(
                 for i in range(len(top20_stocks_indices)):
                     top20_stocks.append(data['all_test_tickers'][top20_stocks_indices[i]])
                 
-                print(f'--> Eval model:\tLoss (Sharpe ratio): {str(eval_loss.item())}\tMean Returns:{str(eval_mean_return.item())}\t Actual Returns: {str(eval_actual_return.item())}\tStd Dev: {str(eval_stddev.item())}') 
+                if model_type == 'sell_action_model':
+                    print(f'--> Eval model:\tLoss (Sharpe ratio): {str(eval_loss.item())}\tDay Sold Returns:{str(eval_day_sold_return.item())}\tMean Returns:{str(eval_mean_return.item())}\t Actual Returns: {str(eval_actual_return.item())}\tStd Dev: {str(eval_stddev.item())}') 
+                else: 
+                    print(f'--> Eval model:\tLoss (Sharpe ratio): {str(eval_loss.item())}\tMean Returns:{str(eval_mean_return.item())}\t Actual Returns: {str(eval_actual_return.item())}\tStd Dev: {str(eval_stddev.item())}') 
                 print(f'--> Top 20 stocks: {str(top20_stocks)}')
                 
             if is_prod: 
@@ -211,13 +282,15 @@ def train_single_step_model(
             torch.save(model.state_dict(), model_pt_filename)
             if eval_series is not None: 
                 log_D['eval_portfolio_shares'].append(eval_portfolio_shares)
+                if model_type == 'sell_action_model':
+                    log_D['eval_day_sold_return'].append(eval_day_sold_return.item())
                 log_D['eval_actual_return'].append(eval_actual_return.item())
                 log_D['eval_mean_return'].append(eval_mean_return.item())
                 log_D['eval_stddev'].append(eval_stddev.item())
                 log_D['eval_sharpe'].append(eval_sharpe.item())
                 log_D['top20_stocks'].append(top20_stocks)
-    
-    model_log_filename = root_dir + model_id + '_'+data_id + '_log.pkl'
-    pickle.dump(log_D, open(model_log_filename, 'wb'))
+        
+        model_log_filename = root_dir + model_id + '_'+data_id + '_log.pkl'
+        pickle.dump(log_D, open(model_log_filename, 'wb'))
 
     return D_last

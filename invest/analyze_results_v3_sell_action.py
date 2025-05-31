@@ -1,25 +1,21 @@
 import pickle, numpy, os
 
-#exp_id = 'apr6_reproduce_25d_strictly_after_fix_nonews_v1'
-#exp_id = 'apr6_repro_25d_straft_nonews_convk32_h128_v2'
-#exp_id = 'apr6_5d_8dnoint_straft_nn_v1'
-#exp_id = 'apr6_repro_25d_straft_nonews_convk128_h256_v3'
+#exp_id = 'may1_5d_model_news_3months_rm_ut'
+#exp_id = 'apr6_5d_8dnoint_straft_nn_v1_2023_2024'
+#exp_id = 'may18_5d_model_news_3m_addnorm'
+#exp_id = 'may18_5d_model_news_3m_rerun_a'
+#exp_id = 'may18_5d_m_news_3m_addl1' 
 
-exp_id = 'apr6_5d_8dnoint_straft_nn_v1_2023_2024'
-#exp_id = 'apr6_5d_8dnoint_straft_nn_v1_2022_2023'
+#exp_id = 'may19_5d_model_news_3m_optzg'
+#exp_id = 'may19_5d_m_news_3m_selldm' 
+#exp_id = 'may19_5d_m_news_3m_optzg_lr01'
+#exp_id = 'may19_5d_m_news_3m_optzg_lr0001'
+#exp_id = 'may19_5d_m_news_3m_nozg_lr001'
+#exp_id = 'may19_5d_m_news_3m_selldm'
+#exp_id = 'may19_5d_m_news_3m_selldm1250'
+#exp_id = 'may19_5d_m_news_3m_selldm750_zg'
 
-#exp_id = 'apr6_5d_8dnoint_straft_nn_v1_2021_2022'
-#exp_id = 'apr6_5d_8dnoint_straft_nn_v1_rerun_500it'
-#exp_id = 'apr6_5d_8dnoint_straft_nn_v1_2023_2024_rr500it'
-#exp_id = 'may1_5d_model_news_3months'
-#exp_id = 'may1_5d_model_news_3months_no_news'
-#exp_id = 'apr6_5d_8dnoint_straft_nn_v2_2425_fixshort'
-#'apr6_5d_8dnoint_straft_nn_v1_21_22_rerun_c64'
-#        'apr6_5d_8dnoint_straft_nn_v1_22_23_rerun_c64': '/home/ubuntu/code/angle_rl/invest/data/data_list_2021-04-04_2023-04-04_tr360d_bs5d_8dinterval_newsFeatureFalse_testmodeFalse.txt',
-#        'apr6_5d_8dnoint_straft_nn_v1_21_22_rerun_c64': '/home/ubuntu/code/angle_rl/invest/data/data_list_2020-04-04_2022-04-04_tr360d_bs5d_8dinterval_newsFeatureFalse_testmodeFalse.txt', 
-
-#exp_id = 'may17_cumulative_5d_model_news_3months'
-exp_id = 'may1_5d_model_news_3months_rm_ut'
+exp_id = 'may1_5d_model_3months_nzg'
 
 os.system(f'ls /home/ubuntu/code/angle_rl/invest/data/{exp_id}/*.pkl | sort > /home/ubuntu/code/angle_rl/invest/data/{exp_id}/sorted_pkls.txt')
 f = open(f'/home/ubuntu/code/angle_rl/invest/data/{exp_id}/sorted_pkls.txt', 'r')
@@ -36,7 +32,7 @@ eval_actual_returns = []
 while l:
     print(l)
     D = pickle.load(open(l.strip(), 'rb'))
-    eval_actual_returns.append(D['eval_actual_return'][-1])
+    eval_actual_returns.append(D['eval_day_sold_return'][-1])
     l = f.readline()
 
 eval_actual_returns = [x - spread for x in eval_actual_returns] # this line discounts for buy/sell spread

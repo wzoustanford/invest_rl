@@ -1,5 +1,5 @@
 import requests, pdb, json, os, re, copy, time
-from datetime import datetime
+from datetime import datetime, timedelta
 from ts_data_struct import BiHashList
 from openai import OpenAI
 
@@ -161,20 +161,39 @@ def build_price_volume_chart_data(stock_list, start_date, end_date, url_str):
         symbol = item['symbol']
         count += 1
         print(f'{count}/{str(full_count)} Requesting price/volume data for {url_str} chart from {start_date} to {end_date} for {symbol} ...')
-        url = f'https://financialmodelingprep.com/stable/{url_str}?symbol={symbol}&from={start_date}&to={end_date}'
-        res = get_finance_api_data(url=url)
-        if not res:
+        if '15min' in url_str:
+            res = query_fmp_15min_monthly_and_append_res(start_date, end_date, url_str, symbol)
+        else: 
+            url = f'https://financialmodelingprep.com/stable/{url_str}?symbol={symbol}&from={start_date}&to={end_date}'
+            res = get_finance_api_data(url=url)
+        if not res or len(res) == 0:
             print(f"Failed to get data for {symbol}")
             continue
         res.reverse()
         prices = BiHashList()
         volumes = BiHashList()
         for item in res:
-            price_key = 'price' if 'light in url_str' else 'close'
+            price_key = 'price' if 'light' in url_str else 'close'
             prices.append(item['date'], item[price_key])
             volumes.append(item['date'], item['volume'])
         D[symbol] = {'prices':prices, 'volumes':volumes}
     return D
+
+def query_fmp_15min_monthly_and_append_res(start_date, end_date, url_str, symbol):
+    fmt="%Y-%m-%d"
+    res = []
+    ED = datetime.strptime(end_date, fmt)
+    SD = ED - timedelta(days=29)
+    while SD >= datetime.strptime(start_date, fmt): 
+        url = f'https://financialmodelingprep.com/stable/{url_str}?symbol={symbol}&from={SD.strftime(fmt)}&to={ED.strftime(fmt)}'
+        r = get_finance_api_data(url=url) 
+        if not r: 
+            print(f"Failed to get monthly 15min data for {symbol}")
+            return res 
+        res += r 
+        ED -= timedelta(days=30)
+        SD -= timedelta(days=30)
+    return res 
 
 def get_news_full_string_ticker(tickers, from_date, to_date, page_limit=1):
     text_str = ""
