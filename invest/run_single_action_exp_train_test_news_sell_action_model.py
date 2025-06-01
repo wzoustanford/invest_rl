@@ -1,7 +1,7 @@
 import torch, pdb, os
-from train_single_step_model import train_single_step_model
+from train_single_step_model_day_sell import train_single_step_model_day_sell
 
-exp_id = 'may19_5d_m_news_3m_wZG_aga_lr0.001'
+exp_id = 'may19_5d_m_news_3m_selldm750_zg'
 os.system('mkdir /home/ubuntu/code/angle_rl/invest/data/'+exp_id+'/')
 
 #data_list_f = open('/home/ubuntu/code/angle_rl/invest/data/data_list_2025_03_31_tr360d_bs25d_monthlyinterval.txt', 'r')
@@ -12,7 +12,7 @@ l = data_list_f.readline()
 cnt = 1
 while l:
     print('-->training model with: ' + l)
-    train_single_step_model(
+    train_single_step_model_day_sell(
         exp_id,
         l.strip(),
         dropout_ratio = 0.0,
@@ -21,7 +21,7 @@ while l:
         lr = 0.001,
         log_interval = 250, 
         eval_interval=250,
-        model_type= 'iimodelwithnews',
+        model_type= 'sell_action_model',
     )
     l = data_list_f.readline()
     cnt += 1

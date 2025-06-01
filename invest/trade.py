@@ -19,7 +19,7 @@ trade_api_wss = None
 data_api_url = None
 stream_data_wss = None
 
-import alpaca, pickle, pdb
+import alpaca, pickle, pdb, time
 
 from alpaca.trading.client import TradingClient
 from alpaca.data.timeframe import TimeFrame, TimeFrameUnit
@@ -80,7 +80,9 @@ def make_trade(symbol, shares_amount, trade_client, latest_price_on_record):
     print(f"buying {symbol}, for {str(latest_price_on_record)} per share, buying {str(shares_amount)} amount of shares, and buying ${str(shares_amount * latest_price_on_record)} worth of shares.")
     res = trade_client.submit_order(req); print(res)
 
-    
+def close_all_positions(trade_client):
+    res = trade_client.close_all_positions(cancel_orders=True); print(res) 
+
 def make_portfolio_buy_25d(latest_price_D, trade_client, total_portfolio_usd_amount=10000): 
     D25d = pickle.load(open('/home/ubuntu/code/angle_rl/invest/data/prod/prod_25d_model_prediction.pkl', 'rb')) 
     scores = D25d['scores'] 
@@ -168,5 +170,6 @@ if __name__ == "__main__":
         if len(Dnyse[k]['prices']._bD) > 0:
             latest_price_D[k] = Dnyse[k]['prices'][Dnyse[k]['prices']._bD.inv[len(Dnyse[k]['prices']._bD) - 1]]
     
+    #close_all_positions(trade_client_5d)
     make_portfolio_buy_5d(latest_price_D, trade_client_5d, total_portfolio_usd_amount_5d)
-    make_portfolio_buy_25d(latest_price_D, trade_client_25d, total_portfolio_usd_amount_25d)
+    #make_portfolio_buy_25d(latest_price_D, trade_client_25d, total_portfolio_usd_amount_25d)
