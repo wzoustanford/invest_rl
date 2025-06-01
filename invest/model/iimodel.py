@@ -1,7 +1,7 @@
 import torch, pdb
 
 class IIMODEL(torch.nn.Module):
-    def __init__(self, dropout_ratio=0.0, num_conv_filters = 32, hidden_dim=48): #num_conv_filters = 16, hidden_dim=32):
+    def __init__(self, dropout_ratio=0.0, num_conv_filters = 64, hidden_dim=256): #num_conv_filters = 32, hidden_dim=48): #num_conv_filters = 16, hidden_dim=32):
         super(IIMODEL, self).__init__()
         self.num_conv_filters = num_conv_filters
         self.hidden_dim = hidden_dim

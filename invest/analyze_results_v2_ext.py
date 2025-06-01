@@ -40,6 +40,8 @@ exp_id = 'may1_5dm_3m_short_nn_zg_curbest_2convL_dr0.1_1250it'
 exp_id = 'may1_5dm_3m_short_nn_zg_curbest_2convL_dr0.1_1750it'
 exp_id = 'may1_5dm_3m_short_nn_zg_curbest_2convL_dr0.3_1250it'
 exp_id = 'may1_5dm_3m_short_nn_zg_curbest_2convL_dr0.5_1250it'
+exp_id = 'may1_5dm_3m_short_nn_zg_curb_2convL_lg_dr0.5_2000it'
+exp_id = '5dm_3m_nn_zg_curb_2co_lg_dr0.5_2kit_r3'
 
 os.system(f'ls /home/ubuntu/code/angle_rl/invest/data/{exp_id}/*.pkl | sort > /home/ubuntu/code/angle_rl/invest/data/{exp_id}/sorted_pkls.txt')
 f = open(f'/home/ubuntu/code/angle_rl/invest/data/{exp_id}/sorted_pkls.txt', 'r')
@@ -56,7 +58,7 @@ eval_actual_returns = []
 while l:
     print(l)
     D = pickle.load(open(l.strip(), 'rb'))
-    eval_actual_returns.append(D['eval_actual_return'][-5])
+    eval_actual_returns.append(D['eval_actual_return'][-4])
     l = f.readline()
 
 eval_actual_returns = [x - spread for x in eval_actual_returns] # this line discounts for buy/sell spread
