@@ -2,8 +2,8 @@ import torch, pdb, os
 from train_single_step_model import train_single_step_model
 
 #exp_id = 'may1_5dm_3m_short_nn_ZG_softp_maxnorm_c32h48'
-for i in range(5): 
-    exp_id = f'5dm_3m_nn_zg_curb_2co_lg_dr0.5_2kit_r{i+6}'
+for i in range(8): 
+    exp_id = f'5dm_3m_news_zg_curb_2co_dr0.5_2kit_r{i+1}'
     os.system('mkdir /home/ubuntu/code/angle_rl/invest/data/'+exp_id+'/')
 
     #data_list_f = open('/home/ubuntu/code/angle_rl/invest/data/data_list_2025_03_31_tr360d_bs25d_monthlyinterval.txt', 'r')
@@ -21,7 +21,7 @@ for i in range(5):
             obj_use_mean_return = True,
             steps = 2000,
             lr = 0.001,
-            model_type= 'iimodel',
+            model_type= 'iimodelwithnews',
             log_interval = 250,
             eval_interval = 250,
         )
