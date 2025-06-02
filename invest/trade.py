@@ -19,6 +19,7 @@ trade_api_wss = None
 data_api_url = None
 stream_data_wss = None
 
+from alpaca_trade_api import REST
 import alpaca, pickle, pdb, time
 
 from alpaca.trading.client import TradingClient
@@ -117,6 +118,36 @@ def make_portfolio_buy_25d(latest_price_D, trade_client, total_portfolio_usd_amo
     record_filename = 'trade_record_25d_'+timestamp.replace(' ', '_')+'.pkl'
     pickle.dump(trade_record, open('/home/ubuntu/code/angle_rl/invest/data/prod/trades/'+record_filename, 'wb'))
 
+
+def make_single_custom_trade(trade_client):
+    """
+    req = MarketOrderRequest(
+        symbol = "LYEL",
+        qty = 4219.00273093,
+        side = OrderSide.SELL,
+        extended_hours = True,
+        type = "limit", #OrderType.LIMIT,
+        limit_price = 7.93,
+        time_in_force = "day", #TimeInForce.DAY,
+    )
+    print(f"buying LYEL")
+    res = trade_client.submit_order(req); print(res)
+    """
+
+    base_url = 'https://paper-api.alpaca.markets'
+    alpaca_api = REST(api_key_25d, secret_key_25d, base_url)
+    order = alpaca_api.submit_order(
+            symbol='LYEL',
+            qty=4219.00273093,
+            side='sell',
+            type='limit',
+            time_in_force='day',
+            limit_price=7.65,
+            extended_hours=True,
+        )
+    print("buying LYEL")
+    print(f"Order placed: {order}")
+
 def make_portfolio_buy_5d(latest_price_D, trade_client, total_portfolio_usd_amount=10000): 
     D5d = pickle.load(open('/home/ubuntu/code/angle_rl/invest/data/prod/prod_5d_model_prediction.pkl', 'rb')) 
     scores = D5d['scores'] 
@@ -169,7 +200,8 @@ if __name__ == "__main__":
     for k in Dnyse:
         if len(Dnyse[k]['prices']._bD) > 0:
             latest_price_D[k] = Dnyse[k]['prices'][Dnyse[k]['prices']._bD.inv[len(Dnyse[k]['prices']._bD) - 1]]
-    
+
+    #make_single_custom_trade(trade_client_25d)
     #close_all_positions(trade_client_5d)
     make_portfolio_buy_5d(latest_price_D, trade_client_5d, total_portfolio_usd_amount_5d)
     #make_portfolio_buy_25d(latest_price_D, trade_client_25d, total_portfolio_usd_amount_25d)

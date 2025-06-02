@@ -40,7 +40,7 @@ class IIMODEL(torch.nn.Module):
         x = self.sm(x)
         return x
 
-class IIMODELWITHNEWS(torch.nn.Module):
+class IIMODELWITHNEWS1CNORM(torch.nn.Module):
     def __init__(self, dropout_ratio=0.0, num_conv_filters = 32, hidden_dim=48): #num_conv_filters = 16, hidden_dim=32):
         super(IIMODELWITHNEWS, self).__init__()
         self.num_conv_filters = num_conv_filters
@@ -222,7 +222,7 @@ class IIMODELMARGIN(torch.nn.Module):
         #print(f'b value: {self.b}')
         return scores, short_scores
 
-class IIMODELWITHNEWSOLD(torch.nn.Module):
+class IIMODELWITHNEWS(torch.nn.Module):
     def __init__(self, dropout_ratio=0.0, num_conv_filters = 64, hidden_dim=256):
         super(IIMODELWITHNEWS, self).__init__()
         self.num_conv_filters = num_conv_filters

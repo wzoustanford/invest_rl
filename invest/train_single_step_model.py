@@ -105,11 +105,12 @@ def train_single_step_model(
         model = IIMODELMARGIN(train_margin_mask, dropout_ratio=dropout_ratio).to(device)
     else: 
         model = IIMODEL(dropout_ratio=dropout_ratio).to(device)
-    optimizer = torch.optim.Adam(model.parameters(), lr=lr) #betas=(0.5, 0.999)
+    optimizer = torch.optim.Adam(model.parameters(), lr=lr) #, betas=(0.5, 0.999))
+    optimizer.zero_grad()
     
     for step in range(1, steps + 1):
         model.train()
-        optimizer.zero_grad()
+
         model.mask = train_margin_mask
         if model_type == 'iimodelwithnews' or model_type == 'iimodelwithnewsadditionalnorm': 
             output, _ = model(features, news_features)

@@ -42,15 +42,26 @@ exp_id = 'may1_5dm_3m_short_nn_zg_curbest_2convL_dr0.3_1250it'
 exp_id = 'may1_5dm_3m_short_nn_zg_curbest_2convL_dr0.5_1250it'
 exp_id = 'may1_5dm_3m_short_nn_zg_curb_2convL_lg_dr0.5_2000it'
 
+#    '5dm_3mS_news_zg_curb_2co_dr0.1_ad05m09m2_r8',
+
 exp_id_list = [
-    'may1_5dm_3m_short_nn_zg_curb_2convL_lg_dr0.5_2000it',
-    '5dm_3m_nn_zg_curb_2co_lg_dr0.5_2kit_r2',
-    '5dm_3m_nn_zg_curb_2co_lg_dr0.5_2kit_r3',
-    '5dm_3m_nn_zg_curb_2co_lg_dr0.5_2kit_r4',
-    '5dm_3m_nn_zg_curb_2co_lg_dr0.5_2kit_r5',
+    '5dm_3mA_news_nzg_prod_dr0.0_r1',
+    '5dm_3mA_news_nzg_prod_dr0.0_r2',
+    '5dm_3mA_news_nzg_prod_dr0.0_r3',
+    '5dm_3mA_news_nzg_prod_dr0.0_r4',
+    '5dm_3mA_news_nzg_prod_dr0.0_r5',
+    '5dm_3mA_news_nzg_prod_dr0.0_r6',
+    '5dm_3mA_news_nzg_prod_dr0.0_r7',
+    '5dm_3mA_news_nzg_prod_dr0.0_r8',
 ]
 end_iter = 2000 
 iter_list = [
+    3500,
+    3250,
+    3000,
+    2750,
+    2500,
+    2250,
     2000,
     1500,
     1250,
