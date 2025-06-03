@@ -4,11 +4,12 @@ from datetime import datetime, timedelta
 from utils import get_finance_api_data, find_file_in_dir
 from ts_data_struct import BiHashList 
 from data_proc import get_single_action_model_train_test_data_from_config, DataProcConfig
-from model.iimodel import IIMODEL 
+from model.iimodel import IIMODEL, IIMODELWITHNEWS
 from trade import api_key_5d, secret_key_5d
 
 GET_NEWS_FEATURES = True
 MODEL_TYPE = 'iimodelwithnews'
+STEPS = 3000
 
 def update_price_history_data():
     ## determine start date for the update
@@ -121,7 +122,7 @@ def update_train_test_model_5d():
         l.strip(),
         dropout_ratio = 0.0,
         obj_use_mean_return = True,
-        steps = 3000,
+        steps = STEPS,
         lr = 0.001,
         log_interval=250, 
         eval_interval=250,
@@ -175,7 +176,7 @@ def update_train_test_model_25d():
         l.strip(),
         dropout_ratio = 0.0,
         obj_use_mean_return = True,
-        steps = 3000,
+        steps = STEPS,
         lr = 0.001,
         log_interval=250, 
         eval_interval=250,
@@ -184,33 +185,39 @@ def update_train_test_model_25d():
     )
 
 def update_predictions():
-    model = IIMODEL()
+    if GET_NEWS_FEATURES:
+        model = IIMODELWITHNEWS()
+    else:
+        model = IIMODEL()
     data_list_file = "/home/ubuntu/code/angle_rl/invest/data/prod/data_list_tr360d_bs5d_prod.txt"
     f = open(data_list_file, 'r')
     data_filename = f.readline().strip()
 
     recent_test_data = pickle.load(open(data_filename, 'rb')) 
     test_features = recent_test_data['testFeature']
+    test_news_features = recent_test_data['testNewsFeatures']['embs']
     test_tickers = recent_test_data['all_test_tickers']
-
+    
     exp_id_5d = 'prod_5d_models'
-    model_5d_filename = f'/home/ubuntu/code/angle_rl/invest/data/{exp_id_5d}/single_action_m_{exp_id_5d}_dropout0.0_objmeanretTrue_steps750_lr0.001_step750.pt'
+    model_5d_filename = f'/home/ubuntu/code/angle_rl/invest/data/{exp_id_5d}/oneact_m_{exp_id_5d}_drop0.0_objmeanretTrue_steps{STEPS}_lr0.001_mtiimodelwithnews_step{STEPS}.pt'
     checkpoint = torch.load(model_5d_filename)
     model.load_state_dict(checkpoint)
     model.eval()
     D = dict()
-    D['scores'] = model(test_features).squeeze().tolist()
+    scores, acts = model(test_features, test_news_features)
+    D['scores'] = scores.squeeze().tolist()
     D['tickers'] = test_tickers
     pickle.dump(D, open('/home/ubuntu/code/angle_rl/invest/data/prod/prod_5d_model_prediction.pkl', 'wb'))
 
 
     exp_id_25d = 'prod_25d_models'
-    model_25d_filename = f'/home/ubuntu/code/angle_rl/invest/data/{exp_id_25d}/single_action_m_{exp_id_25d}_dropout0.0_objmeanretTrue_steps750_lr0.001_step750.pt'
+    model_25d_filename = f'/home/ubuntu/code/angle_rl/invest/data/{exp_id_25d}/oneact_m_{exp_id_25d}_drop0.0_objmeanretTrue_steps{STEPS}_lr0.001_mtiimodelwithnews_step{STEPS}.pt'
     checkpoint = torch.load(model_25d_filename)
     model.load_state_dict(checkpoint)
     model.eval()
     D = dict()
-    D['scores'] = model(test_features).squeeze().tolist()
+    scores, acts = model(test_features, test_news_features)
+    D['scores'] = scores.squeeze().tolist()
     D['tickers'] = test_tickers
     pickle.dump(D, open('/home/ubuntu/code/angle_rl/invest/data/prod/prod_25d_model_prediction.pkl', 'wb'))
 
@@ -232,8 +239,8 @@ def update_alpaca_active_list():
 
 
 if __name__ == '__main__':
-    update_alpaca_active_list()
-    update_price_history_data()
-    update_train_test_model_5d()
-    update_train_test_model_25d()
+    #update_alpaca_active_list()
+    #update_price_history_data()
+    #update_train_test_model_5d()
+    #update_train_test_model_25d()
     update_predictions()
