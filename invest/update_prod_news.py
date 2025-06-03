@@ -103,7 +103,7 @@ def update_train_test_model_5d():
         get_news_features=get_news_features,
         nonoverlap_interval_days = nonoverlap_interval_days,
     )
-
+    
     print("--------- [prod update - 5d model] processing data for dates: ---------")
     print("training_data_start_date: " + training_data_start_date)
     print("test_data_start_date: " + test_data_start_date)
@@ -197,9 +197,9 @@ def update_predictions():
     test_features = recent_test_data['testFeature']
     test_news_features = recent_test_data['testNewsFeatures']['embs']
     test_tickers = recent_test_data['all_test_tickers']
-    
+    STEPS = 2000
     exp_id_5d = 'prod_5d_models'
-    model_5d_filename = f'/home/ubuntu/code/angle_rl/invest/data/{exp_id_5d}/oneact_m_{exp_id_5d}_drop0.0_objmeanretTrue_steps{STEPS}_lr0.001_mtiimodelwithnews_step{STEPS}.pt'
+    model_5d_filename = f'/home/ubuntu/code/angle_rl/invest/data/{exp_id_5d}/oneact_m_{exp_id_5d}_drop0.0_objmeanretTrue_steps{3000}_lr0.001_mtiimodelwithnews_step{STEPS}.pt'
     checkpoint = torch.load(model_5d_filename)
     model.load_state_dict(checkpoint)
     model.eval()
@@ -211,7 +211,7 @@ def update_predictions():
 
 
     exp_id_25d = 'prod_25d_models'
-    model_25d_filename = f'/home/ubuntu/code/angle_rl/invest/data/{exp_id_25d}/oneact_m_{exp_id_25d}_drop0.0_objmeanretTrue_steps{STEPS}_lr0.001_mtiimodelwithnews_step{STEPS}.pt'
+    model_25d_filename = f'/home/ubuntu/code/angle_rl/invest/data/{exp_id_25d}/oneact_m_{exp_id_25d}_drop0.0_objmeanretTrue_steps{3000}_lr0.001_mtiimodelwithnews_step{STEPS}.pt'
     checkpoint = torch.load(model_25d_filename)
     model.load_state_dict(checkpoint)
     model.eval()

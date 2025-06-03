@@ -223,11 +223,11 @@ class IIMODELMARGIN(torch.nn.Module):
         return scores, short_scores
 
 class IIMODELWITHNEWS(torch.nn.Module):
-    def __init__(self, dropout_ratio=0.0, num_conv_filters = 64, hidden_dim=256):
+    def __init__(self, dropout_ratio=0.0, num_conv_filters = 64, hidden_dim=254):
         super(IIMODELWITHNEWS, self).__init__()
         self.num_conv_filters = num_conv_filters
         self.hidden_dim = hidden_dim
-        self.adaptive_max_pool_output = 10 
+        self.adaptive_max_pool_output = 10
         
         # Define the layers of the model
         self.conv1 = torch.nn.Sequential(

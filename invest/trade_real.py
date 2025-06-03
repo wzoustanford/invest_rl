@@ -170,5 +170,6 @@ if __name__ == "__main__":
         if len(Dnyse[k]['prices']._bD) > 0:
             latest_price_D[k] = Dnyse[k]['prices'][Dnyse[k]['prices']._bD.inv[len(Dnyse[k]['prices']._bD) - 1]]
     
+    #close_all_positions(trade_client_5d)
     make_portfolio_buy_5d(latest_price_D, trade_client_5d, total_portfolio_usd_amount_5d)
     #make_portfolio_buy_25d(latest_price_D, trade_client_25d, total_portfolio_usd_amount_25d)
