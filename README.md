@@ -8,4 +8,3 @@ this is why for the first time, we created a repo for applying reinforcement lea
 
 the baseline algorithm is very simple and straightforward. the model buys a portfolio and holds it for a number of days. 
 
-This works surprisingly well, and has an alpha against nasdaq and s&p500 indices.
