@@ -45,14 +45,14 @@ exp_id = 'may1_5dm_3m_short_nn_zg_curb_2convL_lg_dr0.5_2000it'
 #    '5dm_3mS_news_zg_curb_2co_dr0.1_ad05m09m2_r8',
 
 exp_id_list = [
-    '5dm_3mA_news_nzg_prd_dr0_mp20_3.5kit_r1',
-    '5dm_3mA_news_nzg_prd_dr0_mp20_3.5kit_r2',
-    '5dm_3mA_news_nzg_prd_dr0_mp20_3.5kit_r3',
-    '5dm_3mA_news_nzg_prd_dr0_mp20_3.5kit_r4',
-    '5dm_3mA_news_nzg_prd_dr0_mp20_3.5kit_r5',
-    '5dm_3mA_news_nzg_prd_dr0_mp20_3.5kit_r6',
-    '5dm_3mA_news_nzg_prd_dr0_mp20_3.5kit_r7',
-    '5dm_3mA_news_nzg_prd_dr0_mp20_3.5kit_r8',
+    '5dm_3mA_news_nzg_prd_dr0_h254_3.5kit_r1',
+    '5dm_3mA_news_nzg_prd_dr0_h254_3.5kit_r2',
+    '5dm_3mA_news_nzg_prd_dr0_h254_3.5kit_r3',
+    '5dm_3mA_news_nzg_prd_dr0_h254_3.5kit_r4',
+    '5dm_3mA_news_nzg_prd_dr0_h254_3.5kit_r5',
+    '5dm_3mA_news_nzg_prd_dr0_h254_3.5kit_r6',
+    '5dm_3mA_news_nzg_prd_dr0_h254_3.5kit_r7',
+    '5dm_3mA_news_nzg_prd_dr0_h254_3.5kit_r8',
 ]
 end_iter = 2000 
 iter_list = [

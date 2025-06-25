@@ -1,20 +1,7 @@
 import torch, pickle, argparse, pdb
-from torch.distributions import Multinomial
 from copy import deepcopy
-from model.iimodel import IIMODEL, IIMODELWITHNEWS, IIMODELWITHNEWSADDTIONALNORM
+from model.iimodel import IIMODEL, IIMODELWITHNEWS, IIMODELMARGIN, IIMODELWITHNEWSADDTIONALNORM
 
-def check_device_availability(device):
-    if device == 'cuda':
-        if not torch.cuda.is_available():
-            raise ValueError("CUDA is not available. Please check your installation.")
-        dev = torch.device("cuda")
-    elif device == 'mps':
-        if not torch.backends.mps.is_available():
-            raise ValueError("MPS is not available. Please check your installation.")
-        dev = torch.device("mps")
-    else:
-        dev = torch.device("cpu") 
-    return dev 
 
 def train_single_step_model(
         exp_id,
@@ -29,17 +16,13 @@ def train_single_step_model(
         is_prod = False,
         seed = 5,
         model_type = 'iimodel',
-        use_ppo = False, 
+        D_last = None,
     ):
-    torch.manual_seed(seed)
-
+    
     data_id = data_filename.split('single_step')[1].split('alpaca')[0]
-    model_id = 'oneact_m_'+ exp_id +'_objm'+str(obj_use_mean_return)+'_steps'+str(steps)+'_lr'+str(lr)+'_mt'+model_type+'_'
+    model_id = 'oneact_m_'+ exp_id +'_drop'+str(dropout_ratio)+'_objmeanret'+str(obj_use_mean_return)+'_steps'+str(steps)+'_lr'+str(lr)+'_mt'+model_type+'_'
     root_dir = '/home/ubuntu/code/angle_rl/invest/data/'+exp_id+'/'
-    
-    if use_ppo: 
-        K_ppo = 2000 
-    
+
     ## -- model training log -- 
     log_D = dict()
     log_D['data_filename'] = data_filename
@@ -49,28 +32,65 @@ def train_single_step_model(
     log_D['log_interval'] = log_interval
     log_D['eval_interval'] = eval_interval
     log_D['seed'] = seed
+    
     log_D['portfolio_shares'] = []
     log_D['actual_return'] = []
     log_D['mean_return'] = []
     log_D['stddev'] = []
     log_D['sharpe'] = []
+
     log_D['eval_portfolio_shares'] = []
     log_D['eval_actual_return'] = []
     log_D['eval_mean_return'] = []
     log_D['eval_stddev'] = []
     log_D['eval_sharpe'] = []
-    log_D['top20_stocks'] = []
 
-    device = check_device_availability(device)
+    log_D['top20_stocks'] = []
+    
+    torch.manual_seed(seed)
+    
+    if device == 'cuda':
+        if not torch.cuda.is_available():
+            raise ValueError("CUDA is not available. Please check your installation.")
+        device = torch.device("cuda")
+    elif device == 'mps':
+        if not torch.backends.mps.is_available():
+            raise ValueError("MPS is not available. Please check your installation.")
+        device = torch.device("mps")
+    else:
+        device = torch.device("cpu") 
 
     data = pickle.load(open(data_filename, 'rb'))
+    if D_last is not None: 
+        while data['trainFeature'].shape[1] < 249:
+            data['trainFeature'] = torch.cat((data['trainFeature'][:, 0].unsqueeze(1), data['trainFeature']), dim = 1)
+        while data['train_in_portfolio_series'].shape[1] < 5: 
+            data['train_in_portfolio_series'] = torch.cat((data['train_in_portfolio_series'], data['train_in_portfolio_series'][:, -1].unsqueeze(1)), dim = 1)
+
+        D_last_store = deepcopy(data)
+
+        data['trainFeature'] = torch.cat((D_last['trainFeature'], data['trainFeature']), dim = 0)
+        data['train_in_portfolio_series'] = torch.cat((D_last['train_in_portfolio_series'], data['train_in_portfolio_series']), dim = 0)
+        news = dict()
+        news['embs'] = torch.cat((D_last['trainNewsFeatures']['embs'], data['trainNewsFeatures']['embs']), dim = 0)
+        data['trainNewsFeatures'] = news 
+        data['all_train_tickers'] = D_last['all_train_tickers'] + data['all_train_tickers'] 
+        D_last = D_last_store
 
     features = data['trainFeature'].to(device)
     series = data['train_in_portfolio_series'].to(device)
-
+    if 'train_margin_mask' in data: 
+        train_margin_mask = data['train_margin_mask'].to(device)
+    else: 
+        train_margin_mask = None 
+    
     eval_features = data['testFeature'].to(device)
     eval_series = data['test_in_portfolio_series']
-
+    if 'test_margin_mask' in data: 
+        test_margin_mask = data['test_margin_mask'].to(device)
+    else: 
+        test_margin_mask = None 
+    
     if eval_series is not None:
         eval_series = eval_series.to(device)
 
@@ -81,74 +101,46 @@ def train_single_step_model(
             model = IIMODELWITHNEWS(dropout_ratio=dropout_ratio).to(device) 
         else: 
             model = IIMODELWITHNEWSADDTIONALNORM(dropout_ratio=dropout_ratio).to(device) 
+    elif model_type == 'iimodelmargin': 
+        model = IIMODELMARGIN(train_margin_mask, dropout_ratio=dropout_ratio).to(device)
     else: 
-        model = IIMODEL(dropout_ratio=dropout_ratio).to(device)    
-        if use_ppo:
-            old_model = IIMODEL(dropout_ratio=dropout_ratio).to(device)
-    
-    optimizer = torch.optim.Adam(model.parameters(), lr=lr) 
-
-    if seed != 1 and use_ppo: 
-        checkpoint = torch.load(root_dir + model_id + 'ppo_step750.pt') 
-        old_model.load_state_dict(checkpoint)
+        model = IIMODEL(dropout_ratio=dropout_ratio).to(device)
+    optimizer = torch.optim.Adam(model.parameters(), lr=lr) #, betas=(0.5, 0.999))
+    optimizer.zero_grad()
     
     for step in range(1, steps + 1):
         model.train()
-        optimizer.zero_grad()
 
+        model.mask = train_margin_mask
         if model_type == 'iimodelwithnews' or model_type == 'iimodelwithnewsadditionalnorm': 
             output, _ = model(features, news_features)
+        elif model_type == 'iimodelmargin': 
+            output, short_scores = model(features)
         else: 
             output = model(features)
 
         # assume we have a 1 dollar portfolio 
         # this is how many shares in the portfolio # gracefully, for margin trading, the rest of the objective is the same assuming b < 1
         portfolio_shares = output / torch.unsqueeze((series[:, 0] + 1e-10), 1)
+        if model_type == 'iimodelmargin': 
+            #asssume you can margin to borrow at 50% the base funds (1.5 base), and for free, really, let's leave this here since the bundle borrow rate is too high 
+            short_shares = short_scores / torch.unsqueeze((series[:, 0] + 1e-10), 1)
+            #short_shares = short_shares / 100 # determine the number of lots
+            short_shares[short_shares < 0] = torch.round(short_shares[short_shares < 0]) # round to the nearest lot, otherwise it's not worth shorting with the fee 
+            #short_shares = short_shares * 100 # round it back to normal shares 
+            portfolio_shares = portfolio_shares + short_shares
+            #print(f'all negative shares: {portfolio_shares[portfolio_shares<0]}')
         actual_return = torch.sum(torch.unsqueeze((series[:, -1] - series[:, 0]), 1) * portfolio_shares)
 
         returns_series = torch.sum(series[:, 1:] * portfolio_shares - torch.unsqueeze(series[:, 0], 1) * portfolio_shares, dim=0)
-        
-        mean_return = torch.mean(returns_series)
-        stddev = torch.std(returns_series)
-        
+        mean_return = torch.mean(returns_series, dim=0)
+        stddev = torch.std(returns_series, dim=0)
+
         if obj_use_mean_return: 
             sharpe = mean_return / (stddev + 1e-10)
         else: 
             sharpe = actual_return / (stddev + 1e-10)
-
-        if use_ppo:
-            old_model.eval()
-            old_output = old_model(features).detach()
-            m = Multinomial(1, output.squeeze())
-            m_old = Multinomial(1, old_output.squeeze())
-            samples = torch.Tensor().to(device)
-            for k in range(K_ppo): 
-                sample = m_old.sample().view((len(old_output), 1))
-                samples = torch.cat((samples, sample), dim = 1)
-            samples_portfolio_shares = samples / (series[:, 0] + 1e-10).unsqueeze(1)
-            samples_actual_return = torch.sum((series[:, -1] - series[:, 0]).unsqueeze(1) * samples_portfolio_shares, dim=0)
-
-            samples_portfolio_shares = samples_portfolio_shares.unsqueeze(1)
-            samples_returns_series = torch.sum((series[:, 1:].unsqueeze(2) - series[:, 0].unsqueeze(1).unsqueeze(2)) * samples_portfolio_shares, dim=0)
-
-            samples_mean_return = torch.mean(samples_returns_series, dim = 0)
-            samples_stddev = torch.std(samples_returns_series, dim = 0)
-
-            if obj_use_mean_return: 
-                samples_sharpe = samples_mean_return #/ (samples_stddev + 1e-10)
-            else: 
-                samples_sharpe = samples_actual_return #/ (samples_stddev + 1e-10)
-            
-            samples = torch.transpose(samples, 0, 1)
-            p_over_q = torch.exp(m.log_prob(samples)) / torch.exp(m_old.log_prob(samples))
-            eps = 0.2
-            clipped_poq = torch.min(torch.Tensor([1 + eps]).to(device), p_over_q)
-            clipped_poq = torch.max(torch.Tensor([1 - eps]).to(device), clipped_poq)
-
-            obj = torch.mean(torch.min(p_over_q * samples_sharpe, clipped_poq * samples_sharpe))
-            loss = - obj
-        else: 
-            loss = - sharpe 
+        loss = - sharpe 
         
         loss.backward()
         optimizer.step()
@@ -173,8 +165,11 @@ def train_single_step_model(
         
         if step % eval_interval == 0:
             model.eval()
+            model.mask = test_margin_mask
             if model_type == 'iimodelwithnews' or model_type == 'iimodelwithnewsadditionalnorm': 
                 eval_output, _ = model(eval_features, eval_news_features)
+            elif model_type == 'iimodelmargin':
+                eval_output, eval_short_scores = model(eval_features)
             else: 
                 eval_output = model(eval_features)
 
@@ -182,6 +177,13 @@ def train_single_step_model(
             # this is how many shares in the portfolio 
             if eval_series is not None: 
                 eval_portfolio_shares = eval_output / torch.unsqueeze((eval_series[:, 0] + 1e-10), 1)
+                if model_type == 'iimodelmargin': 
+                    eval_short_shares = eval_short_scores / torch.unsqueeze((eval_series[:, 0] + 1e-10), 1)
+                    #eval_short_shares = eval_short_shares / 100 # determine the number of lots
+                    eval_short_shares[eval_short_shares < 0] = torch.round(eval_short_shares[eval_short_shares < 0]) # round to the nearest lot, otherwise it's not worth shorting with the fee 
+                    #eval_short_shares = eval_short_shares * 100 # round it back to normal shares 
+                    eval_portfolio_shares = eval_portfolio_shares + eval_short_shares
+                    print(f'all negative shares: {eval_portfolio_shares[eval_portfolio_shares<0]}')
 
                 eval_actual_return = torch.sum(torch.unsqueeze((eval_series[:, -1] - eval_series[:, 0]), 1) * eval_portfolio_shares)
 
@@ -204,8 +206,6 @@ def train_single_step_model(
                 
             if is_prod: 
                 model_pt_filename = root_dir + model_id + 'step'+str(step)+'.pt' 
-            elif use_ppo:
-                model_pt_filename = root_dir + model_id + 'ppo_step'+str(step)+'.pt' 
             else: 
                 model_pt_filename = root_dir + model_id+'_' + data_id + '_step'+str(step)+'.pt' 
             
@@ -221,4 +221,4 @@ def train_single_step_model(
     model_log_filename = root_dir + model_id + '_'+data_id + '_log.pkl'
     pickle.dump(log_D, open(model_log_filename, 'wb'))
 
-    return 
+    return D_last
