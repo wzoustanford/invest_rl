@@ -7,8 +7,8 @@ datetime_format = "%Y-%m-%d %H:%M:%S"
 
 test_mode = False 
 
-abs_start_date = '2020-03-25' #'2020-03-25'
-abs_stop_date = '2025-03-02' #'2025-04-04'
+abs_start_date = '2020-03-26' #'2020-03-25'
+abs_stop_date = '2025-06-03' #'2025-04-04'
 tr_days = 360 
 bs_days = 25 
 nonoverlap_interval_days = 32 

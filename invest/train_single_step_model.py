@@ -109,10 +109,12 @@ def train_single_step_model(
         returns_series = torch.sum(series[:, 1:] * portfolio_shares - torch.unsqueeze(series[:, 0], 1) * portfolio_shares, dim=0)
         
         mean_return = torch.mean(returns_series)
+        max_return = torch.max(returns_series)
         stddev = torch.std(returns_series)
         
         if obj_use_mean_return: 
-            sharpe = mean_return / (stddev + 1e-10)
+            sharpe = max_return / (stddev + 1e-10)
+            #sharpe = mean_return / (stddev + 1e-10)
         else: 
             sharpe = actual_return / (stddev + 1e-10)
 
@@ -127,7 +129,7 @@ def train_single_step_model(
                 samples = torch.cat((samples, sample), dim = 1)
             samples_portfolio_shares = samples / (series[:, 0] + 1e-10).unsqueeze(1)
             samples_actual_return = torch.sum((series[:, -1] - series[:, 0]).unsqueeze(1) * samples_portfolio_shares, dim=0)
-
+            
             samples_portfolio_shares = samples_portfolio_shares.unsqueeze(1)
             samples_returns_series = torch.sum((series[:, 1:].unsqueeze(2) - series[:, 0].unsqueeze(1).unsqueeze(2)) * samples_portfolio_shares, dim=0)
 
