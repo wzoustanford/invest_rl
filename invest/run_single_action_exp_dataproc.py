@@ -7,12 +7,12 @@ datetime_format = "%Y-%m-%d %H:%M:%S"
 
 test_mode = False 
 
-abs_start_date = '2020-03-26' #'2020-03-25'
-abs_stop_date = '2025-06-03' #'2025-04-04'
+abs_start_date = '2020-03-25' #'2020-03-25'
+abs_stop_date = '2021-07-27' #'2025-04-04'
 tr_days = 360 
 bs_days = 25 
 nonoverlap_interval_days = 32 
-get_news_features = False 
+get_news_features = True 
 
 abs_stop_date_T = datetime.strptime(abs_stop_date, date_format) 
 buy_sell_nonoverlap_interval = timedelta(days=nonoverlap_interval_days) 
@@ -33,6 +33,7 @@ while datetime.strptime(data_proc_config.test_data_start_date.strip(), date_form
     print("--------- processing dates: ---------")
     print("training_data_start_date: "+data_proc_config.training_data_start_date)
     print("test_data_start_date: "+data_proc_config.test_data_start_date)
+    print("abs_stop_date: "+datetime.strftime(datetime.strptime(data_proc_config.test_data_start_date.strip(), date_format) + timedelta(days=data_proc_config.training_time_length_days) + buy_sell_nonoverlap_interval+timedelta(days=1), date_format))
     get_single_action_model_train_test_data_from_config(
         data_proc_config, 
     )
