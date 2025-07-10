@@ -30,7 +30,7 @@ for i in range(num_trials):
             cnt+=1
     mean_return = s / cnt
     sum_return = s
-
+    
     print('mean_return')
     print(mean_return)
 

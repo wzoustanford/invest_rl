@@ -1,7 +1,7 @@
 import torch, pdb, pickle
 from model.iimodel import IIMODEL
 
-def train_sequential_step_model(
+def train_sequential_step_model_consecutive(
         exp_id, 
         data_list_filename, 
         gamma = 0.8,
@@ -10,7 +10,7 @@ def train_sequential_step_model(
         steps = 750,
         lr = 0.001, 
         log_interval = 50,
-        eval_interval = 50 ,
+        eval_interval = 50,
         device = torch.device('cuda'),
         seed = 1,
     ):
@@ -20,18 +20,21 @@ def train_sequential_step_model(
     
     data_list_f = open(data_list_filename, 'r')
     number_files = 0
+    list_files = []
     l = data_list_f.readline().strip()
     while l: 
+        list_files.append(l)
         number_files += 1
         l = data_list_f.readline().strip()
-    
+
     for f_num in range(number_files): 
-        train_one_sequential_step_model(
+        train_test_data_file_name = list_files[f_num]
+        train_one_sequential_step_model_consecutive(
             f_num, 
             root_dir,
             data_id,
             exp_id, 
-            data_list_filename, 
+            train_test_data_file_name,
             gamma,
             obj_use_mean_return,
             model_type,
@@ -44,12 +47,12 @@ def train_sequential_step_model(
         )
     return 
 
-def train_one_sequential_step_model(
+def train_one_sequential_step_model_consecutive(
         f_num,
         root_dir,
         data_id,
         exp_id, 
-        data_list_filename, 
+        train_test_data_file_name, 
         gamma = 0.8,
         obj_use_mean_return = True,
         model_type = 'iimodel',
@@ -62,7 +65,7 @@ def train_one_sequential_step_model(
     ): 
     ## -- model training log -- 
     log_D = dict()
-    log_D['data_list_filename'] = data_list_filename
+    log_D['train_test_data_file_name'] = train_test_data_file_name
     log_D['steps'] = steps
     log_D['lr'] = lr
     log_D['log_interval'] = log_interval
@@ -79,13 +82,20 @@ def train_one_sequential_step_model(
 
     print(f'training model fnum: {f_num}')
     model_id = 'seq_m_'+ exp_id +'_objm'+str(obj_use_mean_return)+'_steps'+str(steps)+'_lr'+str(lr)+'_mt'+model_type+'_' + f'fnum{f_num}' + '_'
-    data_list_f = open(data_list_filename, 'r')
-    l = data_list_f.readline().strip()
-    D_list = []
-    for i in range(f_num + 1):
-        D_list.append(pickle.load(open(l, 'rb')))
-        l = data_list_f.readline().strip()
-    print(f"{len(D_list)} data files loaded") 
+    full_list_filename = '/home/ubuntu/code/angle_rl/invest/data/full_list_consecutive.txt'
+    full_list_f = open(full_list_filename, 'r')
+    l = full_list_f.readline().strip()
+    full_list_train_test_files = []
+    while l:
+        full_list_train_test_files.append(l)
+        l = full_list_f.readline().strip()
+    ind = full_list_train_test_files.index(train_test_data_file_name)
+    print(f'file found in full list: {ind}')
+    D_list = [] 
+    num_consecutive_steps = 6 
+    for i in range(num_consecutive_steps):
+        cur_train_test_file = full_list_train_test_files[ind - (num_consecutive_steps - i - 1)]
+        D_list.append(pickle.load(open(cur_train_test_file, 'rb')))
     
     policy_model = IIMODEL().to(device) 
     
