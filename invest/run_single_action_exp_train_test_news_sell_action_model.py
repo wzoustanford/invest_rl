@@ -1,7 +1,7 @@
 import torch, pdb, os
 from train_single_step_model_day_sell import train_single_step_model_day_sell
 
-exp_id = 'may19_5d_m_news_3m_selldm750_zg'
+exp_id = 'jul11_25d_m_news_1Y_selldm750_zg'
 os.system('mkdir /home/ubuntu/code/angle_rl/invest/data/'+exp_id+'/')
 
 #data_list_f = open('/home/ubuntu/code/angle_rl/invest/data/data_list_2025_03_31_tr360d_bs25d_monthlyinterval.txt', 'r')
@@ -25,4 +25,3 @@ while l:
     )
     l = data_list_f.readline()
     cnt += 1
-

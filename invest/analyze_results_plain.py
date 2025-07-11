@@ -3,9 +3,9 @@ import matplotlib.pyplot as plt
 
 overall_return_list = []
 all_returns_list_list = []
-num_trials = 5 
+num_trials = 1
 for i in range(num_trials):
-    exp_id = f"d25_k3c32h47_1Y11cons_run{i}"
+    exp_id = f"d25_k3c32h47_SeqCons_g0.1_1Y_it750_run{i}" #d25_k3c32h47_1Y_compSecC_run{i}" #
 
     os.system(f'ls /home/ubuntu/code/angle_rl/invest/data/{exp_id}/*.pkl | sort > /home/ubuntu/code/angle_rl/invest/data/{exp_id}/sorted_pkls.txt')
     f = open(f'/home/ubuntu/code/angle_rl/invest/data/{exp_id}/sorted_pkls.txt', 'r')
@@ -64,6 +64,8 @@ print(f'std:{torch.std(all_returns_list_list, dim=0)}')
 
 print(all_returns_list_list)
 print(len(all_returns_list_list[0]))
+
+exit()
 
 if '4Y' in exp_id: 
     years_split_indices = [

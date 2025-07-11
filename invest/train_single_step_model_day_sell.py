@@ -135,7 +135,7 @@ def train_single_step_model_day_sell(
             portfolio_shares = portfolio_shares + short_shares
             #print(f'all negative shares: {portfolio_shares[portfolio_shares<0]}')
         actual_return = torch.sum(torch.unsqueeze((series[:, -1] - series[:, 0]), 1) * portfolio_shares)
-
+        
         returns_series = torch.sum(series[:, 1:] * portfolio_shares - torch.unsqueeze(series[:, 0], 1) * portfolio_shares, dim=0)
         mean_return = torch.mean(returns_series, dim=0)
         stddev = torch.std(returns_series, dim=0)
