@@ -22,7 +22,7 @@ class IIMODEL(torch.nn.Module):
         self.fc2 = torch.nn.Linear(hidden_dim, 1)
         self.sm = torch.nn.Softmax(dim=0)
 
-    def forward(self, x):
+    def forward(self, x, return_acts = False):
         #x = torch.nn.functional.layer_norm(x, x.shape[1:])
         x = torch.unsqueeze(x, 1)  # Add a channel dimension
 
@@ -36,9 +36,13 @@ class IIMODEL(torch.nn.Module):
         x = self.conv1(x)
         x = self.fc1(x)
         x = self.fc1_dropout(x)
+        acts = x 
         x = self.fc2(x)
         x = self.sm(x)
-        return x
+        if return_acts is True: 
+            return x, acts
+        else: 
+            return x 
 
 
 class IIMODELL2C(torch.nn.Module):

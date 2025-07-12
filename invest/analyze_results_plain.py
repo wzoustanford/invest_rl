@@ -3,7 +3,7 @@ import matplotlib.pyplot as plt
 
 overall_return_list = []
 all_returns_list_list = []
-num_trials = 1
+num_trials = 5
 for i in range(num_trials):
     exp_id = f"d25_k3c32h47_SeqCons_g0.1_1Y_it750_run{i}" #d25_k3c32h47_1Y_compSecC_run{i}" #
 

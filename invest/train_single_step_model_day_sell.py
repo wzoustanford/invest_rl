@@ -109,17 +109,20 @@ def train_single_step_model_day_sell(
     sell_action_model = SELLACTIONMODEL().to(device) 
     optimizer = torch.optim.Adam(model.parameters(), lr=lr) 
     optimizer_sell = torch.optim.Adam(sell_action_model.parameters(), lr=lr) 
-    optimizer.zero_grad()
-    optimizer_sell.zero_grad()
     
     for step in range(1, steps + 1):
         model.train()
         sell_action_model.train()
+        optimizer.zero_grad()
+        optimizer_sell.zero_grad()
+            
         model.mask = train_margin_mask
-        if model_type == 'iimodelwithnews' or model_type == 'iimodelwithnewsadditionalnorm' or model_type == 'sell_action_model': 
+        if model_type == 'iimodelwithnews' or model_type == 'iimodelwithnewsadditionalnorm':
             output, acts = model(features, news_features)
         elif model_type == 'iimodelmargin': 
             output, short_scores = model(features)
+        elif model_type == 'sell_action_model': 
+            output, acts = model(features, return_acts=True)
         else: 
             output = model(features)
 
@@ -206,10 +209,12 @@ def train_single_step_model_day_sell(
             model.eval()
             sell_action_model.eval()
             model.mask = test_margin_mask
-            if model_type == 'iimodelwithnews' or model_type == 'iimodelwithnewsadditionalnorm' or model_type == 'sell_action_model':
+            if model_type == 'iimodelwithnews' or model_type == 'iimodelwithnewsadditionalnorm':
                 eval_output, eval_acts = model(eval_features, eval_news_features)
             elif model_type == 'iimodelmargin':
                 eval_output, eval_short_scores = model(eval_features)
+            elif model_type == 'sell_action_model': 
+                eval_output, eval_acts = model(eval_features, return_acts = True)
             else: 
                 eval_output = model(eval_features)
 
