@@ -18,8 +18,8 @@ def run_sequential_action_exp_train_test(exp_id, data_list_filename, model_type=
     ) 
 
 if __name__=="__main__":
-    dl = '/home/ubuntu/code/angle_rl/invest/data/data_list_1Y_custom_secconsec.txt' 
-    d = {f"d25_k3c32h47_SeqCons_g0.3_1Y_it750_run{i}":dl for i in range(5)}
+    dl = '/home/ubuntu/code/angle_rl/invest/data/data_list_2020-04-17_2025-06-03_tr360d_bs25d_32dinterval_newsFeatureFalse_testmodeFalse.txt' 
+    d = {f"d25_k3c32h47_SeqCons_g0.3_4Y_it750_run{i}":dl for i in range(5)}
     model_type = 'iimodel'
     cnt = 9
     for k, v in d.items(): 

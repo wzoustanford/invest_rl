@@ -3,9 +3,9 @@ import matplotlib.pyplot as plt
 
 overall_return_list = []
 all_returns_list_list = []
-num_trials = 5
+num_trials = 8
 for i in range(num_trials):
-    exp_id = f"d25_k3c32h47_SeqCons_g0.1_1Y_it750_run{i}" #d25_k3c32h47_1Y_compSecC_run{i}" #
+    exp_id = f"d25_k3c32h47_4Y_4_16_run{i}" #d25_k3c32h47_1Y_compSecC_run{i}" #d25_k3c32h47_SeqCons_g0.3_4Y_it750_run
 
     os.system(f'ls /home/ubuntu/code/angle_rl/invest/data/{exp_id}/*.pkl | sort > /home/ubuntu/code/angle_rl/invest/data/{exp_id}/sorted_pkls.txt')
     f = open(f'/home/ubuntu/code/angle_rl/invest/data/{exp_id}/sorted_pkls.txt', 'r')

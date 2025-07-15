@@ -113,8 +113,8 @@ def train_single_step_model(
         stddev = torch.std(returns_series)
         
         if obj_use_mean_return: 
-            sharpe = max_return / (stddev + 1e-10)
-            #sharpe = mean_return / (stddev + 1e-10)
+            #sharpe = max_return / (stddev + 1e-10)
+            sharpe = mean_return / (stddev + 1e-10)
         else: 
             sharpe = actual_return / (stddev + 1e-10)
 
@@ -192,8 +192,8 @@ def train_single_step_model(
                 eval_mean_return = torch.mean(eval_returns_series, dim=0)
                 eval_stddev = torch.std(eval_returns_series, dim=0)
                 
-                #eval_sharpe = eval_mean_return / eval_stddev 
-                eval_sharpe = eval_actual_return / (eval_stddev + 1e-10)
+                eval_sharpe = eval_mean_return / eval_stddev 
+                #eval_sharpe = eval_actual_return / (eval_stddev + 1e-10)
                 eval_loss = - eval_sharpe 
                 
                 _, top20_stocks_indices = torch.topk(eval_output, 20, dim=0)
