@@ -206,7 +206,12 @@ def get_news_full_string_ticker(tickers, from_date, to_date, page_limit=1):
                 r = res[i]
                 #print(r["publishedDate"])
                 #print(len(r["text"].split(" ")))
-                additional_str += " published date:"+r["publishedDate"]+" title: "+r["title"]+" text: "+r["text"]
+                if r["publishedDate"] is not None: 
+                    additional_str += " published date:"+r["publishedDate"]
+                if r["title"] is not None:
+                    additional_str += " title: "+r["title"]
+                if r["text"] is not None:
+                    additional_str += " text: "+r["text"]
             text_str += additional_str 
     return text_str
 
