@@ -1,61 +1,9 @@
-import torch, pdb, pickle
+import torch, pdb, pickle, utils
 from model.policy_model import PolicyModel
 from model.value_model import ValueModel 
 
 def train_RL_model(
-        exp_id, 
-        data_list_filename, 
-        start_date_idx, 
-        end_date_idx_plus1, 
-        gamma = 0.8,
-        obj_use_mean_return = True,
-        model_type = 'iimodel',
-        steps = 750,
-        lr = 0.001, 
-        log_interval = 50,
-        eval_interval = 50 ,
-        policy_training_interval = 1,
-        device = torch.device('cuda'),
-        seed = 1,
-    ):
-    torch.manual_seed(seed)
-    data_id = data_list_filename.split('data_list')[1].split('.txt')[0]
-    root_dir = '/home/ubuntu/code/angle_rl/invest/data/'+exp_id+'/'
-    
-    data_list_f = open(data_list_filename, 'r')
-    number_files = 0
-    l = data_list_f.readline().strip()
-    while l: 
-        number_files += 1
-        l = data_list_f.readline().strip()
-    
-    #for f_num in range(number_files): 
-    f_num = 370
-    train_one_RL_step_model(
-        f_num, 
-        root_dir,
-        data_id,
-        exp_id, 
-        data_list_filename, 
-        start_date_idx,
-        end_date_idx_plus1,
-        gamma,
-        obj_use_mean_return,
-        model_type,
-        steps,
-        lr, 
-        policy_training_interval,
-        log_interval,
-        eval_interval,
-        device,
-        seed,
-    )
-    return 
-
-def train_one_RL_step_model(
         f_num,
-        root_dir,
-        data_id,
         exp_id, 
         data_list_filename, 
         start_date_idx,
@@ -71,6 +19,14 @@ def train_one_RL_step_model(
         device = torch.device('cuda'),
         seed = 1,
     ): 
+    """
+    function with code logic to train the RL model 
+    """
+
+    torch.manual_seed(seed)
+    data_id = data_list_filename.split('data_list')[1].split('.txt')[0]
+    root_dir = '/home/ubuntu/code/angle_rl/invest/data/'+exp_id+'/'
+
     ## -- model training log -- 
     log_D = dict()
     log_D['data_list_filename'] = data_list_filename
@@ -90,49 +46,48 @@ def train_one_RL_step_model(
 
     print(f'training model fnum: {f_num}')
     model_id = 'seq_m_'+ exp_id +'_objm'+str(obj_use_mean_return)+'_steps'+str(steps)+'_lr'+str(lr)+'_mt'+model_type+'_' + f'fnum{f_num}' + '_'
-    data_list_f = open(data_list_filename, 'r')
-    l = data_list_f.readline().strip()
-    D_list = []
-    for i in range(f_num + 1):
-        D_list.append(pickle.load(open(l, 'rb')))
-        l = data_list_f.readline().strip()
-    print(f"{len(D_list)} data files loaded") 
+
+    D_list = utils.load_data_list(data_list_filename, return_count=False, load_as_pickle_dict=True, f_num=f_num)
     
+    ## load the unified ticker hash dict from disk 
     save_pkl_name = exp_id + '_ticker_hash.pkl' 
-    loadD = pickle.load(open(save_pkl_name, 'rb'))
+    loadD = pickle.load(open(save_pkl_name, 'rb')) 
     shuffle_dict = loadD['hash_D'] 
-    num_tickers = loadD['num_tickers']
+    num_tickers = loadD['num_tickers'] 
+
+    ## define the policy model 
     policy_model = PolicyModel(shuffle_dict=shuffle_dict, num_tickers=num_tickers).to(device)
+
+    ## define the value model 
     value_model_1 = ValueModel(state_hdim = policy_model.hidden_dim, action_dim=policy_model.num_tickers).to(device)
     value_model_2 = ValueModel(state_hdim = policy_model.hidden_dim, action_dim=policy_model.num_tickers).to(device)
 
-    policy_optimizer = torch.optim.Adam(policy_model.parameters(), lr=lr / 10) 
-    value_optimizer_1 = torch.optim.Adam(value_model_1.parameters(), lr=lr)
-    value_optimizer_2 = torch.optim.Adam(value_model_2.parameters(), lr=lr)
+    # optimizers 
+    policy_optimizer = torch.optim.Adam(policy_model.parameters(), lr=lr) 
+    value_optimizer_1 = torch.optim.Adam(value_model_1.parameters(), lr=lr) 
+    value_optimizer_2 = torch.optim.Adam(value_model_2.parameters(), lr=lr) 
 
     T = len(D_list) 
-    #gamma = torch.Tensor([gamma]).to(device) 
-    sigma = 0.01 
-    B = 10 
-    torch.autograd.set_detect_anomaly(True) 
 
-    #loss_all = torch.Tensor([0.0]).to(device) 
+    sigma = 0.01 # the gausian noise standard deviation for taking actions 
+    B = 10 # trajectory batch size 
+    
     for i in range(start_date_idx, end_date_idx_plus1): 
         if i % policy_training_interval == 0: 
             policy_model.train() 
             policy_optimizer.zero_grad() 
 
-        # may need this for later 
         features = D_list[i]['trainFeature'].to(device)
         series = D_list[i]['train_in_portfolio_series'].to(device)
         tickers = D_list[i]['all_train_tickers']
         output_tensor = torch.Tensor([]).to(device)
         acts_tensor = torch.Tensor([]).to(device)
-        r_tensor = torch.Tensor([]).to(device)
-        ## shuffle series tensor 
+        r_tensor = torch.Tensor([]).to(device) 
+
+        ## reshuffle series tensor to the unified hash dimensions 
         indices = [] 
         for t in tickers: 
-            indices.append(shuffle_dict[t])
+            indices.append(shuffle_dict[t]) 
         indices = torch.Tensor(indices).to(int) 
 
         base_frame = torch.zeros((num_tickers, series.shape[1])).to(device)
@@ -141,12 +96,6 @@ def train_one_RL_step_model(
 
         for b in range(B): 
             output, acts = policy_model(features, tickers, return_acts=True) 
-            output = output + sigma * torch.randn(output.shape).to(device)
-            output = torch.maximum(output, torch.zeros(output.shape).to(device))
-            #if i % policy_training_interval != 0:
-            #    output = output.detach() 
-            #    acts = acts.detach()
-            
             # assume we have a 1 dollar portfolio 
             # this is how many shares in the portfolio # gracefully, for margin trading, the rest of the objective is the same assuming b < 1
             portfolio_shares = output / torch.unsqueeze((shuffled_series[:, 0] + 1e-10), 1)
@@ -218,7 +167,6 @@ def train_one_RL_step_model(
         acts_tensor_prev = acts_tensor.detach() 
         output_tensor_prev = output_tensor.detach() 
         
-        #Q_prev = torch.Tensor([-1.0 * float("Inf")]) 
         if i > 0: 
             log_D['loss'].append(loss_val)
             print('Train T-step: {} [{}/{} ({:.0f}%)]. Loss (value mse): {:.5f}. Sharpe: {:.5f}. gamma*Q: {:.5f}. Q_prev: {:.5f}. Mean Return: {:.5f}. Actual Return: {:.5f}. Std Dev: {:.5f}'.format(
