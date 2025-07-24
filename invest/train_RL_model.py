@@ -68,8 +68,6 @@ def train_RL_model(
     value_optimizer_2 = torch.optim.Adam(value_model_2.parameters(), lr=lr) 
 
     T = len(D_list) 
-
-    sigma = 0.01 # the gausian noise standard deviation for taking actions 
     B = 10 # trajectory batch size 
     
     for i in range(start_date_idx, end_date_idx_plus1): 
@@ -109,11 +107,16 @@ def train_RL_model(
                 sharpe = mean_return / (stddev + 1e-10)
             else: 
                 sharpe = actual_return / (stddev + 1e-10)
+            
+            ## concat all sharpe ratios together into trajectory batch 
             r_tensor = torch.cat((r_tensor, sharpe.view(1, -1)), dim = 0)
             
+            ## concat hidden activations from the policy model into trajectory batch 
             acts, _ = torch.max(acts, dim=0)
             acts = acts.view(1, -1)
             acts_tensor = torch.cat((acts_tensor, acts), dim = 0)
+
+            ## concat actions (policy output) into trajectory batch 
             output = output.view(1, -1)
             output_tensor = torch.cat((output_tensor, output), dim = 0)
 
@@ -122,7 +125,6 @@ def train_RL_model(
             Q2 = value_model_2(acts_tensor, output_tensor) 
             Q = torch.minimum(Q1, Q2) 
 
-            #loss = torch.sum(torch.square(y - Q_prev)) 
             loss = - torch.sum(Q) / len(Q) 
             policy_optimizer.zero_grad() 
             loss.backward() 
@@ -146,8 +148,7 @@ def train_RL_model(
                 Q = torch.minimum(Q1, Q2) 
 
                 y = r_tensor + gamma * Q 
-            
-                #loss = torch.sum(torch.square(y - Q_prev)) 
+
                 loss = torch.nn.functional.mse_loss(y, Q_prev)
 
                 value_optimizer_1.zero_grad()

@@ -52,7 +52,7 @@ class PolicyModel(torch.nn.Module):
         x = self.fc1_dropout(x)
         acts = x # for the RL shuffled outputs, we will use max-pooling to obtain input for the value function, so the order doesn't matter 
         x = self.fc2(x)
-        
+
         """
         mask = []
         for t in tickers: 
@@ -78,7 +78,8 @@ class PolicyModel(torch.nn.Module):
         
         x = self.sm(x)
 
-        e = self.noise_dist.rsample((1,)).to(self.device).squeeze(0)
+        e = self.noise_dist.rsample((1,)).to(self.device).squeeze(0) 
+        # note the squeeze op in the last line to fix sample shape 
         x = x + e 
 
         x = self.sm(x) 
