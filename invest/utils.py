@@ -1,10 +1,56 @@
-import requests, pdb, json, os, re, copy, time
+import requests, pdb, json, os, re, copy, time, pickle
 from datetime import datetime, timedelta
 from ts_data_struct import BiHashList
 from openai import OpenAI
 
 FINANCIAL_KEY = "1e347f859bc1eaa56334ad8c5dc10924" #"897d694a6ab563cb079534513ee9ea1a"#"1e347f859bc1eaa56334ad8c5dc10924"
 OPENAI_KEY = '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'#"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"
+
+def aggregate_tickers_RL(data_file_list, start_idx, end_idx_plus1, exp_id): 
+    """
+    Function to aggregate the stock tickers into a unified hash across a time frame 
+    """
+
+    save_pkl_name = exp_id + '_ticker_hash.pkl' 
+    cnt = 0
+    hash_D = dict()
+    for idx in range(start_idx, end_idx_plus1): 
+        filename = data_file_list[idx] 
+        f = open(filename, 'rb') 
+        D = pickle.load(f) 
+        test_features = D['trainFeature'] 
+        all_train_tickers = D['all_train_tickers'] 
+        for ticker in all_train_tickers:
+            if ticker not in hash_D:
+                hash_D[ticker] = cnt 
+                cnt += 1 
+    
+    print('total number of tickers: ')
+    print(cnt)
+    saveD = dict() 
+    saveD['hash_D'] = hash_D 
+    saveD['num_tickers'] = cnt 
+    pickle.dump(saveD, open(save_pkl_name, 'wb'))
+
+def load_data_list(data_list_filename, return_count=False, load_as_pickle_dict=False, f_num=None):
+    data_list = [] 
+    cnt = 0 
+    f = open(data_list_filename, 'r') 
+    l = f.readline() 
+    while l:
+        cnt += 1
+        if f_num is not None and cnt >= f_num: 
+            break
+        if load_as_pickle_dict:
+            data_list.append(pickle.load(open(l.strip(), 'rb')))
+        else: 
+            data_list.append(l.strip()) 
+        l = f.readline() 
+    f.close() 
+    if return_count is True: 
+        return data_list, cnt 
+    else: 
+        return data_list 
 
 def find_file_in_dir(dir, reg_pattern):
     files_and_dirs = os.listdir(dir)
