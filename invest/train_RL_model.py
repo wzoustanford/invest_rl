@@ -69,7 +69,15 @@ def train_RL_model(
 
     T = len(D_list) 
     B = 10 # trajectory batch size 
-    
+        
+    cpu_dev = torch.device('cpu') 
+
+    states = [] 
+    # state = [delta, w (a_t-1), l, x] 
+    replay_buffer = [] 
+
+    #global_index = 0
+    #for epoch in range(num_epochs):
     for i in range(start_date_idx, end_date_idx_plus1): 
         if i % policy_training_interval == 0: 
             policy_model.train() 
@@ -92,8 +100,24 @@ def train_RL_model(
         base_frame[indices] = series
         shuffled_series = base_frame
 
+        state = states[global_index] 
+        global_index += 1
+        action, acts = policy_model(state) 
+        sharpe, mean_return, actual_return = compute_kday_returns(shuffled_series, action)
+        delta = shuffled_series[:, 0]/ state['price'] 
+        X = delta * action * state['X'] - cost(action, state['action'])
+        next_state = [delta, action, features, X]
+        states[global_index] = next_state 
+
+        replay = [state, action, sharpe, next_state] 
+        replay_buffer.append(replay) 
+        
+        replay_batch = sample_replay_buffer(replay_buffer, B) 
+        r_tensor, acts_tensor, output_tensor = process_replay_batch(replay_batch) 
+        
+        """
         for b in range(B): 
-            output, acts = policy_model(features, tickers, return_acts=True) 
+            output, acts = policy_model(features, tickers, delta[b], W[b], X[b], return_acts=True) 
             # assume we have a 1 dollar portfolio 
             # this is how many shares in the portfolio # gracefully, for margin trading, the rest of the objective is the same assuming b < 1
             portfolio_shares = output / torch.unsqueeze((shuffled_series[:, 0] + 1e-10), 1)
@@ -119,8 +143,9 @@ def train_RL_model(
             ## concat actions (policy output) into trajectory batch 
             output = output.view(1, -1)
             output_tensor = torch.cat((output_tensor, output), dim = 0)
+        """
 
-        if i > 0 and i % policy_training_interval == 0:
+        if i > start_date_idx and i % policy_training_interval == 0:
             Q1 = value_model_1(acts_tensor, output_tensor) 
             Q2 = value_model_2(acts_tensor, output_tensor) 
             Q = torch.minimum(Q1, Q2) 
@@ -130,7 +155,7 @@ def train_RL_model(
             loss.backward() 
             policy_optimizer.step() 
             print(f'--- [Policy step] --- loss(vmse):{loss.item()}, Q:{Q[0][0].item()}')
-        if i > 0: 
+        if i > start_date_idx: 
             value_model_1.train()
             value_model_2.train()
             acts_tensor = acts_tensor.detach()
@@ -139,8 +164,8 @@ def train_RL_model(
             output_tensor_prev = output_tensor_prev.detach()
             r_tensor = r_tensor.detach()
             for step in range(1, steps):
-                Q1_prev = value_model_1(acts_tensor_prev, output_tensor_prev)
-                Q2_prev = value_model_2(acts_tensor_prev, output_tensor_prev)
+                Q1_prev = value_model_1(acts_tensor_prev, output_tensor_prev) 
+                Q2_prev = value_model_2(acts_tensor_prev, output_tensor_prev) 
                 Q_prev = torch.minimum(Q1_prev, Q2_prev) 
 
                 Q1 = value_model_1(acts_tensor, output_tensor) 
@@ -167,8 +192,10 @@ def train_RL_model(
         
         acts_tensor_prev = acts_tensor.detach() 
         output_tensor_prev = output_tensor.detach() 
+        prices_prev = shuffled_series[:, 0].detach()
+        action_output_prev = 
         
-        if i > 0: 
+        if i > start_date_idx: 
             log_D['loss'].append(loss_val)
             print('Train T-step: {} [{}/{} ({:.0f}%)]. Loss (value mse): {:.5f}. Sharpe: {:.5f}. gamma*Q: {:.5f}. Q_prev: {:.5f}. Mean Return: {:.5f}. Actual Return: {:.5f}. Std Dev: {:.5f}'.format(
                 i - start_date_idx, 
