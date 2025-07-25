@@ -72,11 +72,12 @@ def train_RL_model(
         
     cpu_dev = torch.device('cpu') 
 
-    states = [] 
-    # state = [delta, w (a_t-1), l, x] 
+    ## [TODO] implement states and replay buffer with a limited size queue 
+
+    states = [] # state = [delta, w (a_t-1), l, x]  
     replay_buffer = [] 
 
-    #global_index = 0
+    global_index = 0
     #for epoch in range(num_epochs):
     for i in range(start_date_idx, end_date_idx_plus1): 
         if i % policy_training_interval == 0: 
@@ -95,26 +96,68 @@ def train_RL_model(
         for t in tickers: 
             indices.append(shuffle_dict[t]) 
         indices = torch.Tensor(indices).to(int) 
-
+        
         base_frame = torch.zeros((num_tickers, series.shape[1])).to(device)
         base_frame[indices] = series
         shuffled_series = base_frame
-
-        state = states[global_index] 
-        global_index += 1
+        
+        if i == start_date_idx: 
+            state = {
+                'delta': torch.ones((1, num_tickers)), 
+                'action': 1.0 / num_tickers * torch.ones((1, num_tickers)), 
+                'sharpe': 0.0,
+                'features': torch.zeros(features.shape), 
+                'policy_pooled_acts': torch.zeros((1, 32)), 
+                'X': 1.0, 
+                'prices': torch.zeros((num_tickers,1)),
+            }
+        #else: 
+        #    state = states[global_index - 1] assum state is passed from previous step 
+        
+        # update features into state 
+        state['features'] = features 
+        
         action, acts = policy_model(state) 
-        sharpe, mean_return, actual_return = compute_kday_returns(shuffled_series, action)
-        delta = shuffled_series[:, 0]/ state['price'] 
-        X = delta * action * state['X'] - cost(action, state['action'])
-        next_state = [delta, action, features, X]
-        states[global_index] = next_state 
+        policy_pooled_acts, _ = torch.max(acts, dim=0)
+        policy_pooled_acts = policy_pooled_acts.view(1, -1)
 
-        replay = [state, action, sharpe, next_state] 
-        replay_buffer.append(replay) 
-        
-        replay_batch = sample_replay_buffer(replay_buffer, B) 
-        r_tensor, acts_tensor, output_tensor = process_replay_batch(replay_batch) 
-        
+        sharpe, mean_return, actual_return = compute_kday_returns(shuffled_series, action) 
+        delta = torch.ones((1, num_tickers)) if i == start_date_idx else shuffled_series[:, 0]/ state['prices'] 
+        X = torch.sum(delta * state['action'] * state['X']) 
+        X = X - transaction_cost(action, state['action'], X) 
+        """
+        next_state = { 
+            'delta': delta, 
+            'action': action, 
+            'policy_pooled_acts': policy_pooled_acts, 
+            'features': features, 
+            'X': X, 
+            'prices': shuffled_series[:, 0], 
+        }
+        """
+        #states.append(next_state) 
+        states.append(state) 
+        global_index += 1 
+
+        if i > start_date_idx: 
+            replay = { 
+                'prev_state': prev_state, 
+                'action': prev_state['action'], 
+                'sharpe': prev_state['sharpe'], 
+                'state': state,
+            } 
+            replay_buffer.append(replay) 
+        prev_state = state 
+        state = {
+            'delta': delta, 
+            'action': action, 
+            'sharpe': sharpe,
+            'policy_pooled_acts': policy_pooled_acts, 
+            'features': torch.zeros((1, 32)), 
+            'X': X, 
+            'prices': shuffled_series[:, 0], 
+        }
+                
         """
         for b in range(B): 
             output, acts = policy_model(features, tickers, delta[b], W[b], X[b], return_acts=True) 
@@ -145,17 +188,9 @@ def train_RL_model(
             output_tensor = torch.cat((output_tensor, output), dim = 0)
         """
 
-        if i > start_date_idx and i % policy_training_interval == 0:
-            Q1 = value_model_1(acts_tensor, output_tensor) 
-            Q2 = value_model_2(acts_tensor, output_tensor) 
-            Q = torch.minimum(Q1, Q2) 
+        if i > start_date_idx + B + 1: 
+            r_tensor, acts_tensor, output_tensor, acts_tensor_prev, output_tensor_prev = sample_replay_buffer(replay_buffer, B)  
 
-            loss = - torch.sum(Q) / len(Q) 
-            policy_optimizer.zero_grad() 
-            loss.backward() 
-            policy_optimizer.step() 
-            print(f'--- [Policy step] --- loss(vmse):{loss.item()}, Q:{Q[0][0].item()}')
-        if i > start_date_idx: 
             value_model_1.train()
             value_model_2.train()
             acts_tensor = acts_tensor.detach()
@@ -265,3 +300,51 @@ def train_RL_model(
     pickle.dump(log_D, open(model_log_filename, 'wb'))
     
     return 
+
+def compute_kday_returns(shuffled_series, action_output, obj_use_mean_return=True):
+    # assume we have a 1 dollar portfolio 
+    # this is how many shares in the portfolio # gracefully, for margin trading, the rest of the objective is the same assuming b < 1
+    portfolio_shares = action_output / torch.unsqueeze((shuffled_series[:, 0] + 1e-10), 1)
+    actual_return = torch.sum(torch.unsqueeze((shuffled_series[:, -1] - shuffled_series[:, 0]), 1) * portfolio_shares)
+    returns_series = torch.sum(shuffled_series[:, 1:] * portfolio_shares - torch.unsqueeze(shuffled_series[:, 0], 1) * portfolio_shares, dim=0)
+    
+    mean_return = torch.mean(returns_series)
+    stddev = torch.std(returns_series)
+    
+    if obj_use_mean_return: 
+        sharpe = mean_return / (stddev + 1e-10)
+    else: 
+        sharpe = actual_return / (stddev + 1e-10)
+    
+    return sharpe, mean_return, actual_return 
+
+def transaction_cost(current_ratios, previous_ratios, current_X):
+    cost_ratio = 0.0015
+    C = torch.sum(current_X * torch.abs(current_ratios - previous_ratios) * cost_ratio)
+    return C 
+
+def sample_replay_buffer(replay_buffer, B):
+    ## random sample 
+    end_idx = len(replay_buffer) 
+    start_idx = max(0, end_idx - 5 * B) 
+    rndidx = np.random.permutation(range(start_idx, end_idx))
+    r_tensor = torch.Tensor()
+    acts_tensor = torch.Tensor() 
+    action_output_tensor = torch.Tensor() 
+    
+    acts_tensor_prev = torch.Tensor() 
+    action_output_tensor_prev = torch.Tensor() 
+
+    for b in range(B):
+        sample = replay_buffer[rndidx[b]]
+        r_tensor = torch.cat((r_tensor, sample['sharpe']), dim=0)
+
+        acts_tensor = torch.cat((acts_tensor , sample['state']['policy_pooled_acts']), dim=0) 
+        action_output_tensor = torch.cat((action_output_tensor, sample['state']['action']), dim=0)
+
+        acts_tensor_prev = torch.cat((acts_tensor , sample['prev_state']['policy_pooled_acts']), dim=0) 
+        action_output_tensor_prev = torch.cat((action_output_tensor, sample['prev_state']['action']), dim=0)
+    
+    return r_tensor, acts_tensor, action_output_tensor, acts_tensor_prev, action_output_tensor_prev 
+
+
