@@ -10,9 +10,9 @@ def run_RL_exp_train_test(exp_id, data_list_filename, model_type='iimodel', seed
     train_end_idx_plus1 = 267 
     test_start_idx = train_end_idx_plus1 
     test_end_idx_plus1 = test_start_idx + 100 
-
+    
     data_list = utils.load_data_list(data_list_filename)
-
+    
     ## a custom step to aggregate the tickers into a uniform hash, so that action space is unified across the training data 
     utils.aggregate_tickers_RL(data_list, train_start_idx, train_end_idx_plus1, exp_id) 
 
@@ -27,7 +27,7 @@ def run_RL_exp_train_test(exp_id, data_list_filename, model_type='iimodel', seed
         gamma, 
         obj_use_mean_return = True, 
         model_type = model_type, 
-        steps = 30, 
+        steps = 500, 
         lr = 0.001, 
         device = torch.device('cuda'), 
         seed = seed, 
