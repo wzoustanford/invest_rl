@@ -15,7 +15,7 @@ def run_RL_exp_train_test(exp_id, data_list_filename, model_type='iimodel', seed
     
     ## a custom step to aggregate the tickers into a uniform hash, so that action space is unified across the training data 
     utils.aggregate_tickers_RL(data_list, train_start_idx, train_end_idx_plus1, exp_id) 
-
+    
     gamma = 0.5
     f_num = 370
     train_RL_model(

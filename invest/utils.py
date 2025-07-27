@@ -35,9 +35,13 @@ def aggregate_tickers_RL(data_file_list, start_idx, end_idx_plus1, exp_id):
             for first_ticker in K:
                 if first_ticker not in cur_D:
                     del first_D[first_ticker]
+    ## finally filter by 20 bn market cap 
+    D_20bn = pickle.load(open('/home/ubuntu/code/angle_rl/invest/data/large_cap_filter_dict.pkl', 'rb'))
+
     for t in first_D.keys(): 
-        final_D[t] = cnt 
-        cnt += 1
+        if t in D_20bn:
+            final_D[t] = cnt 
+            cnt += 1
 
     print('final total number of tickers: ')
     print(cnt)

@@ -22,6 +22,6 @@ if __name__=="__main__":
     d = {f"d25_k3c32h47_SeqC_1Y_g0.5_objmR_it2500_run{i}":dl for i in range(1)}
     model_type = 'iimodel'
     cnt = 0
-    for k, v in d.items(): 
+    for k, v in d.items():
         run_sequential_action_exp_train_test(k, v, model_type, cnt) 
-        cnt += 1
+        cnt += 1 

@@ -19,12 +19,12 @@ def train_RL_model(
         model_type = 'iimodel', 
         steps = 750, 
         lr = 0.001, 
-        policy_training_interval = 2, 
+        policy_training_interval = 10, 
         log_interval = 50, 
         eval_interval = 50, 
         device = torch.device('cuda'),
         seed = 1,
-        num_policy_steps = 50, 
+        num_policy_steps = 5, 
         num_epochs=2
     ): 
     """
