@@ -272,7 +272,7 @@ def train_RL_model(
                         Q1 = value_model_1(policy_pooled_acts, action) 
                         Q2 = value_model_2(policy_pooled_acts, action) 
                         Q = torch.minimum(Q1, Q2) 
-                        loss = 1.0 * Q 
+                        loss = -1.0 * Q 
                         loss.backward() 
                         loss = loss.detach()
                         #sum_Q = sum_Q + Q 
