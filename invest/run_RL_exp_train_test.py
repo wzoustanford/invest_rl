@@ -24,6 +24,8 @@ def run_RL_exp_train_test(exp_id, data_list_filename, model_type='iimodel', seed
         data_list_filename, 
         train_start_idx, 
         train_end_idx_plus1, 
+        test_start_idx,
+        test_end_idx_plus1,
         gamma, 
         obj_use_mean_return = True, 
         model_type = model_type, 
@@ -37,7 +39,7 @@ if __name__=="__main__":
     ### execution of script. There is an option to have multiple runs with different random seeds. 
 
     data_list = '/home/ubuntu/code/angle_rl/invest/data/all_data_list.txt' 
-    D = {f"rl_test_run{i}":data_list for i in range(5)}
+    D = {f"rl_Pfreq_test_run{i}":data_list for i in range(1)}
     model_type = 'iimodel'
 
     seed = 9 
