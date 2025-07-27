@@ -1,10 +1,10 @@
-import torch, pdb, pickle, utils, sys
+import torch, pdb, pickle, utils
 from collections import deque
 import numpy as np
 from model.policy_model import PolicyModel
 from model.value_model import ValueModel
 
-RBSIZE = 300 
+RBSIZE = 5
 
 def train_RL_model(
         f_num, 
@@ -22,7 +22,6 @@ def train_RL_model(
         eval_interval = 50, 
         device = torch.device('cuda'),
         seed = 1,
-        num_policy_steps = 1, 
     ): 
     """
     function with code logic to train the RL model 
@@ -74,8 +73,7 @@ def train_RL_model(
     value_optimizer_1 = torch.optim.Adam(value_model_1.parameters(), lr=lr) 
     value_optimizer_2 = torch.optim.Adam(value_model_2.parameters(), lr=lr) 
 
-    B = 50 # trajectory batch size 
-    B_p = 50
+    B = 3 # trajectory batch size 
 
     ## [TODO] implement states and replay buffer with a limited size queue 
 
@@ -99,17 +97,12 @@ def train_RL_model(
 
         ## reshuffle series tensor to the unified hash dimensions 
         indices = [] 
-        mask = []
         for t in tickers: 
-            if t in shuffle_dict:
-                indices.append(shuffle_dict[t]) 
-                mask.append(True)
-            else: 
-                mask.append(False)
+            indices.append(shuffle_dict[t]) 
         indices = torch.Tensor(indices).to(int) 
         
         base_frame = torch.zeros((num_tickers, series.shape[1]))
-        base_frame[indices] = series[mask] 
+        base_frame[indices] = series 
         shuffled_series = base_frame
         
         if i == start_date_idx: 
@@ -117,8 +110,7 @@ def train_RL_model(
                 'delta': torch.ones((1, num_tickers)), 
                 'action': 1.0 / num_tickers * torch.ones((1, num_tickers)), 
                 'sharpe': torch.Tensor([0.0]).view(1, 1), 
-                'features': None, 
-                'tickers': None,
+                'features': torch.zeros(features.shape), 
                 'policy_pooled_acts': torch.zeros((1, policy_model.hidden_dim)), 
                 'X': 1.0, 
                 'prices': torch.zeros((num_tickers,1)), 
@@ -126,7 +118,6 @@ def train_RL_model(
         
         # update features into state 
         state['features'] = features 
-        state['tickers'] = tickers
         
         action, acts = policy_model(state, tickers, return_acts=True)
         action = action.to(cpu)
@@ -136,13 +127,14 @@ def train_RL_model(
         sharpe, mean_return, actual_return = compute_kday_returns(shuffled_series, action) 
         sharpe = torch.Tensor([sharpe]).view(1, 1)
 
-        delta = torch.ones((1, num_tickers)) if i == start_date_idx else shuffled_series[:, 0]/ (state['prices'] + 1e-10)
-        delta = delta.view(1, -1)
-        X = torch.sum(delta * state['action'] * state['X'])
-        X = X - transaction_cost(action, state['action'], X)
+        delta = torch.ones((1, num_tickers)) if i == start_date_idx else shuffled_series[:, 0]/ (state['prices'] + 1e-10) 
+        X = torch.sum(delta * state['action'] * state['X']) 
+        X = X - transaction_cost(action, state['action'], X) 
 
         global_index += 1 
         if i > start_date_idx: 
+            prev_state['features'] = None 
+            state['features'] = None 
             replay = { 
                 'prev_state': prev_state, 
                 'sharpe': prev_state['sharpe'].to(cpu), 
@@ -151,26 +143,23 @@ def train_RL_model(
             replay_buffer.append(replay) 
             del replay
             if len(replay_buffer) > RBSIZE: 
-                #print('------ pop and remove left end queue element ------- ´')
+                print('------ pop and remove left end queue element ------- ´')
                 rb = replay_buffer.popleft()
-                #rb['action'] = rb['action'].detach()
-                #rb[''policy_pooled_acts''] = rb['policy_pooled_acts'].detatch()
                 del rb
             del prev_state
         prev_state = state 
         del state
         state = {
-            'delta': delta.detach().to(cpu), 
-            'action': action.detach().view(1, -1).to(cpu), 
-            'sharpe': sharpe.detach().to(cpu), 
-            'policy_pooled_acts': policy_pooled_acts.detach().to(cpu), 
+            'delta': delta.to(cpu), 
+            'action': action.view(1, -1).to(cpu), 
+            'sharpe': sharpe.to(cpu), 
+            'policy_pooled_acts': policy_pooled_acts.to(cpu), 
             'features': None, 
-            'tickers': None,
-            'X': X.detach(), 
-            'prices': shuffled_series[:, 0].detach().to(cpu), 
+            'X': X, 
+            'prices': shuffled_series[:, 0].to(cpu), 
         }
         del features, series, tickers, base_frame, shuffled_series, indices, acts, action, policy_pooled_acts
-        
+                
         """
         for b in range(B): 
             output, acts = policy_model(features, tickers, delta[b], W[b], X[b], return_acts=True) 
@@ -202,21 +191,15 @@ def train_RL_model(
         """
 
         if i > start_date_idx + B + 1: 
-
-            ### train the value model ### 
-            r_tensor, acts_tensor, output_tensor, acts_tensor_prev, output_tensor_prev = sample_replay_buffer_value_model(replay_buffer, B, device)
+            r_tensor, acts_tensor, output_tensor, acts_tensor_prev, output_tensor_prev = sample_replay_buffer(replay_buffer, B, device)
+            pdb.set_trace()
 
             value_model_1.train()
             value_model_2.train()
-
             acts_tensor = acts_tensor.detach().to(device)
-
             output_tensor = output_tensor.detach().to(device)
-
             acts_tensor_prev = acts_tensor_prev.detach().to(device)
-
             output_tensor_prev = output_tensor_prev.detach().to(device)
-
             r_tensor = r_tensor.detach().to(device)
             for step in range(1, steps):
                 Q1_prev = value_model_1(acts_tensor_prev, output_tensor_prev) 
@@ -237,55 +220,9 @@ def train_RL_model(
                 loss_val = loss.item()
                 value_optimizer_1.step()
                 value_optimizer_2.step()
-                #print(f'step: {step}/{steps}, loss(vmse):{loss_val}')
+                print(f'step: {step}/{steps}, loss(vmse):{loss_val}')
                 del Q1_prev, Q2_prev, Q1, Q2, y, loss
-            
             del r_tensor, acts_tensor, output_tensor, acts_tensor_prev, output_tensor_prev
-            ### train the policy model 
-            if i % policy_training_interval == 0:
-                policy_model.train()
-                
-
-                end_idx = len(replay_buffer) 
-                start_idx = max(0, end_idx - 5 * B) 
-                rndidx = np.random.permutation(range(start_idx, end_idx))
-                #sum_Q = torch.Tensor([0.0]).to(device)
-
-                for step in range(num_policy_steps): 
-                    policy_optimizer.zero_grad()
-                    for b in range(B_p): 
-                        sample = replay_buffer[rndidx[b]] 
-                        action, acts = policy_model(sample['state'], sample['state']['tickers'], return_acts=True) 
-                        action = action.view(1, -1)
-                        policy_pooled_acts, _ = torch.max(acts, dim=0) 
-                        policy_pooled_acts = policy_pooled_acts.view(1, -1) 
-                        Q1 = value_model_1(policy_pooled_acts, action) 
-                        Q2 = value_model_2(policy_pooled_acts, action) 
-                        Q = torch.minimum(Q1, Q2) 
-                        loss = 1.0 * Q 
-                        loss.backward()
-                        loss = loss.detach()
-                        #sum_Q = sum_Q + Q 
-                    #sum_Q = sum_Q / B 
-                    #loss = -1.0 * sum_Q 
-                    #loss.backward() 
-                    policy_optimizer.step() 
-                    print(f"step: {step} / {num_policy_steps}, loss: {loss.item()}")
-                print(f"--> updating POLICY model, sampled batch Q:{-1.0 * loss.item()}")
-
-        """
-        local_vars = locals()
-        print("CPU Variable Sizes:")
-        total_bytes = 0 
-        for name, value in local_vars.items():
-            size_bytes = sys.getsizeof(value)
-            total_bytes += size_bytes
-            print(f"  {name}: {size_bytes} bytes")
-        print(f" total bytes: {total_bytes}")
-        print(f"torch cuda mem allocated: {torch.cuda.memory_allocated()}")
-        print(f"torch cuda mem cached: {torch.cuda.memory_cached()}")
-        """
-
         #else: 
         #    Q1 = value_model_1(acts_tensor, output_tensor) 
         #    Q2 = value_model_2(acts_tensor, output_tensor) 
@@ -299,12 +236,11 @@ def train_RL_model(
         
         if i > start_date_idx + B + 1: 
             log_D['loss'].append(loss_val)
-            print('Train T-step: {} [{}/{} ({:.0f}%)]. X: {:.5f}. Loss (value mse): {:.5f}. Sharpe: {:.5f}. gamma*Q: {:.5f}. Q_prev: {:.5f}. Mean Return: {:.5f}. Actual Return: {:.5f}.'.format(
+            print('Train T-step: {} [{}/{} ({:.0f}%)]. Loss (value mse): {:.5f}. Sharpe: {:.5f}. gamma*Q: {:.5f}. Q_prev: {:.5f}. Mean Return: {:.5f}. Actual Return: {:.5f}.'.format(
                 i - start_date_idx, 
                 i - start_date_idx, 
                 end_date_idx_plus1 - start_date_idx,
                 100. * i - start_date_idx / (end_date_idx_plus1 - start_date_idx), 
-                X,
                 loss_val, 
                 sharpe.item(), 
                 gamma * Q[0][0].item(),
@@ -395,12 +331,11 @@ def transaction_cost(current_ratios, previous_ratios, current_X):
     C = torch.sum(current_X * torch.abs(current_ratios - previous_ratios) * cost_ratio)
     return C 
 
-def sample_replay_buffer_value_model(replay_buffer, B, device):
+def sample_replay_buffer(replay_buffer, B, device):
     ## random sample 
     end_idx = len(replay_buffer) 
     start_idx = max(0, end_idx - 5 * B) 
     rndidx = np.random.permutation(range(start_idx, end_idx))
-
     r_tensor = torch.Tensor()
     acts_tensor = torch.Tensor()
     action_output_tensor = torch.Tensor()
@@ -418,4 +353,4 @@ def sample_replay_buffer_value_model(replay_buffer, B, device):
         acts_tensor_prev = torch.cat((acts_tensor_prev , sample['prev_state']['policy_pooled_acts']), dim=0) 
         action_output_tensor_prev = torch.cat((action_output_tensor_prev, sample['prev_state']['action']), dim=0)
     
-    return r_tensor, acts_tensor, action_output_tensor, acts_tensor_prev, action_output_tensor_prev
+    return r_tensor, acts_tensor, action_output_tensor, acts_tensor_prev, action_output_tensor_prev 
