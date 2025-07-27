@@ -7,9 +7,9 @@ def run_RL_exp_train_test(exp_id, data_list_filename, model_type='iimodel', seed
 
     # use 267 days to train, and the next 100 days for validation 
     train_start_idx = 0 
-    train_end_idx_plus1 = 267 
-    test_start_idx = train_end_idx_plus1 
-    test_end_idx_plus1 = test_start_idx + 100 
+    train_end_idx_plus1 = 100 #267 
+    eval_start_idx = train_end_idx_plus1 
+    eval_end_idx_plus1 = eval_start_idx + 50 #100 
     
     data_list = utils.load_data_list(data_list_filename)
     
@@ -24,7 +24,9 @@ def run_RL_exp_train_test(exp_id, data_list_filename, model_type='iimodel', seed
         data_list_filename, 
         train_start_idx, 
         train_end_idx_plus1, 
-        gamma, 
+        eval_start_idx,
+        eval_end_idx_plus1,
+        gamma,
         obj_use_mean_return = True, 
         model_type = model_type, 
         steps = 500, 

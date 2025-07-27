@@ -12,6 +12,8 @@ def train_RL_model(
         data_list_filename, 
         start_date_idx, 
         end_date_idx_plus1, 
+        eval_start_date_idx,
+        eval_end_date_idx_plus1,
         gamma = 0.8, 
         obj_use_mean_return = True, 
         model_type = 'iimodel', 
@@ -43,12 +45,14 @@ def train_RL_model(
     log_D['seed'] = seed
     log_D['loss'] = []
     log_D['eval_portfolio_shares'] = []
-    log_D['eval_actual_return'] = []
-    log_D['eval_mean_return'] = []
     log_D['eval_stddev'] = []
     log_D['eval_sharpe'] = []
     log_D['top20_stocks'] = []
     log_D['f_num'] = f_num
+    log_D['train_X'] = []
+    log_D['eval_X'] = []
+    log_D['eval_mean_return'] = []
+    log_D['eval_actual_return'] = []
 
     print(f'training model fnum: {f_num}')
     model_id = 'seq_m_'+ exp_id +'_objm'+str(obj_use_mean_return)+'_steps'+str(steps)+'_lr'+str(lr)+'_mt'+model_type+'_' + f'fnum{f_num}' + '_'
@@ -83,7 +87,13 @@ def train_RL_model(
     replay_buffer = deque([])
 
     global_index = 0
-    for i in range(start_date_idx, end_date_idx_plus1): 
+    num_epochs = 1
+    ranges = []
+    for e in range(num_epochs):
+        ranges += list[range(start_date_idx, end_date_idx_plus1)] 
+    ranges += list[range(eval_start_date_idx, eval_end_date_idx_plus1)]
+    #for i in ranges:
+    for i in range(start_date_idx, eval_end_date_idx_plus1): 
         if i % policy_training_interval == 0: 
             policy_model.train() 
             policy_optimizer.zero_grad() 
@@ -108,7 +118,7 @@ def train_RL_model(
                 mask.append(False)
         indices = torch.Tensor(indices).to(int) 
         
-        base_frame = torch.zeros((num_tickers, series.shape[1]))
+        base_frame = torch.zeros((num_tickers, series.shape[1])) 
         base_frame[indices] = series[mask] 
         shuffled_series = base_frame
         
@@ -132,17 +142,17 @@ def train_RL_model(
         action = action.to(cpu)
         policy_pooled_acts, _ = torch.max(acts, dim=0)
         policy_pooled_acts = policy_pooled_acts.view(1, -1)
-
+        
         sharpe, mean_return, actual_return = compute_kday_returns(shuffled_series, action) 
         sharpe = torch.Tensor([sharpe]).view(1, 1)
-
+        
         delta = torch.ones((1, num_tickers)) if i == start_date_idx else shuffled_series[:, 0]/ (state['prices'] + 1e-10)
         delta = delta.view(1, -1)
         X = torch.sum(delta * state['action'] * state['X'])
         X = X - transaction_cost(action, state['action'], X)
 
         global_index += 1 
-        if i > start_date_idx: 
+        if i > start_date_idx and i < end_date_idx_plus1: 
             replay = { 
                 'prev_state': prev_state, 
                 'sharpe': prev_state['sharpe'].to(cpu), 
@@ -201,7 +211,7 @@ def train_RL_model(
             output_tensor = torch.cat((output_tensor, output), dim = 0)
         """
 
-        if i > start_date_idx + B + 1: 
+        if i > start_date_idx + B + 1 and i < end_date_idx_plus1: 
 
             ### train the value model ### 
             r_tensor, acts_tensor, output_tensor, acts_tensor_prev, output_tensor_prev = sample_replay_buffer_value_model(replay_buffer, B, device)
@@ -263,7 +273,7 @@ def train_RL_model(
                         Q2 = value_model_2(policy_pooled_acts, action) 
                         Q = torch.minimum(Q1, Q2) 
                         loss = 1.0 * Q 
-                        loss.backward()
+                        loss.backward() 
                         loss = loss.detach()
                         #sum_Q = sum_Q + Q 
                     #sum_Q = sum_Q / B 
@@ -297,13 +307,14 @@ def train_RL_model(
         #prices_prev = shuffled_series[:, 0].detach()
         #action_output_prev = 
         
-        if i > start_date_idx + B + 1: 
+        if i > start_date_idx + B + 1 and i < end_date_idx_plus1: 
             log_D['loss'].append(loss_val)
+            log_D['train_X'].append(X)
             print('Train T-step: {} [{}/{} ({:.0f}%)]. X: {:.5f}. Loss (value mse): {:.5f}. Sharpe: {:.5f}. gamma*Q: {:.5f}. Q_prev: {:.5f}. Mean Return: {:.5f}. Actual Return: {:.5f}.'.format(
                 i - start_date_idx, 
                 i - start_date_idx, 
                 end_date_idx_plus1 - start_date_idx,
-                100. * i - start_date_idx / (end_date_idx_plus1 - start_date_idx), 
+                100. * (i - start_date_idx) / (end_date_idx_plus1 - start_date_idx), 
                 X,
                 loss_val, 
                 sharpe.item(), 
@@ -313,8 +324,22 @@ def train_RL_model(
                 actual_return.item(), 
             ))
             del Q, Q_prev
-        else: 
+        elif i <= start_date_idx + B + 1: 
             print(f"before B is reached, step: {i}/{start_date_idx + B + 1}")
+        elif i >= end_date_idx_plus1:
+            log_D['eval_X'].append(X)
+            log_D['eval_mean_return'].append(mean_return)
+            log_D['eval_actual_return'].append(actual_return)
+            print('Eval T-step: {} [{}/{} ({:.0f}%)]. X: {:.5f}. Mean Return: {:.5f}. Actual Return: {:.5f}.'.format(
+                i - start_eval_date_idx, 
+                i - start_eval_date_idx, 
+                end_eval_date_idx_plus1 - start_eval_date_idx,
+                100. * (i - start_eval_date_idx) / (end_eval_date_idx_plus1 - start_eval_date_idx), 
+                X,
+                mean_return.item(), 
+                actual_return.item(), 
+            ))
+
         
         """ 
         if step % eval_interval == 0:
@@ -367,6 +392,7 @@ def train_RL_model(
                 log_D['eval_sharpe'].append(eval_sharpe.item())
                 log_D['top20_stocks'].append(top20_stocks)
     """
+
     model_log_filename = root_dir + model_id + '_'+data_id + '_log.pkl'
     pickle.dump(log_D, open(model_log_filename, 'wb'))
     
