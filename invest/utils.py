@@ -10,47 +10,94 @@ def aggregate_tickers_RL(data_file_list, start_idx, end_idx_plus1, exp_id):
     """
     Function to aggregate the stock tickers into a unified hash across a time frame 
     """
-
+    import sys
+    
     save_pkl_name = exp_id + '_ticker_hash.pkl' 
     cnt = 0
-    first_D = dict()
+    first_D = dict() 
     final_D = dict() 
-    for idx in range(start_idx, end_idx_plus1): 
+    
+    total_files = end_idx_plus1 - start_idx
+    print(f"Processing {total_files} files for ticker hash creation...")
+    print(f"Files range: {start_idx} to {end_idx_plus1-1}")
+    sys.stdout.flush()
+    
+    for file_num, idx in enumerate(range(start_idx, end_idx_plus1)): 
         filename = data_file_list[idx] 
-        f = open(filename, 'rb') 
-        D = pickle.load(f) 
-        test_features = D['trainFeature'] 
-        all_train_tickers = D['all_train_tickers'] 
-        if idx == start_idx: 
-            for ticker in all_train_tickers:
-                first_D[ticker] = True
-            print(f"first D contains {len(all_train_tickers)} elements")
-        else: 
-            cur_D = dict() 
-            for ticker in all_train_tickers:
-                cur_D[ticker] = True 
-            K = []
-            for k in first_D.keys():
-                K.append(k)
-            for first_ticker in K:
-                if first_ticker not in cur_D:
-                    del first_D[first_ticker]
+        
+        # Progress logging every 10 files
+        if file_num % 10 == 0 or file_num == total_files - 1:
+            print(f"Processing file {file_num+1}/{total_files} (idx={idx}): {filename}")
+            sys.stdout.flush()
+        
+        try:
+            f = open(filename, 'rb') 
+            D = pickle.load(f) 
+            f.close()
+            
+            test_features = D['trainFeature'] 
+            all_train_tickers = D['all_train_tickers'] 
+            series = D['train_in_portfolio_series']
+            
+            if idx == start_idx: 
+                for ticker_idx, ticker in enumerate(all_train_tickers): 
+                    first_D[ticker] = True 
+                print(f"Initial file contains {len(all_train_tickers)} tickers") 
+                print(f"Sample tickers: {all_train_tickers[:5]}...")
+                sys.stdout.flush()
+            else: 
+                cur_D = dict() 
+                for ticker_idx, ticker in enumerate(all_train_tickers): 
+                    if series[ticker_idx, 0] != 0: 
+                        cur_D[ticker] = True 
+                
+                # Filter tickers that don't appear in current file
+                K = list(first_D.keys())
+                removed_count = 0
+                for first_ticker in K: 
+                    if first_ticker not in cur_D: 
+                        del first_D[first_ticker] 
+                        removed_count += 1
+                
+                if file_num % 20 == 0:  # Log every 20 files
+                    print(f"  After file {file_num+1}: {len(first_D)} tickers remaining (removed {removed_count})")
+                    sys.stdout.flush()
+                    
+        except Exception as e:
+            print(f"ERROR processing file {file_num+1} ({filename}): {e}")
+            sys.stdout.flush()
+            continue
+    
+    print(f"Ticker filtering complete. {len(first_D)} tickers found across all files.")
+    print("Applying market cap filter...")
+    sys.stdout.flush()
+    
     ## finally filter by 20 bn market cap 
-    D_20bn = pickle.load(open('/home/ubuntu/code/angle_rl/invest/data/large_cap_filter_dict.pkl', 'rb'))
-
+    try:
+        D_20bn = pickle.load(open('/home/ubuntu/code/angle_rl/invest/data/large_cap_filter_dict.pkl', 'rb')) 
+        print(f"Market cap filter loaded with {len(D_20bn)} large cap tickers")
+    except Exception as e:
+        print(f"ERROR loading market cap filter: {e}")
+        D_20bn = {}
+    
     for t in first_D.keys(): 
-        if t in D_20bn:
+        if t in D_20bn: 
             final_D[t] = cnt 
-            cnt += 1
+            cnt += 1 
 
-    print('final total number of tickers: ')
-    print(cnt)
+    print(f'Final total number of tickers after market cap filter: {cnt}') 
+    print(f"Sample final tickers: {list(final_D.keys())[:10]}...")
+    
     saveD = dict() 
     saveD['hash_D'] = final_D 
     saveD['num_tickers'] = cnt 
+    
+    print(f"Saving ticker hash to: {save_pkl_name}")
     pickle.dump(saveD, open(save_pkl_name, 'wb'))
+    print("Ticker hash creation completed!")
+    sys.stdout.flush() 
 
-def load_data_list(data_list_filename, return_count=False, load_as_pickle_dict=False, f_num=None):
+def load_data_list(data_list_filename, return_count=False, load_as_pickle_dict=False, f_num=None): 
     data_list = [] 
     cnt = 0 
     f = open(data_list_filename, 'r') 

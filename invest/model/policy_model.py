@@ -30,7 +30,7 @@ class PolicyModel(torch.nn.Module):
         )
         self.fc1 = torch.nn.Sequential(
             torch.nn.Linear(num_conv_filters * self.adaptive_max_pool_output, hidden_dim),
-            torch.nn.Tanh(),
+            torch.nn.Softplus(), #torch.nn.Tanh(),
         )
         self.fc1_dropout = torch.nn.Dropout(p=dropout_ratio)
         self.fc2 = torch.nn.Linear(hidden_dim, 1)
@@ -59,9 +59,24 @@ class PolicyModel(torch.nn.Module):
         s = state['sharpe'].to(self.device)
         s = self.prev_sharpe_net(s) 
         
-        f = state['features'].to(self.device)
+        x = state['features'].to(self.device)
         #x = torch.nn.functional.layer_norm(x, x.shape[1:])
-        x = torch.unsqueeze(f, 1)  # Add a channel dimension
+        if self.shuffle_dict is not None:
+            indices = []
+            mask = []
+            for t in tickers:
+                if t in self.shuffle_dict:
+                    indices.append(self.shuffle_dict[t])
+                    mask.append(True)
+                else: 
+                    mask.append(False)
+            indices = torch.Tensor(indices).to(int)
+            
+            base_frame = -1.0 * float("Inf") * torch.ones((self.num_tickers, x.shape[1])).to(self.device)
+            base_frame[indices] = x[mask]
+            x = base_frame
+
+        x = torch.unsqueeze(x, 1)  # Add a channel dimension
 
         ## normalization: division by max method 
         ma, idx = torch.max(x, dim=2)
@@ -80,7 +95,7 @@ class PolicyModel(torch.nn.Module):
         acts = x # for the RL shuffled outputs, we will use max-pooling to obtain input for the value function, so the order doesn't matter 
 
         x = self.fc2(x)
-
+        
         """
         mask = []
         for t in tickers: 
@@ -93,31 +108,15 @@ class PolicyModel(torch.nn.Module):
         x = x[mask]
         tickers = tickers[mask]
         """
-        
-        if self.shuffle_dict is not None:
-            indices = []
-            mask = []
-            for t in tickers:
-                if t in self.shuffle_dict:
-                    indices.append(self.shuffle_dict[t])
-                    mask.append(True)
-                else: 
-                    mask.append(False)
-            indices = torch.Tensor(indices).to(int)
-            
-            base_frame = -1.0 * float("Inf") * torch.ones((self.num_tickers, x.shape[1])).to(self.device)
-            base_frame[indices] = x[mask]
-            x = base_frame
-        
+                
         x = self.sm(x)
-
+        #print(x)
         e = self.noise_dist.rsample((1,)).to(self.device).squeeze(0) 
         # note the squeeze op in the last line to fix sample shape 
         x = x + e 
 
         x = self.sm(x) 
         
-        del d, a, s, f
         if return_acts is True: 
             return x, acts
         else: 

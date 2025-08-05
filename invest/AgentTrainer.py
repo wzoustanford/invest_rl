@@ -1,12 +1,72 @@
-import torch, pdb, pickle, utils, sys
-from collections import deque
-import numpy as np
-from model.policy_model import PolicyModel
-from model.value_model import ValueModel
+import torch, pdb, pickle, utils, sys 
+from collections import deque 
+import numpy as np 
+from model.policy_model import PolicyModel 
+from model.value_model import ValueModel 
+from model.q_learning import QLearning 
+from config.agent_config import AgentConfig
+
+class AgentTrainer 
+    """
+    main class to train agents 
+    """
+    
+    def __init():
+        self.replay_buffer = ReplayBuffer()
+        self.data_feed = DataFeed()
+        self.policy_model = PolicyModel() 
+        self.q_learning = QLearning()
+        self.agent_config = AgentConfig()
+        self.meta_learner_trainer = MetaLearnerTrainer()
+
+        self.policy_optimizer = torch.optim.Adam(self.policy_model.parameters(), lr=self.agent_config.policy_lr) 
+        self.q_optimizer = torch.optim.Adam(self.q_learning.q_model.parameters(), lr = self.agent_config.q_lr)
+
+    def train():
+        init_action = self.initial_action() 
+        init_state = self.initial_state() 
+        state, reward, terminated, _, info = self.data_feed(initial_state, initial_action)
+        while not terminated: 
+            ## -- sample action from policy 
+            action = self.policy_model(state) 
+            
+            #data-feed: abstract into the step function, given action and time-step, and current state, give the next state and the reward
+            state, reward, terminated, _, info = self.data_feed(initial_state, initial_action)
+
+            ## -- manage replay buffer 
+            self.replay_buffer.insert(state, action, next_state) 
+            
+            prev_states_tensor, actions_tensor, states_tensor = self.replay_buffer.get_batch(B) 
+            
+            next_actions_tensor = policy_model.forward_tensor(policy_function, states_tensor)
+            
+            Q_future = self.q_learning.Q_future_function(states_tensor, next_actions_tensor) 
+            y = reward + self.agent_config.gamma * Q_future 
+            loss = torch.nn.mse_loss(y, Q(prev_states_tensor, actions_tensor)) 
+            
+            self.q_optimizer.zero_grad() 
+            loss.backward()
+            self.q_optimizer.step()
+            
+            if t % self.agent_config.policy_update_interval == 0: 
+                prev_states_tensor, actions_tensor, states_tensor = self.replay_buffer.get_batch(B) 
+                next_actions_sampled = self.policy_model_d.forward_tensor(policy_function, states_tensor) 
+
+                q = self.q_learning.Q_function(states_tensor, next_actions_sampled)
+                loss = -1.0 * q
+                self.policy_optimizer.zero_grad()
+                loss.backward()
+                self.policy_optimizer.step()
+        
+            if t % meta_update_interval == 0:
+                self.meta_learner_trainer.update_meta_learning_model(states_tensor, Q)
+
+
+
 
 RBSIZE = 400 
 
-def train_RL_model(
+def train_RL_model_delay(
         f_num, 
         exp_id, 
         data_list_filename, 
@@ -19,19 +79,20 @@ def train_RL_model(
         model_type = 'iimodel', 
         steps = 750, 
         lr = 0.001, 
-        policy_training_interval = 2, 
+        policy_training_interval = 5, 
         log_interval = 50, 
         eval_interval = 50, 
         device = torch.device('cuda'),
         seed = 1,
-        num_policy_steps = 5, 
-        num_epochs=2, 
+        num_policy_steps = 1,
+        num_epochs=5,
         action_update_interval=10,
+        tau = 0.005, #0.005
     ): 
     """
     function with code logic to train the RL model 
     """
-
+    print(f"LR={lr}")
     torch.manual_seed(seed)
     data_id = data_list_filename.split('data_list')[1].split('.txt')[0]
     root_dir = '/home/ubuntu/code/angle_rl/invest/data/'+exp_id+'/'
@@ -60,7 +121,7 @@ def train_RL_model(
     model_id = 'seq_m_'+ exp_id +'_objm'+str(obj_use_mean_return)+'_steps'+str(steps)+'_lr'+str(lr)+'_mt'+model_type+'_' + f'fnum{f_num}' + '_'
 
     #D_list = utils.load_data_list(data_list_filename, return_count=False, load_as_pickle_dict=True, f_num=f_num)
-    f_data_list = open(data_list_filename, 'r')
+    #f_data_list = open(data_list_filename, 'r')
 
     ## load the unified ticker hash dict from disk 
     save_pkl_name = exp_id + '_ticker_hash.pkl' 
@@ -72,13 +133,20 @@ def train_RL_model(
     policy_model = PolicyModel(shuffle_dict=shuffle_dict, num_tickers=num_tickers).to(device)
 
     ## define the value model 
-    value_model_1 = ValueModel(state_hdim = policy_model.hidden_dim, action_dim=policy_model.num_tickers).to(device)
-    value_model_2 = ValueModel(state_hdim = policy_model.hidden_dim, action_dim=policy_model.num_tickers).to(device)
+    value_model = ValueModel(state_hdim = policy_model.hidden_dim, action_dim=policy_model.num_tickers).to(device)
+    value_model_1_d = ValueModel(state_hdim = policy_model.hidden_dim, action_dim=policy_model.num_tickers).to(device)
+    with torch.no_grad():
+        for param_source, param_target in zip(value_model.parameters(), value_model_1_d.parameters()):
+            param_target.copy_(param_source)
+
+    value_model_2_d = ValueModel(state_hdim = policy_model.hidden_dim, action_dim=policy_model.num_tickers).to(device)
+    with torch.no_grad():
+        for param_source, param_target in zip(value_model.parameters(), value_model_2_d.parameters()):
+            param_target.copy_(param_source)
 
     # optimizers 
     policy_optimizer = torch.optim.Adam(policy_model.parameters(), lr=lr) 
-    value_optimizer_1 = torch.optim.Adam(value_model_1.parameters(), lr=lr) 
-    value_optimizer_2 = torch.optim.Adam(value_model_2.parameters(), lr=lr) 
+    value_optimizer = torch.optim.Adam(value_model.parameters(), lr=lr) 
 
     B = 50 # trajectory batch size 
     B_p = 50 
@@ -89,6 +157,7 @@ def train_RL_model(
     replay_buffer = deque([])
     #ranges = []
     for e in range(num_epochs): 
+        f_data_list = open(data_list_filename, 'r')
         #ranges += list(range(start_date_idx, end_date_idx_plus1))
     #ranges += list(range(eval_start_date_idx, eval_end_date_idx_plus1))
     
@@ -132,7 +201,7 @@ def train_RL_model(
                     'tickers': None,
                     'policy_pooled_acts': torch.zeros((1, policy_model.hidden_dim)), 
                     'X': 1.0, 
-                    'prices': torch.zeros((num_tickers,1)), 
+                    'prices': torch.ones((num_tickers,1)), 
                 }
             if i == eval_start_date_idx: 
                 state['X'] = 1.0 
@@ -143,6 +212,7 @@ def train_RL_model(
             
             action, acts = policy_model(state, tickers, return_acts=True)
             action = action.to(cpu)
+            #print(action)
             policy_pooled_acts, _ = torch.max(acts, dim=0)
             policy_pooled_acts = policy_pooled_acts.view(1, -1)
 
@@ -152,6 +222,7 @@ def train_RL_model(
             delta = torch.ones((1, num_tickers)) if i == start_date_idx else shuffled_series[:, 0]/ (state['prices'] + 1e-10) 
             delta = delta.view(1, -1) 
             X = torch.sum(delta * state['action'] * state['X']) 
+        #3print(state['action'])
             if X > 10: 
                 pdb.set_trace() 
             if i % action_update_interval == 0: 
@@ -162,7 +233,7 @@ def train_RL_model(
             sharpe = (sharpe / stddev + 1e-10)
             sharpe = torch.Tensor([sharpe]).view(1, 1)
 
-            if i > start_date_idx: # and i < end_date_idx_plus1: 
+            if i > start_date_idx + 1: # and i < end_date_idx_plus1: 
                 replay = { 
                     'prev_state': prev_state, 
                     'sharpe': prev_state['sharpe'].to(cpu), 
@@ -229,8 +300,7 @@ def train_RL_model(
                 ### train the value model ### 
                 r_tensor, acts_tensor, output_tensor, acts_tensor_prev, output_tensor_prev = sample_replay_buffer_value_model(replay_buffer, B, device)
 
-                value_model_1.train()
-                value_model_2.train()
+                value_model.train()
 
                 acts_tensor = acts_tensor.detach().to(device)
 
@@ -242,32 +312,33 @@ def train_RL_model(
 
                 r_tensor = r_tensor.detach().to(device)
                 for step in range(1, steps):
-                    Q1_prev = value_model_1(acts_tensor_prev, output_tensor_prev) 
-                    Q2_prev = value_model_2(acts_tensor_prev, output_tensor_prev) 
-                    Q_prev = torch.minimum(Q1_prev, Q2_prev) 
+                    #Q1_prev = value_model_1(acts_tensor_prev, output_tensor_prev) 
+                    #Q2_prev = value_model_2(acts_tensor_prev, output_tensor_prev) 
+                    #Q_prev = torch.minimum(Q1_prev, Q2_prev) 
+                    Q_prev = value_model(acts_tensor_prev, output_tensor_prev) 
 
-                    Q1 = value_model_1(acts_tensor, output_tensor) 
-                    Q2 = value_model_2(acts_tensor, output_tensor) 
+                    Q1 = value_model_1_d(acts_tensor, output_tensor) 
+                    Q2 = value_model_2_d(acts_tensor, output_tensor) 
                     Q = torch.minimum(Q1, Q2) 
+                    Q = Q.detach()
 
                     y = r_tensor + gamma * Q 
                     loss = torch.nn.functional.mse_loss(y, Q_prev)
 
-                    value_optimizer_1.zero_grad()
-                    value_optimizer_2.zero_grad()
+                    value_optimizer.zero_grad()
+                    #value_optimizer_2.zero_grad()
 
                     loss.backward()
                     loss_val = loss.item()
-                    value_optimizer_1.step()
-                    value_optimizer_2.step()
+                    value_optimizer.step()
+                    #value_optimizer_2.step()
                     #print(f'step: {step}/{steps}, loss(vmse):{loss_val}')
-                    del Q1_prev, Q2_prev, Q1, Q2, y, loss
+                    del Q1, Q2, y, loss
                 
                 del r_tensor, acts_tensor, output_tensor, acts_tensor_prev, output_tensor_prev
                 ### train the policy model 
                 if i % policy_training_interval == 0:
                     policy_model.train()
-                    
 
                     end_idx = len(replay_buffer) 
                     start_idx = max(0, end_idx - 3 * B) 
@@ -282,9 +353,7 @@ def train_RL_model(
                             action = action.view(1, -1)
                             policy_pooled_acts, _ = torch.max(acts, dim=0) 
                             policy_pooled_acts = policy_pooled_acts.view(1, -1) 
-                            Q1 = value_model_1(policy_pooled_acts, action) 
-                            Q2 = value_model_2(policy_pooled_acts, action) 
-                            Q = torch.minimum(Q1, Q2) 
+                            Q = value_model(policy_pooled_acts, action) 
                             loss = -1.0 * Q 
                             loss.backward()
                             loss = loss.detach()
@@ -295,6 +364,13 @@ def train_RL_model(
                         policy_optimizer.step() 
                         #print(f"step: {step} / {num_policy_steps}, loss: {loss.item()}")
                     print(f"--> updating POLICY model, sampled batch Q:{-1.0 * loss.item()}")
+                    with torch.no_grad():
+                        for param_source, param_target in zip(value_model.parameters(), value_model_1_d.parameters()):
+                            param_target.copy_(tau * param_source + (1 - tau) * param_target)
+                    with torch.no_grad():
+                        for param_source, param_target in zip(value_model.parameters(), value_model_2_d.parameters()):
+                            param_target.copy_(tau * param_source + (1 - tau) * param_target)
+                    print(f"--> smoothing Q function parameters")
 
             """
             local_vars = locals()
@@ -408,6 +484,7 @@ def train_RL_model(
                     log_D['eval_sharpe'].append(eval_sharpe.item())
                     log_D['top20_stocks'].append(top20_stocks)
         """
+        f_data_list.close()
     model_log_filename = root_dir + model_id + '_'+data_id + '_log.pkl'
     pickle.dump(log_D, open(model_log_filename, 'wb'))
     
