@@ -1,5 +1,5 @@
 import torch, pdb, os, utils 
-from train_RL_model import train_RL_model
+from train_RL_model_delay import train_RL_model_delay 
 
 def run_RL_exp_train_test(exp_id, data_list_filename, model_type='iimodel', seed=1): 
     os.system('mkdir /home/ubuntu/code/angle_rl/invest/data/'+exp_id+'/') 
@@ -16,9 +16,9 @@ def run_RL_exp_train_test(exp_id, data_list_filename, model_type='iimodel', seed
     ## a custom step to aggregate the tickers into a uniform hash, so that action space is unified across the training data 
     utils.aggregate_tickers_RL(data_list, train_start_idx, train_end_idx_plus1, exp_id) 
     
-    gamma = 0.5
+    gamma = 0.999
     f_num = 370
-    train_RL_model(
+    train_RL_model_delay(
         f_num,
         exp_id, 
         data_list_filename, 
@@ -29,8 +29,8 @@ def run_RL_exp_train_test(exp_id, data_list_filename, model_type='iimodel', seed
         gamma, 
         obj_use_mean_return = True, 
         model_type = model_type, 
-        steps = 500, 
-        lr = 0.001, 
+        steps = 400, 
+        lr = 0.0005,
         device = torch.device('cuda'), 
         seed = seed, 
     ) 
@@ -42,7 +42,7 @@ if __name__=="__main__":
     D = {f"rl_Pfreq_test_run{i}":data_list for i in range(1)}
     model_type = 'iimodel'
 
-    seed = 9 
+    seed = 100
     for k, v in D.items(): 
         run_RL_exp_train_test(k, v, model_type, seed) 
         seed += 1

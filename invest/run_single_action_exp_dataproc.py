@@ -1,6 +1,6 @@
 import torch, pickle, pdb 
 from datetime import datetime, timedelta 
-from data_proc import DataProcConfig, get_single_action_model_train_test_data_from_config
+from data_proc import DataProcConfig, get_single_action_model_train_test_data_from_config 
     
 date_format = "%Y-%m-%d"
 datetime_format = "%Y-%m-%d %H:%M:%S"
