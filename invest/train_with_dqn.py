@@ -40,6 +40,11 @@ def train_financial_dqn(
     epsilon_end: float = 0.01,
     epsilon_decay: float = 0.995,
     target_update_frequency: int = 10,
+    # TD3 parameters
+    use_twin_networks: bool = False,
+    use_tau_updates: bool = False,
+    tau: float = 0.005,
+    policy_delay: int = 2,
     # Environment parameters
     action_update_interval: int = 10,
     transaction_cost_ratio: float = 0.0015,
@@ -95,10 +100,18 @@ def train_financial_dqn(
         target_update_frequency=target_update_frequency,
         use_dueling=True,
         use_prioritized_replay=False,
+        # TD3 parameters
+        use_twin_networks=use_twin_networks,
+        use_tau_updates=use_tau_updates,
+        tau=tau,
+        policy_delay=policy_delay,
         device=device
     )
     
-    print(f"DQN Agent created with dueling architecture")
+    td3_status = "with TD3 features" if (use_twin_networks or use_tau_updates) else "standard"
+    print(f"DQN Agent created with dueling architecture ({td3_status})")
+    if use_twin_networks or use_tau_updates:
+        print(f"  TD3 Features: twin_networks={use_twin_networks}, tau_updates={use_tau_updates}, policy_delay={policy_delay}")
     
     print(f"\n🚀 STARTING TRAINING LOOP 🚀")
     print(f"Episodes: {num_episodes}")
@@ -138,6 +151,8 @@ def train_financial_dqn(
         # Episode loop
         done = False
         step_count = 0
+        total_step_count = episode * (end_date_idx_plus1 - start_date_idx) + step_count
+        
         while not done:
             # Select action
             action = agent.select_action(obs)
@@ -146,6 +161,7 @@ def train_financial_dqn(
             next_obs, reward, terminated, truncated, step_info = env.step(action)
             done = terminated or truncated
             step_count += 1
+            total_step_count += 1
             
             # Store transition
             agent.store_experience(obs, action, reward, next_obs, done)
@@ -154,6 +170,15 @@ def train_financial_dqn(
             loss = None
             if len(agent.memory) >= agent.batch_size:
                 loss = agent.train()
+            
+            # Step-level logging every 50 steps
+            if total_step_count % 50 == 0:
+                current_portfolio = step_info.get('X', 1.0)
+                current_return = (current_portfolio - initial_portfolio) / initial_portfolio * 100
+                print(f"    Step {total_step_count:4d} | Portfolio: {current_portfolio:.6f} ({current_return:+.2f}%) | Reward: {reward:.4f} | Epsilon: {agent.epsilon:.3f}")
+                if loss:
+                    loss_str = f" | Loss: {loss:.6f}" if isinstance(loss, (int, float)) else f" | Losses: {loss}"
+                    print(f"    Step {total_step_count:4d} | Training{loss_str}")
             
             # Update state
             obs = next_obs
@@ -293,9 +318,16 @@ def evaluate_financial_dqn(
     action_update_interval: int = 10,
     transaction_cost_ratio: float = 0.0015,
     device: str = 'cuda',
+    online_learning: bool = True,  # NEW: Enable learning during evaluation
+    eval_epsilon: float = 0.1,     # NEW: Small exploration during evaluation
 ):
     """
     Evaluate trained DQN agent on financial data.
+    
+    Args:
+        online_learning: If True, continue updating Q-networks during evaluation.
+                        If False, use fixed policy (traditional evaluation).
+        eval_epsilon: Exploration rate during evaluation (only if online_learning=True).
     """
     
     # Create evaluation environment
@@ -311,9 +343,17 @@ def evaluate_financial_dqn(
         device=device
     )
     
-    # Set agent to evaluation mode
-    agent.network.eval()
-    agent.epsilon = 0.0  # No exploration during evaluation
+    # Configure agent for evaluation
+    if online_learning:
+        # Continue learning during evaluation (more realistic for financial RL)
+        agent.network.train()
+        agent.epsilon = eval_epsilon  # Small exploration to adapt to new data
+        print(f"Evaluation with ONLINE LEARNING: epsilon={eval_epsilon}")
+    else:
+        # Traditional fixed policy evaluation
+        agent.network.eval()
+        agent.epsilon = 0.0  # No exploration during evaluation
+        print(f"Evaluation with FIXED POLICY: epsilon=0.0")
     
     # Evaluation loop
     obs, info = env.reset()
@@ -323,19 +363,54 @@ def evaluate_financial_dqn(
     sharpe_ratios = []
     returns = []
     
+    # Track learning during evaluation
+    eval_losses = []
+    q_value_stats = []
+    
     done = False
+    step_count = 0
     while not done:
-        # Select action (no exploration)
-        with torch.no_grad():
+        # Select action
+        if online_learning:
+            # With small exploration for adaptation
             action = agent.select_action(obs)
+        else:
+            # Pure exploitation
+            with torch.no_grad():
+                action = agent.select_action(obs)
         
         # Step environment
-        obs, reward, terminated, truncated, step_info = env.step(action)
+        next_obs, reward, terminated, truncated, step_info = env.step(action)
         done = terminated or truncated
+        
+        # Online learning during evaluation
+        if online_learning:
+            # Store experience and learn from it
+            agent.store_experience(obs, action, reward, next_obs, done)
+            
+            # Train if we have enough experiences
+            if len(agent.memory) >= agent.batch_size:
+                losses = agent.train()
+                if losses:
+                    eval_losses.append(losses)
+            
+            # Log Q-value evolution during evaluation
+            if step_count % 10 == 0:  # Every 10 steps
+                with torch.no_grad():
+                    obs_tensor = torch.FloatTensor(obs).unsqueeze(0)
+                    obs_tensor = agent.devmgr.to_dev(obs_tensor)
+                    q_vals = agent.network(obs_tensor)
+                    q_value_stats.append({
+                        'step': step_count,
+                        'max_q': q_vals.max().item(),
+                        'min_q': q_vals.min().item(),
+                        'mean_q': q_vals.mean().item()
+                    })
         
         # Record stats
         total_reward += reward
         episode_length += 1
+        step_count += 1
         
         if 'X' in step_info:
             portfolio_values.append(step_info['X'])
@@ -343,6 +418,8 @@ def evaluate_financial_dqn(
             sharpe_ratios.append(step_info['sharpe'])
         if 'actual_return' in step_info:
             returns.append(step_info['actual_return'])
+        
+        obs = next_obs
     
     # Calculate evaluation metrics
     final_portfolio_value = portfolio_values[-1] if portfolio_values else 1.0
@@ -356,6 +433,14 @@ def evaluate_financial_dqn(
     print(f"Total return: {total_return:.2f}%")
     print(f"Average Sharpe ratio: {avg_sharpe:.4f}")
     
+    if online_learning:
+        print(f"\n=== Online Learning Stats ===")
+        print(f"Training steps during evaluation: {len(eval_losses)}")
+        print(f"Q-value tracking points: {len(q_value_stats)}")
+        if q_value_stats:
+            print(f"Initial Q-values: max={q_value_stats[0]['max_q']:.4f}, mean={q_value_stats[0]['mean_q']:.4f}")
+            print(f"Final Q-values: max={q_value_stats[-1]['max_q']:.4f}, mean={q_value_stats[-1]['mean_q']:.4f}")
+    
     # Cleanup
     env.close()
     
@@ -367,7 +452,10 @@ def evaluate_financial_dqn(
         'avg_sharpe': avg_sharpe,
         'portfolio_values': portfolio_values,
         'sharpe_ratios': sharpe_ratios,
-        'returns': returns
+        'returns': returns,
+        'online_learning': online_learning,
+        'eval_losses': eval_losses if online_learning else [],
+        'q_value_evolution': q_value_stats if online_learning else []
     }
 
 

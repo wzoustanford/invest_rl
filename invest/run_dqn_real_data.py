@@ -122,7 +122,7 @@ def main():
             print(f"Final training portfolio value: {final_train_portfolio:.4f}")
             print(f"Training return: {(final_train_portfolio - 1.0) * 100:.2f}%")
     
-    # Evaluate on test period
+    # Evaluate on test period with online learning
     print("\n=== Evaluating on test period ===")
     eval_results = evaluate_financial_dqn(
         agent=agent,
@@ -133,7 +133,9 @@ def main():
         num_discrete_actions=num_discrete_actions,
         action_update_interval=10,
         transaction_cost_ratio=0.0015,
-        device=device
+        device=device,
+        online_learning=True,  # Enable online learning during evaluation
+        eval_epsilon=0.05      # Small exploration during evaluation
     )
     
     print("\n=== Final Results ===")

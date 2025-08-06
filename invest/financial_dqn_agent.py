@@ -68,6 +68,7 @@ class FinancialDQNAgent:
     """
     DQN Agent specifically designed for financial trading.
     Leverages angle/RL's replay buffer and network components.
+    Supports TD3 features: twin Q-networks, tau updates, and policy delay.
     """
     
     def __init__(self, 
@@ -83,6 +84,11 @@ class FinancialDQNAgent:
                  target_update_frequency: int = 1000,
                  use_dueling: bool = True,
                  use_prioritized_replay: bool = False,
+                 # TD3 options
+                 use_twin_networks: bool = False,
+                 use_tau_updates: bool = False,
+                 tau: float = 0.005,
+                 policy_delay: int = 2,
                  device: str = None):
         
         self.devmgr = get_device_manager(device)
@@ -98,6 +104,13 @@ class FinancialDQNAgent:
         self.batch_size = batch_size
         self.target_update_frequency = target_update_frequency
         
+        # TD3 parameters
+        self.use_twin_networks = use_twin_networks
+        self.use_tau_updates = use_tau_updates
+        self.tau = tau
+        self.policy_delay = policy_delay
+        self.policy_delay_counter = 0
+        
         # Networks
         self.network = DQNNetwork(
             input_dim=observation_dim,
@@ -106,6 +119,18 @@ class FinancialDQNAgent:
         )
         self.network = self.devmgr.to_dev(self.network)
         
+        # Twin network (second Q-network for TD3)
+        if use_twin_networks:
+            self.network2 = DQNNetwork(
+                input_dim=observation_dim,
+                output_dim=n_actions,
+                use_dueling=use_dueling
+            )
+            self.network2 = self.devmgr.to_dev(self.network2)
+        else:
+            self.network2 = None
+        
+        # Target networks
         self.target_network = DQNNetwork(
             input_dim=observation_dim,
             output_dim=n_actions,
@@ -114,8 +139,23 @@ class FinancialDQNAgent:
         self.target_network = self.devmgr.to_dev(self.target_network)
         self.target_network.load_state_dict(self.network.state_dict())
         
-        # Optimizer
+        if use_twin_networks:
+            self.target_network2 = DQNNetwork(
+                input_dim=observation_dim,
+                output_dim=n_actions,
+                use_dueling=use_dueling
+            )
+            self.target_network2 = self.devmgr.to_dev(self.target_network2)
+            self.target_network2.load_state_dict(self.network2.state_dict())
+        else:
+            self.target_network2 = None
+        
+        # Optimizers
         self.optimizer = optim.Adam(self.network.parameters(), lr=lr)
+        if use_twin_networks:
+            self.optimizer2 = optim.Adam(self.network2.parameters(), lr=lr)
+        else:
+            self.optimizer2 = None
         
         # Replay buffer
         if use_prioritized_replay:
@@ -134,10 +174,17 @@ class FinancialDQNAgent:
         print(f"  Actions: {n_actions}")
         print(f"  Memory: {'Prioritized' if use_prioritized_replay else 'Standard'}")
         print(f"  Device: {self.device}")
+        if use_twin_networks or use_tau_updates or policy_delay > 1:
+            print(f"  TD3 Features:")
+            print(f"    Twin networks: {use_twin_networks}")
+            print(f"    Tau updates: {use_tau_updates} (tau={tau if use_tau_updates else 'N/A'})")
+            print(f"    Policy delay: {policy_delay}")
+            print(f"    Dueling: {use_dueling}")
     
     def select_action(self, observation: np.ndarray) -> int:
         """
         Select action using epsilon-greedy policy.
+        For twin networks, uses minimum Q-value for conservative action selection.
         
         Args:
             observation: Current observation
@@ -151,10 +198,42 @@ class FinancialDQNAgent:
         with torch.no_grad():
             obs_tensor = torch.FloatTensor(observation).unsqueeze(0)
             obs_tensor = self.devmgr.to_dev(obs_tensor)
+            
             q_values = self.network(obs_tensor)
+            
+            # For twin networks, use minimum Q-value for conservative action selection
+            if self.use_twin_networks:
+                q_values2 = self.network2(obs_tensor)
+                q_values = torch.minimum(q_values, q_values2)
+            
             action = q_values.argmax().item()
         
         return action
+    
+    def get_q_values(self, observation: np.ndarray) -> Dict[str, np.ndarray]:
+        """
+        Get Q-values for monitoring purposes.
+        
+        Args:
+            observation: Current observation
+            
+        Returns:
+            Dictionary with Q-values from all networks
+        """
+        with torch.no_grad():
+            obs_tensor = torch.FloatTensor(observation).unsqueeze(0)
+            obs_tensor = self.devmgr.to_dev(obs_tensor)
+            
+            result = {}
+            q_values = self.network(obs_tensor)
+            result['q1'] = q_values.cpu().numpy()[0]
+            
+            if self.use_twin_networks:
+                q_values2 = self.network2(obs_tensor)
+                result['q2'] = q_values2.cpu().numpy()[0]
+                result['q_min'] = torch.minimum(q_values, q_values2).cpu().numpy()[0]
+            
+            return result
     
     def store_experience(self, state: np.ndarray, action: int, 
                         reward: float, next_state: np.ndarray, done: bool):
@@ -185,12 +264,13 @@ class FinancialDQNAgent:
         
         self.total_steps += 1
     
-    def train(self) -> Optional[float]:
+    def train(self) -> Optional[Dict[str, float]]:
         """
         Train the network on a batch of experiences.
+        Implements TD3 features when enabled.
         
         Returns:
-            Loss value or None if not enough samples
+            Dictionary with loss values or None if not enough samples
         """
         if len(self.memory) < self.batch_size:
             return None
@@ -233,47 +313,92 @@ class FinancialDQNAgent:
         dones = self.devmgr.to_dev(dones)
         weights = self.devmgr.to_dev(weights)
         
-        # Current Q values
+        # Current Q values from both networks
         current_q_values = self.network(states).gather(1, actions.unsqueeze(1))
+        losses = {}
         
-        # Next Q values (from target network)
+        if self.use_twin_networks:
+            current_q_values2 = self.network2(states).gather(1, actions.unsqueeze(1))
+        
+        # Next Q values (from target networks)
         with torch.no_grad():
-            next_q_values = self.target_network(next_states).max(1)[0]
+            if self.use_twin_networks:
+                # TD3: Use minimum of twin target networks
+                next_q_values1 = self.target_network(next_states).max(1)[0]
+                next_q_values2 = self.target_network2(next_states).max(1)[0]
+                next_q_values = torch.minimum(next_q_values1, next_q_values2)
+            else:
+                next_q_values = self.target_network(next_states).max(1)[0]
+            
             target_q_values = rewards + self.gamma * next_q_values * (1 - dones)
         
-        # Compute loss
+        # Compute losses
         td_errors = target_q_values.unsqueeze(1) - current_q_values
         
         if self.use_prioritized:
             # Weighted loss for prioritized replay
-            loss = (weights.unsqueeze(1) * td_errors.pow(2)).mean()
+            loss1 = (weights.unsqueeze(1) * td_errors.pow(2)).mean()
             
             # Update priorities
             new_priorities = td_errors.abs().squeeze().cpu().numpy() + 1e-6
             self.memory.update_priorities(indices, new_priorities)
         else:
-            loss = td_errors.pow(2).mean()
+            loss1 = td_errors.pow(2).mean()
         
-        # Optimize
+        losses['q1_loss'] = loss1.item()
+        
+        # Optimize first network
         self.optimizer.zero_grad()
-        loss.backward()
-        
-        # Gradient clipping
+        loss1.backward()
         torch.nn.utils.clip_grad_norm_(self.network.parameters(), 10)
-        
         self.optimizer.step()
         
+        # Train second network if using twin networks
+        if self.use_twin_networks:
+            td_errors2 = target_q_values.unsqueeze(1) - current_q_values2
+            
+            if self.use_prioritized:
+                loss2 = (weights.unsqueeze(1) * td_errors2.pow(2)).mean()
+            else:
+                loss2 = td_errors2.pow(2).mean()
+            
+            losses['q2_loss'] = loss2.item()
+            
+            self.optimizer2.zero_grad()
+            loss2.backward()
+            torch.nn.utils.clip_grad_norm_(self.network2.parameters(), 10)
+            self.optimizer2.step()
+        
         self.training_steps += 1
+        self.policy_delay_counter += 1
         
-        # Update target network
-        if self.training_steps % self.target_update_frequency == 0:
-            self.update_target_network()
+        # Update target networks
+        if self.policy_delay_counter >= self.policy_delay:
+            self.policy_delay_counter = 0
+            
+            if self.use_tau_updates:
+                self.soft_update_target_networks()
+            elif self.training_steps % self.target_update_frequency == 0:
+                self.update_target_network()
         
-        return loss.item()
+        return losses
     
     def update_target_network(self):
-        """Update target network with current network weights."""
+        """Update target network with current network weights (hard update)."""
         self.target_network.load_state_dict(self.network.state_dict())
+        if self.use_twin_networks:
+            self.target_network2.load_state_dict(self.network2.state_dict())
+    
+    def soft_update_target_networks(self):
+        """Soft update target networks using tau parameter."""
+        # Update first target network
+        for target_param, param in zip(self.target_network.parameters(), self.network.parameters()):
+            target_param.data.copy_(self.tau * param.data + (1 - self.tau) * target_param.data)
+        
+        # Update second target network if using twin networks
+        if self.use_twin_networks:
+            for target_param, param in zip(self.target_network2.parameters(), self.network2.parameters()):
+                target_param.data.copy_(self.tau * param.data + (1 - self.tau) * target_param.data)
     
     def update_epsilon(self):
         """Decay epsilon for exploration."""
@@ -281,14 +406,26 @@ class FinancialDQNAgent:
     
     def save(self, filepath: str):
         """Save agent state."""
-        torch.save({
+        save_dict = {
             'network': self.network.state_dict(),
             'target_network': self.target_network.state_dict(),
             'optimizer': self.optimizer.state_dict(),
             'epsilon': self.epsilon,
             'total_steps': self.total_steps,
-            'training_steps': self.training_steps
-        }, filepath)
+            'training_steps': self.training_steps,
+            'use_twin_networks': self.use_twin_networks,
+            'use_tau_updates': self.use_tau_updates,
+            'tau': self.tau,
+            'policy_delay': self.policy_delay,
+            'policy_delay_counter': self.policy_delay_counter
+        }
+        
+        if self.use_twin_networks:
+            save_dict['network2'] = self.network2.state_dict()
+            save_dict['target_network2'] = self.target_network2.state_dict()
+            save_dict['optimizer2'] = self.optimizer2.state_dict()
+        
+        torch.save(save_dict, filepath)
         print(f"Agent saved to {filepath}")
     
     def load(self, filepath: str):
@@ -300,6 +437,17 @@ class FinancialDQNAgent:
         self.epsilon = checkpoint['epsilon']
         self.total_steps = checkpoint['total_steps']
         self.training_steps = checkpoint['training_steps']
+        
+        # Load TD3 parameters if they exist
+        if 'policy_delay_counter' in checkpoint:
+            self.policy_delay_counter = checkpoint['policy_delay_counter']
+        
+        # Load twin networks if they exist
+        if self.use_twin_networks and 'network2' in checkpoint:
+            self.network2.load_state_dict(checkpoint['network2'])
+            self.target_network2.load_state_dict(checkpoint['target_network2'])
+            self.optimizer2.load_state_dict(checkpoint['optimizer2'])
+        
         print(f"Agent loaded from {filepath}")
 
 

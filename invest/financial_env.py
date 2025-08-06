@@ -212,7 +212,8 @@ class FinancialTradingEnvironment:
             X = X - self._transaction_cost(action, self.state['action'], X)
         
         # Adjust sharpe with transaction costs (line 161-163)
-        sharpe_adjusted = (X - self.state['X']) / self.state['X']
+        #sharpe_adjusted = (X - self.state['X']) / self.state['X']
+        sharpe_adjusted = mean_return
         sharpe_adjusted = (sharpe_adjusted / (stddev + 1e-10))
         sharpe_tensor = torch.Tensor([sharpe_adjusted]).view(1, 1)
         
