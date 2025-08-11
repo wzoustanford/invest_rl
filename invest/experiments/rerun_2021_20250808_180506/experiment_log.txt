@@ -1,0 +1,219 @@
+Loaded 1070 total files
+Device: cuda
+Output: /home/ubuntu/code/angle_rl/invest/experiments/rerun_2021_20250808_180506/
+================================================================================
+
+================================================================================
+RERUNNING 2021 (H2) TRADING EXPERIMENTS
+Testing: γ=0.1, γ=0.3, γ=0.5
+Start time: 2025-08-08 18:05:06
+================================================================================
+
+======================================================================
+2021 TRADING (H2) - GAMMA=0.1 (750 iterations)
+======================================================================
+
+  Month 07/2021:
+    Test date in file: 2020-07-01 (actual trading: 2021-07)
+    Using 7 training files
+    First file date: 2020-06-24
+    Last file date: 2020-07-01
+    Return: -17.68% | Sharpe: -7.61 | YTD: -17.68%
+
+  Month 08/2021:
+    Test date in file: 2020-08-01 (actual trading: 2021-08)
+    Using 7 training files
+    First file date: 2020-07-25
+    Last file date: 2020-08-01
+    Return: -0.38% | Sharpe: -7.33 | YTD: -17.99%
+
+  Month 09/2021:
+    Test date in file: 2020-09-01 (actual trading: 2021-09)
+    Using 7 training files
+    First file date: 2020-08-23
+    Last file date: 2020-09-01
+    Return: -0.79% | Sharpe: -0.48 | YTD: -18.64%
+
+  Month 10/2021:
+    Test date in file: 2020-10-01 (actual trading: 2021-10)
+    Using 7 training files
+    First file date: 2020-09-23
+    Last file date: 2020-10-01
+    Return: -9.54% | Sharpe: -2.45 | YTD: -26.40%
+
+  Month 11/2021:
+    Test date in file: 2020-11-01 (actual trading: 2021-11)
+    Using 7 training files
+    First file date: 2020-10-24
+    Last file date: 2020-11-01
+    Return: +9.94% | Sharpe: 6.04 | YTD: -19.08%
+
+  Month 12/2021:
+    Test date in file: 2020-12-01 (actual trading: 2021-12)
+    Using 7 training files
+    First file date: 2020-11-23
+    Last file date: 2020-12-01
+    Return: -22.47% | Sharpe: -6.66 | YTD: -37.27%
+
+  2021 H2 SUMMARY (γ=0.1):
+  --------------------------------------------------
+    Annual Return: -37.27%
+    Trades: 6/6 possible
+    Win Rate: 17%
+    Avg Monthly: -6.82%
+    Best Month: +9.94%
+    Worst Month: -22.47%
+    Sharpe Ratio: -0.619
+    Processing Time: 8.8 minutes
+
+  Saved γ=0.1 results to: /home/ubuntu/code/angle_rl/invest/experiments/rerun_2021_20250808_180506/gamma0.1_2021_results.json
+
+======================================================================
+2021 TRADING (H2) - GAMMA=0.3 (750 iterations)
+======================================================================
+
+  Month 07/2021:
+    Test date in file: 2020-07-01 (actual trading: 2021-07)
+    Using 7 training files
+    First file date: 2020-06-24
+    Last file date: 2020-07-01
+    Return: -12.26% | Sharpe: -5.69 | YTD: -12.26%
+
+  Month 08/2021:
+    Test date in file: 2020-08-01 (actual trading: 2021-08)
+    Using 7 training files
+    First file date: 2020-07-25
+    Last file date: 2020-08-01
+    Return: -0.52% | Sharpe: -7.34 | YTD: -12.72%
+
+  Month 09/2021:
+    Test date in file: 2020-09-01 (actual trading: 2021-09)
+    Using 7 training files
+    First file date: 2020-08-23
+    Last file date: 2020-09-01
+    Return: -0.79% | Sharpe: -0.48 | YTD: -13.41%
+
+  Month 10/2021:
+    Test date in file: 2020-10-01 (actual trading: 2021-10)
+    Using 7 training files
+    First file date: 2020-09-23
+    Last file date: 2020-10-01
+    Return: +2.15% | Sharpe: 0.78 | YTD: -11.54%
+
+  Month 11/2021:
+    Test date in file: 2020-11-01 (actual trading: 2021-11)
+    Using 7 training files
+    First file date: 2020-10-24
+    Last file date: 2020-11-01
+    Return: +1.47% | Sharpe: 0.95 | YTD: -10.24%
+
+  Month 12/2021:
+    Test date in file: 2020-12-01 (actual trading: 2021-12)
+    Using 7 training files
+    First file date: 2020-11-23
+    Last file date: 2020-12-01
+    Return: -20.86% | Sharpe: -4.46 | YTD: -28.96%
+
+  2021 H2 SUMMARY (γ=0.3):
+  --------------------------------------------------
+    Annual Return: -28.96%
+    Trades: 6/6 possible
+    Win Rate: 33%
+    Avg Monthly: -5.13%
+    Best Month: +2.15%
+    Worst Month: -20.86%
+    Sharpe Ratio: -0.603
+    Processing Time: 8.7 minutes
+
+  Saved γ=0.3 results to: /home/ubuntu/code/angle_rl/invest/experiments/rerun_2021_20250808_180506/gamma0.3_2021_results.json
+
+======================================================================
+2021 TRADING (H2) - GAMMA=0.5 (750 iterations)
+======================================================================
+
+  Month 07/2021:
+    Test date in file: 2020-07-01 (actual trading: 2021-07)
+    Using 7 training files
+    First file date: 2020-06-24
+    Last file date: 2020-07-01
+    Return: -10.19% | Sharpe: -6.40 | YTD: -10.19%
+
+  Month 08/2021:
+    Test date in file: 2020-08-01 (actual trading: 2021-08)
+    Using 7 training files
+    First file date: 2020-07-25
+    Last file date: 2020-08-01
+    Return: -0.61% | Sharpe: -7.53 | YTD: -10.74%
+
+  Month 09/2021:
+    Test date in file: 2020-09-01 (actual trading: 2021-09)
+    Using 7 training files
+    First file date: 2020-08-23
+    Last file date: 2020-09-01
+    Return: -0.69% | Sharpe: -0.43 | YTD: -11.36%
+
+  Month 10/2021:
+    Test date in file: 2020-10-01 (actual trading: 2021-10)
+    Using 7 training files
+    First file date: 2020-09-23
+    Last file date: 2020-10-01
+    Return: +15.45% | Sharpe: 3.15 | YTD: +2.34%
+
+  Month 11/2021:
+    Test date in file: 2020-11-01 (actual trading: 2021-11)
+    Using 7 training files
+    First file date: 2020-10-24
+    Last file date: 2020-11-01
+    Return: +1.35% | Sharpe: 0.88 | YTD: +3.72%
+
+  Month 12/2021:
+    Test date in file: 2020-12-01 (actual trading: 2021-12)
+    Using 7 training files
+    First file date: 2020-11-23
+    Last file date: 2020-12-01
+    Return: -15.83% | Sharpe: -4.17 | YTD: -12.70%
+
+  2021 H2 SUMMARY (γ=0.5):
+  --------------------------------------------------
+    Annual Return: -12.70%
+    Trades: 6/6 possible
+    Win Rate: 33%
+    Avg Monthly: -1.75%
+    Best Month: +15.45%
+    Worst Month: -15.83%
+    Sharpe Ratio: -0.179
+    Processing Time: 8.7 minutes
+
+  Saved γ=0.5 results to: /home/ubuntu/code/angle_rl/invest/experiments/rerun_2021_20250808_180506/gamma0.5_2021_results.json
+
+================================================================================
+2021 (H2) GAMMA COMPARISON - RERUN RESULTS
+================================================================================
+
+Gamma      |   Annual Return |   Win Rate |   Best Month |  Worst Month
+--------------------------------------------------------------------------------
+γ=0.1     |         -37.27% |        17% |        9.94% |      -22.47%
+γ=0.3     |         -28.96% |        33% |        2.15% |      -20.86%
+γ=0.5     |         -12.70% |        33% |       15.45% |      -15.83%
+--------------------------------------------------------------------------------
+
+BEST PERFORMER: γ=0.5 with -12.70% return
+
+CONTEXT:
+• S&P 500 in H2 2021: ~+11%
+• Market: Strong bull market, low volatility
+• Training data: 2020 COVID crash period
+
+MONTH BY MONTH COMPARISON:
+------------------------------------------------------------
+Month  |      γ=0.1 |      γ=0.3 |      γ=0.5
+------------------------------------------------------------
+Jul    |    -17.68% |    -12.26% |    -10.19%
+Aug    |     -0.38% |     -0.52% |     -0.61%
+Sep    |     -0.79% |     -0.79% |     -0.69%
+Oct    |     -9.54% |      2.15% |     15.45%
+Nov    |      9.94% |      1.47% |      1.35%
+Dec    |    -22.47% |    -20.86% |    -15.83%
+
+Total execution time: 26.2 minutes
+Results saved to: /home/ubuntu/code/angle_rl/invest/experiments/rerun_2021_20250808_180506/

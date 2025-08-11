@@ -1,0 +1,1023 @@
+Loaded 1070 data files
+Device: cuda
+Output: /home/ubuntu/code/angle_rl/invest/experiments/14day_seq_20250807_083810/
+================================================================================
+
+================================================================================
+14-DAY SEQUENCE EXPERIMENT
+Testing longer temporal context (14 days vs 7 days baseline)
+Parameters: gamma=0.3, iterations=100, sequence=14 days
+Start time: 2025-08-07 08:38:10
+================================================================================
+
+======================================================================
+PROCESSING YEAR 2021 - 14-DAY SEQUENCES
+======================================================================
+
+  Month 01/2021:
+  --------------------------------------------------
+    Test date: 2021-01-01
+    File index: 179
+    Using files 166 to 179 (14 files)
+    Loading training files for 2021-01...
+    Loaded 14 days of data
+    Training with 14-day sequence...
+      Iter 20/100 | Loss: -2.8682 | Sharpe: 1.963 | Best: 1.963 | Time: 5.0s
+      Iter 40/100 | Loss: -2.9352 | Sharpe: 2.002 | Best: 2.002 | Time: 9.8s
+      Iter 60/100 | Loss: -2.9487 | Sharpe: 2.011 | Best: 2.011 | Time: 14.5s
+      Iter 80/100 | Loss: -2.9542 | Sharpe: 2.014 | Best: 2.014 | Time: 19.2s
+      Iter 100/100 | Loss: -2.9574 | Sharpe: 2.016 | Best: 2.016 | Time: 23.9s
+    Training complete in 24.0s | Final Sharpe: 2.016
+    Evaluation Results:
+      Raw Return: -15.797%
+      Transaction Cost: -0.15%
+      Net Return: -15.947%
+      Sharpe Ratio: -8.411
+      Daily Volatility: 1.896%
+    YTD Performance: -15.95%
+
+  Month 02/2021:
+  --------------------------------------------------
+    Test date: 2021-02-02
+    File index: 202
+    Using files 189 to 202 (14 files)
+    Loading training files for 2021-02...
+    Loaded 14 days of data
+    Training with 14-day sequence...
+      Iter 20/100 | Loss: 12.2849 | Sharpe: -8.443 | Best: -8.443 | Time: 4.7s
+      Iter 40/100 | Loss: 10.5347 | Sharpe: -7.053 | Best: -7.053 | Time: 9.4s
+      Iter 60/100 | Loss: 7.8145 | Sharpe: -5.036 | Best: -5.036 | Time: 14.2s
+      Iter 80/100 | Loss: 5.5402 | Sharpe: -3.305 | Best: -3.305 | Time: 18.9s
+      Iter 100/100 | Loss: 2.9936 | Sharpe: -1.416 | Best: -1.416 | Time: 23.7s
+    Training complete in 23.8s | Final Sharpe: -1.416
+    Evaluation Results:
+      Raw Return: -2.338%
+      Transaction Cost: -0.15%
+      Net Return: -2.488%
+      Sharpe Ratio: -0.922
+      Daily Volatility: 2.698%
+    YTD Performance: -18.04%
+
+  Month 03/2021:
+  --------------------------------------------------
+    Test date: 2021-03-01
+    File index: 222
+    Using files 209 to 222 (14 files)
+    Loading training files for 2021-03...
+    Loaded 14 days of data
+    Training with 14-day sequence...
+      Iter 20/100 | Loss: -0.2708 | Sharpe: 0.381 | Best: 0.381 | Time: 4.7s
+      Iter 40/100 | Loss: -2.7871 | Sharpe: 2.092 | Best: 2.092 | Time: 9.5s
+      Iter 60/100 | Loss: -5.0518 | Sharpe: 3.644 | Best: 3.644 | Time: 14.3s
+      Iter 80/100 | Loss: -10.2091 | Sharpe: 7.091 | Best: 7.091 | Time: 19.1s
+      Iter 100/100 | Loss: -11.8649 | Sharpe: 8.230 | Best: 8.230 | Time: 23.9s
+    Training complete in 24.0s | Final Sharpe: 8.230
+    Evaluation Results:
+      Raw Return: +1.598%
+      Transaction Cost: -0.15%
+      Net Return: +1.448%
+      Sharpe Ratio: 0.473
+      Daily Volatility: 3.064%
+    YTD Performance: -16.85%
+
+  Month 04/2021:
+  --------------------------------------------------
+    Test date: 2021-04-01
+    File index: 244
+    Using files 231 to 244 (14 files)
+    Loading training files for 2021-04...
+    Loaded 14 days of data
+    Training with 14-day sequence...
+      Iter 20/100 | Loss: -3.4272 | Sharpe: 2.081 | Best: 2.081 | Time: 4.7s
+      Iter 40/100 | Loss: -3.6271 | Sharpe: 2.233 | Best: 2.233 | Time: 9.6s
+      Iter 60/100 | Loss: -3.8027 | Sharpe: 2.365 | Best: 2.365 | Time: 14.4s
+      Iter 80/100 | Loss: -4.0176 | Sharpe: 2.521 | Best: 2.521 | Time: 19.3s
+      Iter 100/100 | Loss: -4.2946 | Sharpe: 2.749 | Best: 2.749 | Time: 24.1s
+    Training complete in 24.2s | Final Sharpe: 2.749
+    Evaluation Results:
+      Raw Return: -11.303%
+      Transaction Cost: -0.15%
+      Net Return: -11.453%
+      Sharpe Ratio: -7.224
+      Daily Volatility: 1.585%
+    YTD Performance: -26.37%
+
+  Month 05/2021:
+  --------------------------------------------------
+    Test date: 2021-05-02
+    File index: 266
+    Using files 253 to 266 (14 files)
+    Loading training files for 2021-05...
+    Loaded 14 days of data
+    Training with 14-day sequence...
+      Iter 20/100 | Loss: 0.5320 | Sharpe: -0.000 | Best: -0.000 | Time: 4.8s
+      Iter 40/100 | Loss: 0.4464 | Sharpe: -0.000 | Best: -0.000 | Time: 9.6s
+      Iter 60/100 | Loss: 0.1880 | Sharpe: -0.000 | Best: -0.000 | Time: 14.5s
+      Iter 80/100 | Loss: -1.2048 | Sharpe: -0.000 | Best: -0.000 | Time: 19.4s
+      Iter 100/100 | Loss: -3.4240 | Sharpe: 0.000 | Best: 0.000 | Time: 24.2s
+    Training complete in 24.3s | Final Sharpe: 0.000
+    Evaluation Results:
+      Raw Return: -5.085%
+      Transaction Cost: -0.15%
+      Net Return: -5.235%
+      Sharpe Ratio: -1.547
+      Daily Volatility: 3.385%
+    YTD Performance: -30.23%
+
+  Month 06/2021:
+  --------------------------------------------------
+    Test date: 2021-06-03
+    File index: 289
+    Using files 276 to 289 (14 files)
+    Loading training files for 2021-06...
+    Loaded 14 days of data
+    Training with 14-day sequence...
+      Iter 20/100 | Loss: -1.7989 | Sharpe: 1.797 | Best: 1.797 | Time: 4.8s
+      Iter 40/100 | Loss: -1.7989 | Sharpe: 1.797 | Best: 1.797 | Time: 9.8s
+      Iter 60/100 | Loss: -1.7989 | Sharpe: 1.797 | Best: 1.797 | Time: 14.7s
+      Iter 80/100 | Loss: -1.7989 | Sharpe: 1.797 | Best: 1.797 | Time: 19.7s
+      Iter 100/100 | Loss: -1.7989 | Sharpe: 1.797 | Best: 1.797 | Time: 24.6s
+    Training complete in 24.7s | Final Sharpe: 1.797
+    Evaluation Results:
+      Raw Return: -4.891%
+      Transaction Cost: -0.15%
+      Net Return: -5.041%
+      Sharpe Ratio: -2.336
+      Daily Volatility: 2.158%
+    YTD Performance: -33.75%
+
+  Month 07/2021:
+  --------------------------------------------------
+    Test date: 2021-07-01
+    File index: 310
+    Using files 297 to 310 (14 files)
+    Loading training files for 2021-07...
+    Loaded 14 days of data
+    Training with 14-day sequence...
+      Iter 20/100 | Loss: -0.0001 | Sharpe: -0.000 | Best: -0.000 | Time: 4.9s
+      Iter 40/100 | Loss: -0.0001 | Sharpe: -0.000 | Best: -0.000 | Time: 9.8s
+      Iter 60/100 | Loss: -0.0001 | Sharpe: -0.000 | Best: -0.000 | Time: 14.8s
+      Iter 80/100 | Loss: -0.0001 | Sharpe: -0.000 | Best: -0.000 | Time: 19.7s
+      Iter 100/100 | Loss: -0.0001 | Sharpe: -0.000 | Best: -0.000 | Time: 24.7s
+    Training complete in 24.8s | Final Sharpe: -0.000
+    Evaluation Results:
+      Raw Return: +4.494%
+      Transaction Cost: -0.15%
+      Net Return: +4.344%
+      Sharpe Ratio: 2.897
+      Daily Volatility: 1.499%
+    YTD Performance: -30.87%
+
+  Month 08/2021:
+  --------------------------------------------------
+    Test date: 2021-08-01
+    File index: 332
+    Using files 319 to 332 (14 files)
+    Loading training files for 2021-08...
+    Loaded 14 days of data
+    Training with 14-day sequence...
+      Iter 20/100 | Loss: -1.9764 | Sharpe: 1.519 | Best: 1.519 | Time: 4.7s
+      Iter 40/100 | Loss: -2.2241 | Sharpe: 1.709 | Best: 1.709 | Time: 9.6s
+      Iter 60/100 | Loss: -2.7371 | Sharpe: 2.102 | Best: 2.102 | Time: 14.4s
+      Iter 80/100 | Loss: -4.9794 | Sharpe: 3.817 | Best: 3.817 | Time: 19.3s
+      Iter 100/100 | Loss: -8.5047 | Sharpe: 6.528 | Best: 6.528 | Time: 24.1s
+    Training complete in 24.2s | Final Sharpe: 6.528
+    Evaluation Results:
+      Raw Return: +1.002%
+      Transaction Cost: -0.15%
+      Net Return: +0.852%
+      Sharpe Ratio: 2.355
+      Daily Volatility: 0.362%
+    YTD Performance: -30.28%
+
+  Month 09/2021:
+  --------------------------------------------------
+    Test date: 2021-09-01
+    File index: 354
+    Using files 341 to 354 (14 files)
+    Loading training files for 2021-09...
+    Loaded 14 days of data
+    Training with 14-day sequence...
+      Iter 20/100 | Loss: -0.6281 | Sharpe: 0.000 | Best: 0.000 | Time: 4.7s
+      Iter 40/100 | Loss: -0.6556 | Sharpe: 0.000 | Best: 0.000 | Time: 9.5s
+      Iter 60/100 | Loss: -0.6952 | Sharpe: 0.001 | Best: 0.001 | Time: 14.3s
+      Iter 80/100 | Loss: -0.8191 | Sharpe: 0.014 | Best: 0.014 | Time: 19.2s
+      Iter 100/100 | Loss: -5.0871 | Sharpe: 2.282 | Best: 2.282 | Time: 24.0s
+    Training complete in 24.1s | Final Sharpe: 2.282
+    Evaluation Results:
+      Raw Return: -9.948%
+      Transaction Cost: -0.15%
+      Net Return: -10.098%
+      Sharpe Ratio: -7.681
+      Daily Volatility: 1.315%
+    YTD Performance: -37.32%
+
+  Month 10/2021:
+  --------------------------------------------------
+    Test date: 2021-10-02
+    File index: 376
+    Using files 363 to 376 (14 files)
+    Loading training files for 2021-10...
+    Loaded 14 days of data
+    Training with 14-day sequence...
+      Iter 20/100 | Loss: 0.1399 | Sharpe: 1.777 | Best: 1.777 | Time: 4.7s
+      Iter 40/100 | Loss: 0.1136 | Sharpe: 1.799 | Best: 1.826 | Time: 9.6s
+      Iter 60/100 | Loss: 0.1028 | Sharpe: 1.812 | Best: 1.826 | Time: 14.4s
+      Iter 80/100 | Loss: 0.0964 | Sharpe: 1.817 | Best: 1.826 | Time: 19.2s
+      Iter 100/100 | Loss: 0.0908 | Sharpe: 1.821 | Best: 1.826 | Time: 24.1s
+    Training complete in 24.2s | Final Sharpe: 1.821
+    Evaluation Results:
+      Raw Return: +0.333%
+      Transaction Cost: -0.15%
+      Net Return: +0.183%
+      Sharpe Ratio: 0.086
+      Daily Volatility: 2.143%
+    YTD Performance: -37.20%
+
+  Month 11/2021:
+  --------------------------------------------------
+    Test date: 2021-11-03
+    File index: 399
+    Using files 386 to 399 (14 files)
+    Loading training files for 2021-11...
+    Loaded 14 days of data
+    Training with 14-day sequence...
+      Iter 20/100 | Loss: -1.7259 | Sharpe: 0.930 | Best: 0.930 | Time: 4.8s
+      Iter 40/100 | Loss: -4.0177 | Sharpe: 2.447 | Best: 2.447 | Time: 9.6s
+      Iter 60/100 | Loss: -7.5507 | Sharpe: 4.606 | Best: 4.606 | Time: 14.5s
+      Iter 80/100 | Loss: -8.4601 | Sharpe: 5.220 | Best: 5.220 | Time: 19.4s
+      Iter 100/100 | Loss: -9.3810 | Sharpe: 5.861 | Best: 5.861 | Time: 24.3s
+    Training complete in 24.4s | Final Sharpe: 5.861
+    Evaluation Results:
+      Raw Return: -0.327%
+      Transaction Cost: -0.15%
+      Net Return: -0.477%
+      Sharpe Ratio: -0.259
+      Daily Volatility: 1.840%
+    YTD Performance: -37.50%
+
+  Month 12/2021:
+  --------------------------------------------------
+    Test date: 2021-12-01
+    File index: 420
+    Using files 407 to 420 (14 files)
+    Loading training files for 2021-12...
+    Loaded 14 days of data
+    Training with 14-day sequence...
+      Iter 20/100 | Loss: -4.3420 | Sharpe: 2.875 | Best: 2.875 | Time: 4.8s
+      Iter 40/100 | Loss: -5.3898 | Sharpe: 3.593 | Best: 3.593 | Time: 9.7s
+      Iter 60/100 | Loss: -6.0856 | Sharpe: 3.966 | Best: 3.966 | Time: 14.6s
+      Iter 80/100 | Loss: -6.4075 | Sharpe: 4.060 | Best: 4.060 | Time: 19.5s
+      Iter 100/100 | Loss: -6.5263 | Sharpe: 4.116 | Best: 4.116 | Time: 24.3s
+    Training complete in 24.4s | Final Sharpe: 4.116
+    Evaluation Results:
+      Raw Return: -1.452%
+      Transaction Cost: -0.15%
+      Net Return: -1.602%
+      Sharpe Ratio: -2.370
+      Daily Volatility: 0.676%
+    YTD Performance: -38.51%
+
+  2021 SUMMARY:
+  --------------------------------------------------
+    Annual Return: -38.51%
+    Trades Executed: 12/12
+    Win Rate: 33.3%
+    Average Monthly: -3.79%
+    Std Dev: 5.76%
+    Best Month: +4.34%
+    Worst Month: -15.95%
+    Sharpe Ratio: -0.658
+    Processing Time: 4.9 minutes
+
+======================================================================
+PROCESSING YEAR 2022 - 14-DAY SEQUENCES
+======================================================================
+
+  Month 01/2022:
+  --------------------------------------------------
+    Test date: 2022-01-01
+    File index: 442
+    Using files 429 to 442 (14 files)
+    Loading training files for 2022-01...
+    Loaded 14 days of data
+    Training with 14-day sequence...
+      Iter 20/100 | Loss: 5.3496 | Sharpe: -3.385 | Best: -3.385 | Time: 4.8s
+      Iter 40/100 | Loss: 4.8284 | Sharpe: -3.071 | Best: -3.071 | Time: 9.8s
+      Iter 60/100 | Loss: -3.1101 | Sharpe: 2.349 | Best: 2.349 | Time: 14.7s
+      Iter 80/100 | Loss: -11.4214 | Sharpe: 8.354 | Best: 8.354 | Time: 19.6s
+      Iter 100/100 | Loss: -15.3510 | Sharpe: 11.100 | Best: 11.100 | Time: 24.5s
+    Training complete in 24.7s | Final Sharpe: 11.100
+    Evaluation Results:
+      Raw Return: +43.434%
+      Transaction Cost: -0.15%
+      Net Return: +43.284%
+      Sharpe Ratio: 5.851
+      Daily Volatility: 7.397%
+    YTD Performance: +43.28%
+
+  Month 02/2022:
+  --------------------------------------------------
+    Test date: 2022-02-01
+    File index: 464
+    Using files 451 to 464 (14 files)
+    Loading training files for 2022-02...
+    Loaded 14 days of data
+    Training with 14-day sequence...
+      Iter 20/100 | Loss: -17.4861 | Sharpe: 12.886 | Best: 12.886 | Time: 4.9s
+      Iter 40/100 | Loss: -18.5701 | Sharpe: 13.473 | Best: 13.473 | Time: 9.9s
+      Iter 60/100 | Loss: -19.6627 | Sharpe: 14.242 | Best: 14.242 | Time: 14.9s
+      Iter 80/100 | Loss: -21.5658 | Sharpe: 15.609 | Best: 15.609 | Time: 19.8s
+      Iter 100/100 | Loss: -23.5881 | Sharpe: 17.094 | Best: 17.094 | Time: 24.8s
+    Training complete in 24.9s | Final Sharpe: 17.094
+    Evaluation Results:
+      Raw Return: +7.649%
+      Transaction Cost: -0.15%
+      Net Return: +7.499%
+      Sharpe Ratio: 2.352
+      Daily Volatility: 3.188%
+    YTD Performance: +54.03%
+
+  Month 03/2022:
+  --------------------------------------------------
+    Test date: 2022-03-01
+    File index: 485
+    Using files 472 to 485 (14 files)
+    Loading training files for 2022-03...
+    Loaded 14 days of data
+    Training with 14-day sequence...
+      Iter 20/100 | Loss: -2.5468 | Sharpe: 1.742 | Best: 1.742 | Time: 4.7s
+      Iter 40/100 | Loss: -3.0446 | Sharpe: 2.078 | Best: 2.078 | Time: 9.6s
+      Iter 60/100 | Loss: -4.4357 | Sharpe: 3.055 | Best: 3.055 | Time: 14.4s
+      Iter 80/100 | Loss: -8.2890 | Sharpe: 5.800 | Best: 5.800 | Time: 19.3s
+      Iter 100/100 | Loss: -13.8220 | Sharpe: 9.697 | Best: 9.697 | Time: 24.1s
+    Training complete in 24.2s | Final Sharpe: 9.697
+    Evaluation Results:
+      Raw Return: -7.399%
+      Transaction Cost: -0.15%
+      Net Return: -7.549%
+      Sharpe Ratio: -6.084
+      Daily Volatility: 1.241%
+    YTD Performance: +42.40%
+
+  Month 04/2022:
+  --------------------------------------------------
+    Test date: 2022-04-01
+    File index: 507
+    Using files 494 to 507 (14 files)
+    Loading training files for 2022-04...
+    Loaded 14 days of data
+    Training with 14-day sequence...
+      Iter 20/100 | Loss: 5.5627 | Sharpe: -3.204 | Best: -3.204 | Time: 4.8s
+      Iter 40/100 | Loss: 5.3154 | Sharpe: -3.058 | Best: -3.058 | Time: 9.7s
+      Iter 60/100 | Loss: 5.0587 | Sharpe: -2.880 | Best: -2.880 | Time: 14.7s
+      Iter 80/100 | Loss: 4.6348 | Sharpe: -2.573 | Best: -2.573 | Time: 19.6s
+      Iter 100/100 | Loss: 4.0627 | Sharpe: -2.157 | Best: -2.157 | Time: 24.5s
+    Training complete in 24.6s | Final Sharpe: -2.157
+    Evaluation Results:
+      Raw Return: +2.482%
+      Transaction Cost: -0.15%
+      Net Return: +2.332%
+      Sharpe Ratio: 3.217
+      Daily Volatility: 0.725%
+    YTD Performance: +45.72%
+
+  Month 05/2022:
+  --------------------------------------------------
+    Test date: 2022-05-02
+    File index: 529
+    Using files 516 to 529 (14 files)
+    Loading training files for 2022-05...
+    Loaded 14 days of data
+    Training with 14-day sequence...
+      Iter 20/100 | Loss: -6.2931 | Sharpe: 4.157 | Best: 4.157 | Time: 4.8s
+      Iter 40/100 | Loss: -7.5184 | Sharpe: 4.948 | Best: 4.948 | Time: 9.6s
+      Iter 60/100 | Loss: -9.0035 | Sharpe: 5.969 | Best: 5.969 | Time: 14.5s
+      Iter 80/100 | Loss: -9.7343 | Sharpe: 6.512 | Best: 6.512 | Time: 19.3s
+      Iter 100/100 | Loss: -10.2465 | Sharpe: 6.856 | Best: 6.856 | Time: 24.2s
+    Training complete in 24.3s | Final Sharpe: 6.856
+    Evaluation Results:
+      Raw Return: -1.953%
+      Transaction Cost: -0.15%
+      Net Return: -2.103%
+      Sharpe Ratio: -3.816
+      Daily Volatility: 0.551%
+    YTD Performance: +42.66%
+
+  Month 06/2022:
+  --------------------------------------------------
+    Test date: 2022-06-01
+    File index: 551
+    Using files 538 to 551 (14 files)
+    Loading training files for 2022-06...
+    Loaded 14 days of data
+    Training with 14-day sequence...
+      Iter 20/100 | Loss: -5.9954 | Sharpe: 4.725 | Best: 4.725 | Time: 4.6s
+      Iter 40/100 | Loss: -7.1880 | Sharpe: 5.552 | Best: 5.552 | Time: 9.4s
+      Iter 60/100 | Loss: -8.0647 | Sharpe: 6.144 | Best: 6.144 | Time: 14.1s
+      Iter 80/100 | Loss: -10.0145 | Sharpe: 7.384 | Best: 7.384 | Time: 18.8s
+      Iter 100/100 | Loss: -13.0829 | Sharpe: 9.524 | Best: 9.524 | Time: 23.6s
+    Training complete in 23.7s | Final Sharpe: 9.524
+    Evaluation Results:
+      Raw Return: +3.249%
+      Transaction Cost: -0.15%
+      Net Return: +3.099%
+      Sharpe Ratio: 1.881
+      Daily Volatility: 1.647%
+    YTD Performance: +47.08%
+
+  Month 07/2022:
+  --------------------------------------------------
+    Test date: 2022-07-01
+    File index: 572
+    Using files 559 to 572 (14 files)
+    Loading training files for 2022-07...
+    Loaded 14 days of data
+    Training with 14-day sequence...
+      Iter 20/100 | Loss: -9.2498 | Sharpe: 6.253 | Best: 6.253 | Time: 4.7s
+      Iter 40/100 | Loss: -10.5500 | Sharpe: 7.315 | Best: 7.315 | Time: 9.5s
+      Iter 60/100 | Loss: -11.7076 | Sharpe: 8.154 | Best: 8.154 | Time: 14.4s
+      Iter 80/100 | Loss: -17.5774 | Sharpe: 12.058 | Best: 12.058 | Time: 19.2s
+      Iter 100/100 | Loss: -24.2330 | Sharpe: 16.908 | Best: 16.908 | Time: 24.0s
+    Training complete in 24.1s | Final Sharpe: 16.908
+    Evaluation Results:
+      Raw Return: +12.663%
+      Transaction Cost: -0.15%
+      Net Return: +12.513%
+      Sharpe Ratio: 5.844
+      Daily Volatility: 2.141%
+    YTD Performance: +65.48%
+
+  Month 08/2022:
+  --------------------------------------------------
+    Test date: 2022-08-01
+    File index: 594
+    Using files 581 to 594 (14 files)
+    Loading training files for 2022-08...
+    Loaded 14 days of data
+    Training with 14-day sequence...
+      Iter 20/100 | Loss: -9.5970 | Sharpe: 6.590 | Best: 6.590 | Time: 4.8s
+      Iter 40/100 | Loss: -10.9101 | Sharpe: 7.565 | Best: 7.565 | Time: 9.6s
+      Iter 60/100 | Loss: -15.2542 | Sharpe: 10.676 | Best: 10.676 | Time: 14.5s
+      Iter 80/100 | Loss: -17.5277 | Sharpe: 12.471 | Best: 12.471 | Time: 19.3s
+      Iter 100/100 | Loss: -20.0164 | Sharpe: 14.439 | Best: 14.439 | Time: 24.2s
+    Training complete in 24.3s | Final Sharpe: 14.439
+    Evaluation Results:
+      Raw Return: -2.833%
+      Transaction Cost: -0.15%
+      Net Return: -2.983%
+      Sharpe Ratio: -1.064
+      Daily Volatility: 2.804%
+    YTD Performance: +60.55%
+
+  Month 09/2022:
+  --------------------------------------------------
+    Test date: 2022-09-01
+    File index: 616
+    Using files 603 to 616 (14 files)
+    Loading training files for 2022-09...
+    Loaded 14 days of data
+    Training with 14-day sequence...
+      Iter 20/100 | Loss: 7.6635 | Sharpe: -5.148 | Best: -5.148 | Time: 4.9s
+      Iter 40/100 | Loss: 6.1721 | Sharpe: -4.044 | Best: -4.044 | Time: 9.9s
+      Iter 60/100 | Loss: 5.6998 | Sharpe: -3.692 | Best: -3.692 | Time: 15.0s
+      Iter 80/100 | Loss: 5.2096 | Sharpe: -3.353 | Best: -3.353 | Time: 20.0s
+      Iter 100/100 | Loss: -5.5226 | Sharpe: 3.046 | Best: 3.046 | Time: 25.0s
+    Training complete in 25.1s | Final Sharpe: 3.046
+    Evaluation Results:
+      Raw Return: -16.083%
+      Transaction Cost: -0.15%
+      Net Return: -16.233%
+      Sharpe Ratio: -8.011
+      Daily Volatility: 2.026%
+    YTD Performance: +34.48%
+
+  Month 10/2022:
+  --------------------------------------------------
+    Test date: 2022-10-03
+    File index: 639
+    Using files 626 to 639 (14 files)
+    Loading training files for 2022-10...
+    Loaded 14 days of data
+    Training with 14-day sequence...
+      Iter 20/100 | Loss: 7.6812 | Sharpe: -7.518 | Best: -7.518 | Time: 4.8s
+      Iter 40/100 | Loss: 6.9513 | Sharpe: -7.016 | Best: -7.016 | Time: 9.6s
+      Iter 60/100 | Loss: 6.5964 | Sharpe: -6.778 | Best: -6.778 | Time: 14.5s
+      Iter 80/100 | Loss: 6.2365 | Sharpe: -6.511 | Best: -6.511 | Time: 19.4s
+      Iter 100/100 | Loss: 5.3460 | Sharpe: -5.788 | Best: -5.788 | Time: 24.2s
+    Training complete in 24.3s | Final Sharpe: -5.788
+    Evaluation Results:
+      Raw Return: -2.802%
+      Transaction Cost: -0.15%
+      Net Return: -2.952%
+      Sharpe Ratio: -3.727
+      Daily Volatility: 0.792%
+    YTD Performance: +30.51%
+
+  Month 11/2022:
+  --------------------------------------------------
+    Test date: 2022-11-01
+    File index: 661
+    Using files 648 to 661 (14 files)
+    Loading training files for 2022-11...
+    Loaded 14 days of data
+    Training with 14-day sequence...
+      Iter 20/100 | Loss: 3.7829 | Sharpe: -2.602 | Best: -2.602 | Time: 4.8s
+      Iter 40/100 | Loss: -0.5039 | Sharpe: 0.379 | Best: 0.379 | Time: 9.7s
+      Iter 60/100 | Loss: -1.5633 | Sharpe: 1.113 | Best: 1.113 | Time: 14.6s
+      Iter 80/100 | Loss: -2.0018 | Sharpe: 1.404 | Best: 1.404 | Time: 19.5s
+      Iter 100/100 | Loss: -4.7705 | Sharpe: 3.310 | Best: 3.310 | Time: 24.4s
+    Training complete in 24.5s | Final Sharpe: 3.310
+    Evaluation Results:
+      Raw Return: +20.277%
+      Transaction Cost: -0.15%
+      Net Return: +20.127%
+      Sharpe Ratio: 4.765
+      Daily Volatility: 4.224%
+    YTD Performance: +56.78%
+
+  Month 12/2022:
+  --------------------------------------------------
+    Test date: 2022-12-01
+    File index: 682
+    Using files 669 to 682 (14 files)
+    Loading training files for 2022-12...
+    Loaded 14 days of data
+    Training with 14-day sequence...
+      Iter 20/100 | Loss: -10.7712 | Sharpe: 7.739 | Best: 7.739 | Time: 4.7s
+      Iter 40/100 | Loss: -12.3636 | Sharpe: 8.954 | Best: 8.954 | Time: 9.5s
+      Iter 60/100 | Loss: -13.7527 | Sharpe: 10.047 | Best: 10.047 | Time: 14.3s
+      Iter 80/100 | Loss: -15.0614 | Sharpe: 11.151 | Best: 11.151 | Time: 19.1s
+      Iter 100/100 | Loss: -16.0706 | Sharpe: 12.025 | Best: 12.025 | Time: 23.9s
+    Training complete in 24.0s | Final Sharpe: 12.025
+    Evaluation Results:
+      Raw Return: +8.599%
+      Transaction Cost: -0.15%
+      Net Return: +8.449%
+      Sharpe Ratio: 9.971
+      Daily Volatility: 0.847%
+    YTD Performance: +70.03%
+
+  2022 SUMMARY:
+  --------------------------------------------------
+    Annual Return: +70.03%
+    Trades Executed: 12/12
+    Win Rate: 58.3%
+    Average Monthly: +5.46%
+    Std Dev: 14.61%
+    Best Month: +43.28%
+    Worst Month: -16.23%
+    Sharpe Ratio: 0.373
+    Processing Time: 4.9 minutes
+
+======================================================================
+PROCESSING YEAR 2023 - 14-DAY SEQUENCES
+======================================================================
+
+  Month 01/2023:
+  --------------------------------------------------
+    Test date: 2023-01-01
+    File index: 704
+    Using files 691 to 704 (14 files)
+    Loading training files for 2023-01...
+    Loaded 14 days of data
+    Training with 14-day sequence...
+      Iter 20/100 | Loss: -12.0133 | Sharpe: 8.463 | Best: 8.463 | Time: 4.7s
+      Iter 40/100 | Loss: -13.4641 | Sharpe: 9.492 | Best: 9.492 | Time: 9.6s
+      Iter 60/100 | Loss: -16.9415 | Sharpe: 11.959 | Best: 11.959 | Time: 14.4s
+      Iter 80/100 | Loss: -19.9825 | Sharpe: 14.044 | Best: 14.044 | Time: 19.2s
+      Iter 100/100 | Loss: -23.1675 | Sharpe: 16.381 | Best: 16.381 | Time: 24.0s
+    Training complete in 24.1s | Final Sharpe: 16.381
+    Evaluation Results:
+      Raw Return: -4.983%
+      Transaction Cost: -0.15%
+      Net Return: -5.133%
+      Sharpe Ratio: -3.137
+      Daily Volatility: 1.636%
+    YTD Performance: -5.13%
+
+  Month 02/2023:
+  --------------------------------------------------
+    Test date: 2023-02-01
+    File index: 726
+    Using files 713 to 726 (14 files)
+    Loading training files for 2023-02...
+    Loaded 14 days of data
+    Training with 14-day sequence...
+      Iter 20/100 | Loss: 3.2468 | Sharpe: -1.960 | Best: -1.960 | Time: 4.8s
+      Iter 40/100 | Loss: 1.6995 | Sharpe: -0.926 | Best: -0.926 | Time: 9.6s
+      Iter 60/100 | Loss: -2.1679 | Sharpe: 1.768 | Best: 1.768 | Time: 14.5s
+      Iter 80/100 | Loss: -9.4101 | Sharpe: 7.403 | Best: 7.403 | Time: 19.3s
+      Iter 100/100 | Loss: -13.4139 | Sharpe: 10.022 | Best: 10.022 | Time: 24.2s
+    Training complete in 24.3s | Final Sharpe: 10.022
+    Evaluation Results:
+      Raw Return: +45.294%
+      Transaction Cost: -0.15%
+      Net Return: +45.144%
+      Sharpe Ratio: 5.527
+      Daily Volatility: 8.168%
+    YTD Performance: +37.69%
+
+  Month 03/2023:
+  --------------------------------------------------
+    Test date: 2023-03-01
+    File index: 747
+    Using files 734 to 747 (14 files)
+    Loading training files for 2023-03...
+    Loaded 14 days of data
+    Training with 14-day sequence...
+      Iter 20/100 | Loss: -5.1721 | Sharpe: 3.686 | Best: 3.686 | Time: 4.7s
+      Iter 40/100 | Loss: -6.7286 | Sharpe: 4.811 | Best: 4.811 | Time: 9.4s
+      Iter 60/100 | Loss: -7.7410 | Sharpe: 5.578 | Best: 5.578 | Time: 14.2s
+      Iter 80/100 | Loss: -9.9544 | Sharpe: 7.309 | Best: 7.309 | Time: 19.0s
+      Iter 100/100 | Loss: -12.5694 | Sharpe: 9.232 | Best: 9.232 | Time: 23.7s
+    Training complete in 23.8s | Final Sharpe: 9.232
+    Evaluation Results:
+      Raw Return: +6.794%
+      Transaction Cost: -0.15%
+      Net Return: +6.644%
+      Sharpe Ratio: 2.499
+      Daily Volatility: 2.659%
+    YTD Performance: +46.84%
+
+  Month 04/2023:
+  --------------------------------------------------
+    Test date: 2023-04-01
+    File index: 769
+    Using files 756 to 769 (14 files)
+    Loading training files for 2023-04...
+    Loaded 14 days of data
+    Training with 14-day sequence...
+      Iter 20/100 | Loss: -6.5797 | Sharpe: 5.179 | Best: 5.179 | Time: 4.7s
+      Iter 40/100 | Loss: -8.6975 | Sharpe: 6.734 | Best: 6.734 | Time: 9.5s
+      Iter 60/100 | Loss: -16.3510 | Sharpe: 11.542 | Best: 11.923 | Time: 14.4s
+      Iter 80/100 | Loss: -16.9447 | Sharpe: 12.127 | Best: 12.257 | Time: 19.2s
+      Iter 100/100 | Loss: -17.2272 | Sharpe: 12.429 | Best: 12.429 | Time: 24.0s
+    Training complete in 24.1s | Final Sharpe: 12.429
+    Evaluation Results:
+      Raw Return: -3.480%
+      Transaction Cost: -0.15%
+      Net Return: -3.630%
+      Sharpe Ratio: -4.396
+      Daily Volatility: 0.826%
+    YTD Performance: +41.51%
+
+  Month 05/2023:
+  --------------------------------------------------
+    Test date: 2023-05-01
+    File index: 790
+    Using files 777 to 790 (14 files)
+    Loading training files for 2023-05...
+    Loaded 14 days of data
+    Training with 14-day sequence...
+      Iter 20/100 | Loss: 3.3004 | Sharpe: -2.792 | Best: -2.792 | Time: 4.7s
+      Iter 40/100 | Loss: -3.8700 | Sharpe: 1.382 | Best: 1.382 | Time: 9.4s
+      Iter 60/100 | Loss: -5.5835 | Sharpe: 1.794 | Best: 1.794 | Time: 14.2s
+      Iter 80/100 | Loss: -7.0667 | Sharpe: 1.810 | Best: 1.840 | Time: 19.0s
+      Iter 100/100 | Loss: -7.2268 | Sharpe: 1.816 | Best: 1.840 | Time: 23.7s
+    Training complete in 23.8s | Final Sharpe: 1.816
+    Evaluation Results:
+      Raw Return: +31.203%
+      Transaction Cost: -0.15%
+      Net Return: +31.053%
+      Sharpe Ratio: 2.389
+      Daily Volatility: 12.999%
+    YTD Performance: +85.46%
+
+  Month 06/2023:
+  --------------------------------------------------
+    Test date: 2023-06-02
+    File index: 814
+    Using files 801 to 814 (14 files)
+    Loading training files for 2023-06...
+    Loaded 14 days of data
+    Training with 14-day sequence...
+      Iter 20/100 | Loss: -10.1657 | Sharpe: 6.890 | Best: 6.897 | Time: 4.6s
+      Iter 40/100 | Loss: -10.5141 | Sharpe: 7.180 | Best: 7.180 | Time: 9.4s
+      Iter 60/100 | Loss: -11.1588 | Sharpe: 7.692 | Best: 7.692 | Time: 14.1s
+      Iter 80/100 | Loss: -14.4388 | Sharpe: 10.485 | Best: 10.485 | Time: 18.8s
+      Iter 100/100 | Loss: -23.0719 | Sharpe: 17.808 | Best: 17.808 | Time: 23.5s
+    Training complete in 23.6s | Final Sharpe: 17.808
+    Evaluation Results:
+      Raw Return: -3.391%
+      Transaction Cost: -0.15%
+      Net Return: -3.541%
+      Sharpe Ratio: -1.810
+      Daily Volatility: 1.957%
+    YTD Performance: +78.89%
+
+  Month 07/2023:
+  --------------------------------------------------
+    Test date: 2023-07-01
+    File index: 837
+    Using files 824 to 837 (14 files)
+    Loading training files for 2023-07...
+    Loaded 14 days of data
+    Training with 14-day sequence...
+      Iter 20/100 | Loss: 0.9751 | Sharpe: -0.607 | Best: -0.607 | Time: 4.6s
+      Iter 40/100 | Loss: -0.5325 | Sharpe: 0.506 | Best: 0.506 | Time: 9.4s
+      Iter 60/100 | Loss: -1.7269 | Sharpe: 1.393 | Best: 1.393 | Time: 14.1s
+      Iter 80/100 | Loss: -3.2981 | Sharpe: 2.557 | Best: 2.557 | Time: 18.8s
+      Iter 100/100 | Loss: -4.8208 | Sharpe: 3.659 | Best: 3.659 | Time: 23.5s
+    Training complete in 23.6s | Final Sharpe: 3.659
+    Evaluation Results:
+      Raw Return: +2.803%
+      Transaction Cost: -0.15%
+      Net Return: +2.653%
+      Sharpe Ratio: 7.203
+      Daily Volatility: 0.368%
+    YTD Performance: +83.64%
+
+  Month 08/2023:
+  --------------------------------------------------
+    Test date: 2023-08-01
+    File index: 860
+    Using files 847 to 860 (14 files)
+    Loading training files for 2023-08...
+    Loaded 14 days of data
+    Training with 14-day sequence...
+      Iter 20/100 | Loss: -6.9749 | Sharpe: 4.856 | Best: 4.856 | Time: 4.6s
+      Iter 40/100 | Loss: -7.8429 | Sharpe: 5.459 | Best: 5.459 | Time: 9.4s
+      Iter 60/100 | Loss: -10.9195 | Sharpe: 7.702 | Best: 7.702 | Time: 14.1s
+      Iter 80/100 | Loss: -14.2543 | Sharpe: 10.055 | Best: 10.055 | Time: 18.9s
+      Iter 100/100 | Loss: -17.9387 | Sharpe: 12.736 | Best: 12.736 | Time: 23.6s
+    Training complete in 23.7s | Final Sharpe: 12.736
+    Evaluation Results:
+      Raw Return: -1.844%
+      Transaction Cost: -0.15%
+      Net Return: -1.994%
+      Sharpe Ratio: -0.822
+      Daily Volatility: 2.426%
+    YTD Performance: +79.97%
+
+  Month 09/2023:
+  --------------------------------------------------
+    Test date: 2023-09-01
+    File index: 883
+    Using files 870 to 883 (14 files)
+    Loading training files for 2023-09...
+    Loaded 14 days of data
+    Training with 14-day sequence...
+      Iter 20/100 | Loss: -0.1712 | Sharpe: -0.274 | Best: -0.274 | Time: 4.6s
+      Iter 40/100 | Loss: -1.5628 | Sharpe: 0.721 | Best: 0.721 | Time: 9.2s
+      Iter 60/100 | Loss: -3.3324 | Sharpe: 1.974 | Best: 1.974 | Time: 13.9s
+      Iter 80/100 | Loss: -8.1969 | Sharpe: 5.483 | Best: 5.483 | Time: 18.6s
+      Iter 100/100 | Loss: -9.9320 | Sharpe: 6.815 | Best: 6.815 | Time: 23.3s
+    Training complete in 23.4s | Final Sharpe: 6.815
+    Evaluation Results:
+      Raw Return: +0.638%
+      Transaction Cost: -0.15%
+      Net Return: +0.488%
+      Sharpe Ratio: 2.868
+      Daily Volatility: 0.170%
+    YTD Performance: +80.85%
+
+  Month 10/2023:
+  --------------------------------------------------
+    Test date: 2023-10-01
+    File index: 905
+    Using files 892 to 905 (14 files)
+    Loading training files for 2023-10...
+    Loaded 14 days of data
+    Training with 14-day sequence...
+      Iter 20/100 | Loss: -2.2794 | Sharpe: 1.449 | Best: 1.449 | Time: 4.6s
+      Iter 40/100 | Loss: -3.0158 | Sharpe: 1.967 | Best: 1.967 | Time: 9.3s
+      Iter 60/100 | Loss: -5.1345 | Sharpe: 3.412 | Best: 3.412 | Time: 14.0s
+      Iter 80/100 | Loss: -12.9490 | Sharpe: 9.023 | Best: 9.023 | Time: 18.7s
+      Iter 100/100 | Loss: -15.4440 | Sharpe: 10.873 | Best: 10.873 | Time: 23.4s
+    Training complete in 23.5s | Final Sharpe: 10.873
+    Evaluation Results:
+      Raw Return: +5.775%
+      Transaction Cost: -0.15%
+      Net Return: +5.625%
+      Sharpe Ratio: 1.582
+      Daily Volatility: 3.555%
+    YTD Performance: +91.03%
+
+  Month 11/2023:
+  --------------------------------------------------
+    Test date: 2023-11-02
+    File index: 929
+    Using files 916 to 929 (14 files)
+    Loading training files for 2023-11...
+    Loaded 14 days of data
+    Training with 14-day sequence...
+      Iter 20/100 | Loss: -5.2389 | Sharpe: 3.457 | Best: 3.457 | Time: 4.6s
+      Iter 40/100 | Loss: -9.8108 | Sharpe: 7.024 | Best: 7.024 | Time: 9.3s
+      Iter 60/100 | Loss: -13.1006 | Sharpe: 9.392 | Best: 9.392 | Time: 13.9s
+      Iter 80/100 | Loss: -14.4241 | Sharpe: 10.424 | Best: 10.424 | Time: 18.6s
+      Iter 100/100 | Loss: -15.6078 | Sharpe: 11.273 | Best: 11.273 | Time: 23.3s
+    Training complete in 23.4s | Final Sharpe: 11.273
+    Evaluation Results:
+      Raw Return: +20.833%
+      Transaction Cost: -0.15%
+      Net Return: +20.683%
+      Sharpe Ratio: 5.206
+      Daily Volatility: 3.973%
+    YTD Performance: +130.54%
+
+  Month 12/2023:
+  --------------------------------------------------
+    Test date: 2023-12-01
+    File index: 952
+    Using files 939 to 952 (14 files)
+    Loading training files for 2023-12...
+    Loaded 14 days of data
+    Training with 14-day sequence...
+      Iter 20/100 | Loss: -3.0391 | Sharpe: 2.359 | Best: 2.359 | Time: 4.6s
+      Iter 40/100 | Loss: -4.2043 | Sharpe: 3.241 | Best: 3.241 | Time: 9.4s
+      Iter 60/100 | Loss: -13.6989 | Sharpe: 9.988 | Best: 9.988 | Time: 14.1s
+      Iter 80/100 | Loss: -15.2265 | Sharpe: 11.053 | Best: 11.053 | Time: 18.9s
+      Iter 100/100 | Loss: -16.4228 | Sharpe: 11.929 | Best: 11.929 | Time: 23.6s
+    Training complete in 23.7s | Final Sharpe: 11.929
+    Evaluation Results:
+      Raw Return: +0.592%
+      Transaction Cost: -0.15%
+      Net Return: +0.442%
+      Sharpe Ratio: 0.149
+      Daily Volatility: 2.962%
+    YTD Performance: +131.56%
+
+  2023 SUMMARY:
+  --------------------------------------------------
+    Annual Return: +131.56%
+    Trades Executed: 12/12
+    Win Rate: 66.7%
+    Average Monthly: +8.20%
+    Std Dev: 15.17%
+    Best Month: +45.14%
+    Worst Month: -5.13%
+    Sharpe Ratio: 0.541
+    Processing Time: 4.8 minutes
+
+======================================================================
+PROCESSING YEAR 2024 - 14-DAY SEQUENCES
+======================================================================
+
+  Month 01/2024:
+  --------------------------------------------------
+    Test date: 2024-01-01
+    File index: 975
+    Using files 962 to 975 (14 files)
+    Loading training files for 2024-01...
+    Loaded 14 days of data
+    Training with 14-day sequence...
+      Iter 20/100 | Loss: -5.6952 | Sharpe: 4.062 | Best: 4.062 | Time: 4.6s
+      Iter 40/100 | Loss: -7.0859 | Sharpe: 4.988 | Best: 4.988 | Time: 9.4s
+      Iter 60/100 | Loss: -7.4607 | Sharpe: 5.282 | Best: 5.282 | Time: 14.1s
+      Iter 80/100 | Loss: -7.8064 | Sharpe: 5.517 | Best: 5.517 | Time: 18.8s
+      Iter 100/100 | Loss: -8.2385 | Sharpe: 5.819 | Best: 5.819 | Time: 23.6s
+    Training complete in 23.7s | Final Sharpe: 5.819
+    Evaluation Results:
+      Raw Return: -0.857%
+      Transaction Cost: -0.15%
+      Net Return: -1.007%
+      Sharpe Ratio: -0.351
+      Daily Volatility: 2.870%
+    YTD Performance: -1.01%
+
+  Month 02/2024:
+  --------------------------------------------------
+    Test date: 2024-02-01
+    File index: 999
+    Using files 986 to 999 (14 files)
+    Loading training files for 2024-02...
+    Loaded 14 days of data
+    Training with 14-day sequence...
+      Iter 20/100 | Loss: -2.4639 | Sharpe: 1.927 | Best: 1.927 | Time: 4.6s
+      Iter 40/100 | Loss: -3.6169 | Sharpe: 2.533 | Best: 2.533 | Time: 9.4s
+      Iter 60/100 | Loss: -5.0953 | Sharpe: 3.572 | Best: 3.572 | Time: 14.1s
+      Iter 80/100 | Loss: -7.9957 | Sharpe: 5.488 | Best: 5.488 | Time: 18.8s
+      Iter 100/100 | Loss: -9.5456 | Sharpe: 6.630 | Best: 6.630 | Time: 23.5s
+    Training complete in 23.6s | Final Sharpe: 6.630
+    Evaluation Results:
+      Raw Return: -4.113%
+      Transaction Cost: -0.15%
+      Net Return: -4.263%
+      Sharpe Ratio: -4.298
+      Daily Volatility: 0.992%
+    YTD Performance: -5.23%
+
+  Month 03/2024:
+  --------------------------------------------------
+    Test date: 2024-03-01
+    File index: 1022
+    Using files 1009 to 1022 (14 files)
+    Loading training files for 2024-03...
+    Loaded 14 days of data
+    Training with 14-day sequence...
+      Iter 20/100 | Loss: -1.6668 | Sharpe: 1.120 | Best: 1.120 | Time: 4.5s
+      Iter 40/100 | Loss: -2.2340 | Sharpe: 1.512 | Best: 1.512 | Time: 9.2s
+      Iter 60/100 | Loss: -3.0271 | Sharpe: 2.037 | Best: 2.037 | Time: 13.8s
+      Iter 80/100 | Loss: -3.8726 | Sharpe: 2.583 | Best: 2.583 | Time: 18.4s
+      Iter 100/100 | Loss: -4.3185 | Sharpe: 2.868 | Best: 2.868 | Time: 23.1s
+    Training complete in 23.2s | Final Sharpe: 2.868
+    Evaluation Results:
+      Raw Return: -2.668%
+      Transaction Cost: -0.15%
+      Net Return: -2.818%
+      Sharpe Ratio: -5.362
+      Daily Volatility: 0.525%
+    YTD Performance: -7.90%
+
+  Month 04/2024:
+  --------------------------------------------------
+    Test date: 2024-04-01
+    File index: 1044
+    Using files 1031 to 1044 (14 files)
+    Loading training files for 2024-04...
+    Loaded 14 days of data
+    Training with 14-day sequence...
+      Iter 20/100 | Loss: 3.1670 | Sharpe: -1.734 | Best: -1.734 | Time: 4.4s
+      Iter 40/100 | Loss: -1.6926 | Sharpe: 1.852 | Best: 1.852 | Time: 9.0s
+      Iter 60/100 | Loss: -8.5304 | Sharpe: 6.732 | Best: 6.732 | Time: 13.5s
+      Iter 80/100 | Loss: -10.0473 | Sharpe: 7.704 | Best: 7.704 | Time: 18.1s
+      Iter 100/100 | Loss: -10.5164 | Sharpe: 8.008 | Best: 8.008 | Time: 22.6s
+    Training complete in 22.7s | Final Sharpe: 8.008
+    Evaluation Results:
+      Raw Return: -11.910%
+      Transaction Cost: -0.15%
+      Net Return: -12.060%
+      Sharpe Ratio: -3.536
+      Daily Volatility: 3.411%
+    YTD Performance: -19.00%
+
+  Month 05/2024:
+  --------------------------------------------------
+    Test date: 2024-05-01
+    File index: 1065
+    Using files 1052 to 1065 (14 files)
+    Loading training files for 2024-05...
+    Loaded 14 days of data
+    Training with 14-day sequence...
+      Iter 20/100 | Loss: 0.4608 | Sharpe: -0.275 | Best: -0.275 | Time: 3.6s
+      Iter 40/100 | Loss: -3.3595 | Sharpe: 2.281 | Best: 2.281 | Time: 7.3s
+      Iter 60/100 | Loss: -4.6721 | Sharpe: 3.124 | Best: 3.124 | Time: 11.0s
+      Iter 80/100 | Loss: -5.1815 | Sharpe: 3.453 | Best: 3.453 | Time: 14.7s
+      Iter 100/100 | Loss: -5.5252 | Sharpe: 3.689 | Best: 3.689 | Time: 18.3s
+    Training complete in 18.4s | Final Sharpe: 3.689
+    Evaluation Results:
+      Raw Return: +4.256%
+      Transaction Cost: -0.15%
+      Net Return: +4.106%
+      Sharpe Ratio: 1.336
+      Daily Volatility: 3.074%
+    YTD Performance: -15.68%
+
+  Month 06/2024:
+  --------------------------------------------------
+    Skipping: Insufficient data
+
+  Month 07/2024:
+  --------------------------------------------------
+    Skipping: Insufficient data
+
+  Month 08/2024:
+  --------------------------------------------------
+    Skipping: Insufficient data
+
+  Month 09/2024:
+  --------------------------------------------------
+    Skipping: Insufficient data
+
+  Month 10/2024:
+  --------------------------------------------------
+    Skipping: Insufficient data
+
+  Month 11/2024:
+  --------------------------------------------------
+    Skipping: Insufficient data
+
+  Month 12/2024:
+  --------------------------------------------------
+    Skipping: Insufficient data
+
+  2024 SUMMARY:
+  --------------------------------------------------
+    Annual Return: -15.68%
+    Trades Executed: 5/12
+    Win Rate: 20.0%
+    Average Monthly: -3.21%
+    Std Dev: 5.25%
+    Best Month: +4.11%
+    Worst Month: -12.06%
+    Sharpe Ratio: -0.611
+    Processing Time: 1.9 minutes
+
+================================================================================
+FINAL COMPARISON: 14-DAY SEQUENCES vs BASELINES
+================================================================================
+
+Year   |   7-day Base |     750 iter |   14-day Seq |    vs Base |     vs 750
+--------------------------------------------------------------------------------
+2021   |      -33.79% |      -16.22% |      -38.51% |     -4.72pp |    -22.29pp
+2022   |       13.87% |       14.00% |       70.03% |    +56.16pp |    +56.03pp
+2023   |       10.88% |      406.17% |      131.56% |   +120.68pp |   -274.61pp
+2024   | N/A |      -30.47% |      -15.68% | N/A |    +14.79pp
+--------------------------------------------------------------------------------
+Avg improvement vs 7-day baseline: +57.37pp
+Avg difference vs 750 iterations: -56.52pp
+
+Total execution time: 16.6 minutes
+End time: 2025-08-07 08:54:48
+Results saved to: /home/ubuntu/code/angle_rl/invest/experiments/14day_seq_20250807_083810/

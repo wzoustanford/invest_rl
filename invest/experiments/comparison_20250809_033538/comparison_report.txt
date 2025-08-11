@@ -1,0 +1,45 @@
+LSTM vs SEQUENTIAL SUPERVISED MODEL COMPARISON
+============================================================
+
+MONTHLY RETURNS
+----------------------------------------
+Month      |   Sequential |         LSTM
+----------------------------------------
+Month 1    |     4032.59% |        8.28%
+Month 2    |     8472.44% |        4.87%
+Month 3    |     3363.97% |        0.28%
+Month 4    |    -7193.34% |       -2.34%
+Month 5    |     7637.83% |        6.91%
+Month 6    |    -5992.40% |        6.99%
+Month 7    |    16925.83% |        0.67%
+Month 8    |    -4357.89% |       -1.67%
+Month 9    |     8334.10% |        0.61%
+Month 10   |     9131.43% |        2.25%
+Month 11   |     7138.79% |       -1.97%
+Month 12   |    13485.20% |       -0.43%
+Month 13   |    -7365.75% |       -0.15%
+Month 14   |      716.44% |        6.59%
+Month 15   |       63.65% |        0.91%
+Month 16   |   -21834.67% |       -7.99%
+Month 17   |   -25147.09% |       -6.42%
+Month 18   |    21817.00% |       11.16%
+Month 19   |    13643.44% |        9.33%
+
+============================================================
+PERFORMANCE SUMMARY
+----------------------------------------
+
+SEQUENTIAL SUPERVISED
+  Total Return: 3506917672926039849415934890752344064.00%
+  Sharpe Ratio: 0.660
+  Win Rate: 68.4%
+  Avg Monthly: 2256.40%
+  Std Monthly: 11844.98%
+
+LSTM ADAPTIVE
+  Total Return: 42.10%
+  Sharpe Ratio: 1.357
+  Win Rate: 63.2%
+  Avg Monthly: 1.99%
+  Std Monthly: 5.09%
+

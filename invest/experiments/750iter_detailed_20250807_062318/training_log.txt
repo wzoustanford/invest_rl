@@ -1,0 +1,895 @@
+Loaded 1070 data files
+Device: cuda
+Output: /home/ubuntu/code/angle_rl/invest/experiments/750iter_detailed_20250807_062318/
+================================================================================
+
+================================================================================
+750 ITERATION EXPERIMENT - DETAILED LOGGING
+================================================================================
+Start time: 2025-08-07 06:23:18
+Parameters: gamma=0.3, iterations=750, sequence=7 days
+================================================================================
+
+================================================================================
+PROCESSING YEAR 2021
+================================================================================
+
+============================================================
+Month 01/2021 | Trade 1/48
+Total Elapsed: 0.0 min
+============================================================
+  Test date: 2021-01-01
+  File index: 179
+  Loading 7 training files...
+  Starting training for 2021-01 (750 iterations)
+    Iter  50/750 | Loss: -2.9462 | Sharpe: 2.007 | Best: 2.007 | Time: 6.3s | ETA: 88.7s
+    Iter 100/750 | Loss: -2.9597 | Sharpe: 2.016 | Best: 2.016 | Time: 12.3s | ETA: 79.8s
+    Iter 150/750 | Loss: -2.9655 | Sharpe: 2.018 | Best: 2.018 | Time: 18.2s | ETA: 72.9s
+    Iter 200/750 | Loss: -2.9699 | Sharpe: 2.020 | Best: 2.020 | Time: 24.2s | ETA: 66.5s
+    Iter 250/750 | Loss: -2.9715 | Sharpe: 2.020 | Best: 2.020 | Time: 30.2s | ETA: 60.3s
+    Iter 300/750 | Loss: -2.9724 | Sharpe: 2.021 | Best: 2.021 | Time: 36.1s | ETA: 54.2s
+    Iter 350/750 | Loss: -2.9729 | Sharpe: 2.021 | Best: 2.021 | Time: 42.1s | ETA: 48.1s
+    Iter 400/750 | Loss: -2.9733 | Sharpe: 2.021 | Best: 2.021 | Time: 48.1s | ETA: 42.1s
+    Iter 450/750 | Loss: -2.9735 | Sharpe: 2.021 | Best: 2.021 | Time: 54.0s | ETA: 36.0s
+    Iter 500/750 | Loss: -2.9737 | Sharpe: 2.021 | Best: 2.021 | Time: 60.0s | ETA: 30.0s
+    Iter 550/750 | Loss: -2.9739 | Sharpe: 2.021 | Best: 2.021 | Time: 66.0s | ETA: 24.0s
+    Iter 600/750 | Loss: -2.9740 | Sharpe: 2.021 | Best: 2.021 | Time: 72.0s | ETA: 18.0s
+    Iter 650/750 | Loss: -2.9741 | Sharpe: 2.021 | Best: 2.021 | Time: 78.0s | ETA: 12.0s
+    Iter 700/750 | Loss: -2.9742 | Sharpe: 2.021 | Best: 2.021 | Time: 83.9s | ETA: 6.0s
+    Iter 750/750 | Loss: -2.9743 | Sharpe: 2.021 | Best: 2.021 | Time: 89.9s | ETA: 0.0s
+  Training complete in 90.0s | Final Sharpe: 2.021
+  Evaluation for 2021-01:
+    Raw Return: -18.493%
+    Transaction Cost: -0.15%
+    Net Return: -18.643%
+    Sharpe Ratio: -7.717
+    Daily Volatility: 2.416%
+  YTD Performance: -18.64%
+
+============================================================
+Month 02/2021 | Trade 2/48
+Total Elapsed: 1.5 min
+ETA: 71.6 min remaining
+============================================================
+  Test date: 2021-02-02
+  File index: 202
+  Loading 7 training files...
+  Starting training for 2021-02 (750 iterations)
+    Iter  50/750 | Loss: +9.1241 | Sharpe: -6.005 | Best: -6.005 | Time: 6.0s | ETA: 83.5s
+    Iter 100/750 | Loss: +2.9930 | Sharpe: -1.416 | Best: -1.416 | Time: 12.0s | ETA: 77.8s
+    Iter 150/750 | Loss: -3.7657 | Sharpe: 3.071 | Best: 3.071 | Time: 18.0s | ETA: 72.0s
+    Iter 200/750 | Loss: -4.0771 | Sharpe: 3.247 | Best: 3.247 | Time: 24.0s | ETA: 66.0s
+    Iter 250/750 | Loss: -4.8029 | Sharpe: 3.684 | Best: 3.684 | Time: 30.0s | ETA: 60.0s
+    Iter 300/750 | Loss: -4.9686 | Sharpe: 3.779 | Best: 3.779 | Time: 36.0s | ETA: 54.0s
+    Iter 350/750 | Loss: -5.0028 | Sharpe: 3.797 | Best: 3.797 | Time: 42.0s | ETA: 48.1s
+    Iter 400/750 | Loss: -5.0177 | Sharpe: 3.805 | Best: 3.805 | Time: 48.1s | ETA: 42.1s
+    Iter 450/750 | Loss: -5.0262 | Sharpe: 3.809 | Best: 3.809 | Time: 54.1s | ETA: 36.1s
+    Iter 500/750 | Loss: -5.0317 | Sharpe: 3.812 | Best: 3.812 | Time: 60.1s | ETA: 30.1s
+    Iter 550/750 | Loss: -5.0356 | Sharpe: 3.814 | Best: 3.814 | Time: 66.1s | ETA: 24.0s
+    Iter 600/750 | Loss: -5.0385 | Sharpe: 3.815 | Best: 3.815 | Time: 72.1s | ETA: 18.0s
+    Iter 650/750 | Loss: -5.0408 | Sharpe: 3.816 | Best: 3.816 | Time: 78.2s | ETA: 12.0s
+    Iter 700/750 | Loss: -5.0427 | Sharpe: 3.817 | Best: 3.817 | Time: 84.2s | ETA: 6.0s
+    Iter 750/750 | Loss: -5.0444 | Sharpe: 3.817 | Best: 3.817 | Time: 90.2s | ETA: 0.0s
+  Training complete in 90.2s | Final Sharpe: 3.817
+  Evaluation for 2021-02:
+    Raw Return: -0.688%
+    Transaction Cost: -0.15%
+    Net Return: -0.838%
+    Sharpe Ratio: -0.500
+    Daily Volatility: 1.677%
+  YTD Performance: -19.32%
+
+============================================================
+Month 03/2021 | Trade 3/48
+Total Elapsed: 3.0 min
+ETA: 69.7 min remaining
+============================================================
+  Test date: 2021-03-01
+  File index: 222
+  Loading 7 training files...
+  Starting training for 2021-03 (750 iterations)
+    Iter  50/750 | Loss: -3.9212 | Sharpe: 2.870 | Best: 2.870 | Time: 6.0s | ETA: 84.4s
+    Iter 100/750 | Loss: -11.8650 | Sharpe: 8.231 | Best: 8.231 | Time: 12.1s | ETA: 78.7s
+    Iter 150/750 | Loss: -18.5352 | Sharpe: 13.112 | Best: 13.112 | Time: 18.2s | ETA: 72.7s
+    Iter 200/750 | Loss: -19.3907 | Sharpe: 13.775 | Best: 13.775 | Time: 24.3s | ETA: 66.7s
+    Iter 250/750 | Loss: -20.0300 | Sharpe: 14.305 | Best: 14.305 | Time: 30.3s | ETA: 60.7s
+    Iter 300/750 | Loss: -20.3215 | Sharpe: 14.575 | Best: 14.575 | Time: 36.4s | ETA: 54.6s
+    Iter 350/750 | Loss: -20.3935 | Sharpe: 14.623 | Best: 14.623 | Time: 42.5s | ETA: 48.6s
+    Iter 400/750 | Loss: -20.4291 | Sharpe: 14.641 | Best: 14.641 | Time: 48.6s | ETA: 42.5s
+    Iter 450/750 | Loss: -20.4533 | Sharpe: 14.649 | Best: 14.649 | Time: 54.7s | ETA: 36.4s
+    Iter 500/750 | Loss: -20.4643 | Sharpe: 14.641 | Best: 14.654 | Time: 60.7s | ETA: 30.4s
+    Iter 550/750 | Loss: -20.4922 | Sharpe: 14.655 | Best: 14.656 | Time: 66.8s | ETA: 24.3s
+    Iter 600/750 | Loss: -20.5087 | Sharpe: 14.658 | Best: 14.659 | Time: 72.9s | ETA: 18.2s
+    Iter 650/750 | Loss: -20.5330 | Sharpe: 14.660 | Best: 14.660 | Time: 79.0s | ETA: 12.1s
+    Iter 700/750 | Loss: -20.5509 | Sharpe: 14.645 | Best: 14.663 | Time: 85.0s | ETA: 6.1s
+    Iter 750/750 | Loss: -20.5805 | Sharpe: 14.664 | Best: 14.665 | Time: 91.1s | ETA: 0.0s
+  Training complete in 91.2s | Final Sharpe: 14.664
+  Evaluation for 2021-03:
+    Raw Return: +16.292%
+    Transaction Cost: -0.15%
+    Net Return: +16.142%
+    Sharpe Ratio: 2.822
+    Daily Volatility: 5.719%
+  YTD Performance: -6.30%
+
+============================================================
+Month 04/2021 | Trade 4/48
+Total Elapsed: 4.6 min
+ETA: 68.3 min remaining
+============================================================
+  Test date: 2021-04-01
+  File index: 244
+  Loading 7 training files...
+  Starting training for 2021-04 (750 iterations)
+    Iter  50/750 | Loss: -3.7104 | Sharpe: 2.296 | Best: 2.296 | Time: 6.1s | ETA: 84.9s
+    Iter 100/750 | Loss: -4.2950 | Sharpe: 2.749 | Best: 2.749 | Time: 12.2s | ETA: 79.1s
+    Iter 150/750 | Loss: -7.6585 | Sharpe: 5.357 | Best: 5.357 | Time: 18.3s | ETA: 73.2s
+    Iter 200/750 | Loss: -13.2896 | Sharpe: 9.162 | Best: 9.162 | Time: 24.4s | ETA: 67.1s
+    Iter 250/750 | Loss: -14.5734 | Sharpe: 10.025 | Best: 10.025 | Time: 30.5s | ETA: 61.0s
+    Iter 300/750 | Loss: -14.7569 | Sharpe: 10.143 | Best: 10.152 | Time: 36.6s | ETA: 55.0s
+    Iter 350/750 | Loss: -14.8413 | Sharpe: 10.216 | Best: 10.227 | Time: 42.7s | ETA: 48.9s
+    Iter 400/750 | Loss: -14.9096 | Sharpe: 10.297 | Best: 10.297 | Time: 48.9s | ETA: 42.8s
+    Iter 450/750 | Loss: -14.9956 | Sharpe: 10.382 | Best: 10.382 | Time: 55.0s | ETA: 36.6s
+    Iter 500/750 | Loss: -15.1020 | Sharpe: 10.499 | Best: 10.499 | Time: 61.1s | ETA: 30.5s
+    Iter 550/750 | Loss: -15.2550 | Sharpe: 10.660 | Best: 10.660 | Time: 67.2s | ETA: 24.4s
+    Iter 600/750 | Loss: -15.4442 | Sharpe: 10.848 | Best: 10.848 | Time: 73.3s | ETA: 18.3s
+    Iter 650/750 | Loss: -15.7545 | Sharpe: 11.075 | Best: 11.078 | Time: 79.4s | ETA: 12.2s
+    Iter 700/750 | Loss: -16.0016 | Sharpe: 11.218 | Best: 11.261 | Time: 85.5s | ETA: 6.1s
+    Iter 750/750 | Loss: -16.1767 | Sharpe: 11.309 | Best: 11.373 | Time: 91.6s | ETA: 0.0s
+  Training complete in 91.7s | Final Sharpe: 11.309
+  Evaluation for 2021-04:
+    Raw Return: -0.990%
+    Transaction Cost: -0.15%
+    Net Return: -1.140%
+    Sharpe Ratio: -0.501
+    Daily Volatility: 2.277%
+  YTD Performance: -7.37%
+
+============================================================
+Month 05/2021 | Trade 5/48
+Total Elapsed: 6.1 min
+ETA: 67.0 min remaining
+============================================================
+  Test date: 2021-05-02
+  File index: 266
+  Loading 7 training files...
+  Starting training for 2021-05 (750 iterations)
+    Iter  50/750 | Loss: +0.3669 | Sharpe: -0.000 | Best: -0.000 | Time: 6.1s | ETA: 85.4s
+    Iter 100/750 | Loss: -3.4236 | Sharpe: 0.000 | Best: 0.000 | Time: 12.3s | ETA: 79.7s
+    Iter 150/750 | Loss: -4.4350 | Sharpe: 0.000 | Best: 0.000 | Time: 18.4s | ETA: 73.6s
+    Iter 200/750 | Loss: -4.5430 | Sharpe: 0.000 | Best: 0.000 | Time: 24.6s | ETA: 67.5s
+    Iter 250/750 | Loss: -5.4334 | Sharpe: 0.000 | Best: 0.000 | Time: 30.7s | ETA: 61.4s
+    Iter 300/750 | Loss: -6.8001 | Sharpe: 0.000 | Best: 0.000 | Time: 36.9s | ETA: 55.3s
+    Iter 350/750 | Loss: -6.9448 | Sharpe: 0.000 | Best: 0.000 | Time: 43.0s | ETA: 49.2s
+    Iter 400/750 | Loss: -7.0069 | Sharpe: 0.000 | Best: 0.000 | Time: 49.2s | ETA: 43.0s
+    Iter 450/750 | Loss: -7.0469 | Sharpe: 0.000 | Best: 0.000 | Time: 55.3s | ETA: 36.9s
+    Iter 500/750 | Loss: -7.0796 | Sharpe: 0.000 | Best: 0.000 | Time: 61.5s | ETA: 30.7s
+    Iter 550/750 | Loss: -7.1009 | Sharpe: 0.000 | Best: 0.000 | Time: 67.6s | ETA: 24.6s
+    Iter 600/750 | Loss: -7.1461 | Sharpe: 0.000 | Best: 0.000 | Time: 73.8s | ETA: 18.4s
+    Iter 650/750 | Loss: -7.1862 | Sharpe: 0.000 | Best: 0.000 | Time: 79.9s | ETA: 12.3s
+    Iter 700/750 | Loss: -7.3276 | Sharpe: 0.000 | Best: 0.000 | Time: 86.1s | ETA: 6.1s
+    Iter 750/750 | Loss: -7.5003 | Sharpe: 0.000 | Best: 0.000 | Time: 92.2s | ETA: 0.0s
+  Training complete in 92.3s | Final Sharpe: 0.000
+  Evaluation for 2021-05:
+    Raw Return: -1.827%
+    Transaction Cost: -0.15%
+    Net Return: -1.977%
+    Sharpe Ratio: -0.455
+    Daily Volatility: 4.346%
+  YTD Performance: -9.20%
+
+============================================================
+Month 06/2021 | Trade 6/48
+Total Elapsed: 7.6 min
+ETA: 65.6 min remaining
+============================================================
+  Test date: 2021-06-03
+  File index: 289
+  Loading 7 training files...
+  Starting training for 2021-06 (750 iterations)
+    Iter  50/750 | Loss: -1.7983 | Sharpe: 1.797 | Best: 1.797 | Time: 6.2s | ETA: 86.8s
+    Iter 100/750 | Loss: -1.7983 | Sharpe: 1.797 | Best: 1.797 | Time: 12.4s | ETA: 80.9s
+    Iter 150/750 | Loss: -1.7983 | Sharpe: 1.797 | Best: 1.797 | Time: 18.7s | ETA: 74.8s
+    Iter 200/750 | Loss: -1.7983 | Sharpe: 1.797 | Best: 1.797 | Time: 24.9s | ETA: 68.6s
+    Iter 250/750 | Loss: -1.7983 | Sharpe: 1.797 | Best: 1.797 | Time: 31.2s | ETA: 62.4s
+    Iter 300/750 | Loss: -1.7983 | Sharpe: 1.797 | Best: 1.797 | Time: 37.4s | ETA: 56.2s
+    Iter 350/750 | Loss: -1.7983 | Sharpe: 1.797 | Best: 1.797 | Time: 43.7s | ETA: 49.9s
+    Iter 400/750 | Loss: -1.7983 | Sharpe: 1.797 | Best: 1.797 | Time: 49.9s | ETA: 43.7s
+    Iter 450/750 | Loss: -1.7983 | Sharpe: 1.797 | Best: 1.797 | Time: 56.2s | ETA: 37.5s
+    Iter 500/750 | Loss: -1.7983 | Sharpe: 1.797 | Best: 1.797 | Time: 62.4s | ETA: 31.2s
+    Iter 550/750 | Loss: -1.7983 | Sharpe: 1.797 | Best: 1.797 | Time: 68.7s | ETA: 25.0s
+    Iter 600/750 | Loss: -1.7983 | Sharpe: 1.797 | Best: 1.797 | Time: 74.9s | ETA: 18.7s
+    Iter 650/750 | Loss: -1.7983 | Sharpe: 1.797 | Best: 1.797 | Time: 81.2s | ETA: 12.5s
+    Iter 700/750 | Loss: -1.7983 | Sharpe: 1.797 | Best: 1.797 | Time: 87.4s | ETA: 6.2s
+    Iter 750/750 | Loss: -1.7983 | Sharpe: 1.797 | Best: 1.797 | Time: 93.7s | ETA: 0.0s
+  Training complete in 93.7s | Final Sharpe: 1.797
+  Evaluation for 2021-06:
+    Raw Return: -5.853%
+    Transaction Cost: -0.15%
+    Net Return: -6.003%
+    Sharpe Ratio: -2.973
+    Daily Volatility: 2.019%
+  YTD Performance: -14.65%
+
+============================================================
+Month 07/2021 | Trade 7/48
+Total Elapsed: 9.2 min
+ETA: 64.4 min remaining
+============================================================
+  Test date: 2021-07-01
+  File index: 310
+  Loading 7 training files...
+  Starting training for 2021-07 (750 iterations)
+    Iter  50/750 | Loss: -0.0000 | Sharpe: -0.000 | Best: -0.000 | Time: 6.2s | ETA: 86.4s
+    Iter 100/750 | Loss: -0.0000 | Sharpe: -0.000 | Best: -0.000 | Time: 12.4s | ETA: 80.6s
+    Iter 150/750 | Loss: -0.0000 | Sharpe: -0.000 | Best: -0.000 | Time: 18.6s | ETA: 74.5s
+    Iter 200/750 | Loss: -0.0000 | Sharpe: -0.000 | Best: -0.000 | Time: 24.8s | ETA: 68.3s
+    Iter 250/750 | Loss: -0.0000 | Sharpe: -0.000 | Best: -0.000 | Time: 31.1s | ETA: 62.1s
+    Iter 300/750 | Loss: -0.0000 | Sharpe: -0.000 | Best: -0.000 | Time: 37.3s | ETA: 55.9s
+    Iter 350/750 | Loss: -0.0000 | Sharpe: -0.000 | Best: -0.000 | Time: 43.5s | ETA: 49.7s
+    Iter 400/750 | Loss: -0.0000 | Sharpe: -0.000 | Best: -0.000 | Time: 49.7s | ETA: 43.5s
+    Iter 450/750 | Loss: -0.0000 | Sharpe: -0.000 | Best: -0.000 | Time: 56.0s | ETA: 37.3s
+    Iter 500/750 | Loss: -0.0000 | Sharpe: -0.000 | Best: -0.000 | Time: 62.2s | ETA: 31.1s
+    Iter 550/750 | Loss: -0.0000 | Sharpe: -0.000 | Best: -0.000 | Time: 68.4s | ETA: 24.9s
+    Iter 600/750 | Loss: -0.0000 | Sharpe: -0.000 | Best: -0.000 | Time: 74.6s | ETA: 18.7s
+    Iter 650/750 | Loss: -0.0000 | Sharpe: -0.000 | Best: -0.000 | Time: 80.8s | ETA: 12.4s
+    Iter 700/750 | Loss: -0.0000 | Sharpe: -0.000 | Best: -0.000 | Time: 87.1s | ETA: 6.2s
+    Iter 750/750 | Loss: -0.0000 | Sharpe: -0.000 | Best: -0.000 | Time: 93.3s | ETA: 0.0s
+  Training complete in 93.3s | Final Sharpe: -0.000
+  Evaluation for 2021-07:
+    Raw Return: +4.505%
+    Transaction Cost: -0.15%
+    Net Return: +4.355%
+    Sharpe Ratio: 2.894
+    Daily Volatility: 1.505%
+  YTD Performance: -10.94%
+
+============================================================
+Month 08/2021 | Trade 8/48
+Total Elapsed: 10.8 min
+ETA: 63.0 min remaining
+============================================================
+  Test date: 2021-08-01
+  File index: 332
+  Loading 7 training files...
+  Starting training for 2021-08 (750 iterations)
+    Iter  50/750 | Loss: -2.4035 | Sharpe: 1.847 | Best: 1.847 | Time: 6.1s | ETA: 85.5s
+    Iter 100/750 | Loss: -8.5070 | Sharpe: 6.531 | Best: 6.531 | Time: 12.3s | ETA: 79.7s
+    Iter 150/750 | Loss: -12.0363 | Sharpe: 9.267 | Best: 9.267 | Time: 18.4s | ETA: 73.7s
+    Iter 200/750 | Loss: -14.1233 | Sharpe: 10.886 | Best: 10.886 | Time: 24.6s | ETA: 67.6s
+    Iter 250/750 | Loss: -14.6354 | Sharpe: 11.289 | Best: 11.289 | Time: 30.7s | ETA: 61.4s
+    Iter 300/750 | Loss: -16.6723 | Sharpe: 12.879 | Best: 12.879 | Time: 36.9s | ETA: 55.3s
+    Iter 350/750 | Loss: -18.4927 | Sharpe: 14.285 | Best: 14.285 | Time: 43.0s | ETA: 49.2s
+    Iter 400/750 | Loss: -20.9264 | Sharpe: 16.165 | Best: 16.165 | Time: 49.2s | ETA: 43.0s
+    Iter 450/750 | Loss: -23.0659 | Sharpe: 17.808 | Best: 17.808 | Time: 55.3s | ETA: 36.9s
+    Iter 500/750 | Loss: -23.8583 | Sharpe: 18.432 | Best: 18.432 | Time: 61.5s | ETA: 30.7s
+    Iter 550/750 | Loss: -24.9001 | Sharpe: 18.192 | Best: 18.503 | Time: 67.6s | ETA: 24.6s
+    Iter 600/750 | Loss: -25.3220 | Sharpe: 18.543 | Best: 18.601 | Time: 73.8s | ETA: 18.4s
+    Iter 650/750 | Loss: -25.4735 | Sharpe: 18.690 | Best: 18.690 | Time: 79.9s | ETA: 12.3s
+    Iter 700/750 | Loss: -25.5225 | Sharpe: 18.729 | Best: 18.729 | Time: 86.1s | ETA: 6.2s
+    Iter 750/750 | Loss: -25.5651 | Sharpe: 18.753 | Best: 18.753 | Time: 92.3s | ETA: 0.0s
+  Training complete in 92.3s | Final Sharpe: 18.753
+  Evaluation for 2021-08:
+    Raw Return: +0.671%
+    Transaction Cost: -0.15%
+    Net Return: +0.521%
+    Sharpe Ratio: 0.201
+    Daily Volatility: 2.589%
+  YTD Performance: -10.47%
+
+============================================================
+Month 09/2021 | Trade 9/48
+Total Elapsed: 12.3 min
+ETA: 61.5 min remaining
+============================================================
+  Test date: 2021-09-01
+  File index: 354
+  Loading 7 training files...
+  Starting training for 2021-09 (750 iterations)
+    Iter  50/750 | Loss: -0.6720 | Sharpe: 0.000 | Best: 0.000 | Time: 6.0s | ETA: 84.0s
+    Iter 100/750 | Loss: -4.9133 | Sharpe: 2.167 | Best: 2.167 | Time: 12.1s | ETA: 78.3s
+    Iter 150/750 | Loss: -6.9700 | Sharpe: 3.490 | Best: 3.490 | Time: 18.1s | ETA: 72.4s
+    Iter 200/750 | Loss: -10.3970 | Sharpe: 5.541 | Best: 5.541 | Time: 24.1s | ETA: 66.4s
+    Iter 250/750 | Loss: -12.9859 | Sharpe: 7.742 | Best: 7.742 | Time: 30.2s | ETA: 60.4s
+    Iter 300/750 | Loss: -15.2752 | Sharpe: 10.038 | Best: 10.038 | Time: 36.3s | ETA: 54.4s
+    Iter 350/750 | Loss: -16.2749 | Sharpe: 10.886 | Best: 10.938 | Time: 42.3s | ETA: 48.3s
+    Iter 400/750 | Loss: -16.8558 | Sharpe: 11.291 | Best: 11.291 | Time: 48.4s | ETA: 42.3s
+    Iter 450/750 | Loss: -17.5636 | Sharpe: 11.786 | Best: 11.786 | Time: 54.4s | ETA: 36.3s
+    Iter 500/750 | Loss: -18.5700 | Sharpe: 12.541 | Best: 12.541 | Time: 60.5s | ETA: 30.2s
+    Iter 550/750 | Loss: -20.4544 | Sharpe: 14.014 | Best: 14.014 | Time: 66.5s | ETA: 24.2s
+    Iter 600/750 | Loss: -22.3072 | Sharpe: 14.515 | Best: 16.222 | Time: 72.6s | ETA: 18.1s
+    Iter 650/750 | Loss: -24.6032 | Sharpe: 18.075 | Best: 18.075 | Time: 78.6s | ETA: 12.1s
+    Iter 700/750 | Loss: -26.2142 | Sharpe: 17.911 | Best: 18.875 | Time: 84.7s | ETA: 6.0s
+    Iter 750/750 | Loss: -28.3015 | Sharpe: 20.231 | Best: 20.231 | Time: 90.7s | ETA: 0.0s
+  Training complete in 90.8s | Final Sharpe: 20.231
+  Evaluation for 2021-09:
+    Raw Return: -10.298%
+    Transaction Cost: -0.15%
+    Net Return: -10.448%
+    Sharpe Ratio: -6.834
+    Daily Volatility: 1.529%
+  YTD Performance: -19.83%
+
+============================================================
+Month 10/2021 | Trade 10/48
+Total Elapsed: 13.8 min
+ETA: 59.9 min remaining
+============================================================
+  Test date: 2021-10-02
+  File index: 376
+  Loading 7 training files...
+  Starting training for 2021-10 (750 iterations)
+    Iter  50/750 | Loss: +0.1056 | Sharpe: 1.820 | Best: 1.826 | Time: 6.0s | ETA: 84.5s
+    Iter 100/750 | Loss: +0.0893 | Sharpe: 1.821 | Best: 1.826 | Time: 12.1s | ETA: 78.8s
+    Iter 150/750 | Loss: +0.0741 | Sharpe: 1.826 | Best: 1.826 | Time: 18.2s | ETA: 72.8s
+    Iter 200/750 | Loss: +0.0296 | Sharpe: 1.829 | Best: 1.829 | Time: 24.3s | ETA: 66.8s
+    Iter 250/750 | Loss: -0.1309 | Sharpe: 1.830 | Best: 1.832 | Time: 30.4s | ETA: 60.7s
+    Iter 300/750 | Loss: -4.5587 | Sharpe: 3.401 | Best: 3.401 | Time: 36.5s | ETA: 54.7s
+    Iter 350/750 | Loss: -4.8664 | Sharpe: 3.634 | Best: 3.634 | Time: 42.5s | ETA: 48.6s
+    Iter 400/750 | Loss: -4.8762 | Sharpe: 3.642 | Best: 3.642 | Time: 48.6s | ETA: 42.6s
+    Iter 450/750 | Loss: -4.8810 | Sharpe: 3.645 | Best: 3.645 | Time: 54.7s | ETA: 36.5s
+    Iter 500/750 | Loss: -4.8839 | Sharpe: 3.647 | Best: 3.647 | Time: 60.8s | ETA: 30.4s
+    Iter 550/750 | Loss: -4.8835 | Sharpe: 3.646 | Best: 3.648 | Time: 66.9s | ETA: 24.3s
+    Iter 600/750 | Loss: -4.8870 | Sharpe: 3.649 | Best: 3.649 | Time: 73.0s | ETA: 18.2s
+    Iter 650/750 | Loss: -4.8871 | Sharpe: 3.649 | Best: 3.650 | Time: 79.0s | ETA: 12.2s
+    Iter 700/750 | Loss: -4.8885 | Sharpe: 3.650 | Best: 3.651 | Time: 85.1s | ETA: 6.1s
+    Iter 750/750 | Loss: -4.8875 | Sharpe: 3.649 | Best: 3.651 | Time: 91.2s | ETA: 0.0s
+  Training complete in 91.3s | Final Sharpe: 3.649
+  Evaluation for 2021-10:
+    Raw Return: +7.721%
+    Transaction Cost: -0.15%
+    Net Return: +7.571%
+    Sharpe Ratio: 1.929
+    Daily Volatility: 3.925%
+  YTD Performance: -13.76%
+
+============================================================
+Month 11/2021 | Trade 11/48
+Total Elapsed: 15.3 min
+ETA: 58.3 min remaining
+============================================================
+  Test date: 2021-11-03
+  File index: 399
+  Loading 7 training files...
+  Starting training for 2021-11 (750 iterations)
+    Iter  50/750 | Loss: -6.4291 | Sharpe: 3.907 | Best: 3.907 | Time: 6.1s | ETA: 85.2s
+    Iter 100/750 | Loss: -9.3821 | Sharpe: 5.862 | Best: 5.862 | Time: 12.2s | ETA: 79.4s
+    Iter 150/750 | Loss: -11.9909 | Sharpe: 7.827 | Best: 7.827 | Time: 18.3s | ETA: 73.4s
+    Iter 200/750 | Loss: -18.6417 | Sharpe: 13.183 | Best: 13.183 | Time: 24.5s | ETA: 67.3s
+    Iter 250/750 | Loss: -21.3523 | Sharpe: 15.232 | Best: 15.232 | Time: 30.6s | ETA: 61.2s
+    Iter 300/750 | Loss: -22.2732 | Sharpe: 15.691 | Best: 15.737 | Time: 36.7s | ETA: 55.1s
+    Iter 350/750 | Loss: -22.6809 | Sharpe: 15.859 | Best: 15.863 | Time: 42.9s | ETA: 49.0s
+    Iter 400/750 | Loss: -22.8632 | Sharpe: 15.909 | Best: 15.909 | Time: 49.0s | ETA: 42.9s
+    Iter 450/750 | Loss: -22.9131 | Sharpe: 15.932 | Best: 15.932 | Time: 55.1s | ETA: 36.8s
+    Iter 500/750 | Loss: -22.9320 | Sharpe: 15.941 | Best: 15.947 | Time: 61.3s | ETA: 30.6s
+    Iter 550/750 | Loss: -22.9530 | Sharpe: 15.954 | Best: 15.956 | Time: 67.4s | ETA: 24.5s
+    Iter 600/750 | Loss: -22.9625 | Sharpe: 15.960 | Best: 15.961 | Time: 73.5s | ETA: 18.4s
+    Iter 650/750 | Loss: -22.9717 | Sharpe: 15.962 | Best: 15.965 | Time: 79.7s | ETA: 12.3s
+    Iter 700/750 | Loss: -22.9817 | Sharpe: 15.967 | Best: 15.968 | Time: 85.8s | ETA: 6.1s
+    Iter 750/750 | Loss: -22.9881 | Sharpe: 15.969 | Best: 15.970 | Time: 91.9s | ETA: 0.0s
+  Training complete in 92.0s | Final Sharpe: 15.969
+  Evaluation for 2021-11:
+    Raw Return: -1.792%
+    Transaction Cost: -0.15%
+    Net Return: -1.942%
+    Sharpe Ratio: -1.003
+    Daily Volatility: 1.935%
+  YTD Performance: -15.43%
+
+============================================================
+Month 12/2021 | Trade 12/48
+Total Elapsed: 16.9 min
+ETA: 56.8 min remaining
+============================================================
+  Test date: 2021-12-01
+  File index: 420
+  Loading 7 training files...
+  Starting training for 2021-12 (750 iterations)
+    Iter  50/750 | Loss: -5.7664 | Sharpe: 3.818 | Best: 3.818 | Time: 6.1s | ETA: 85.1s
+    Iter 100/750 | Loss: -6.5246 | Sharpe: 4.116 | Best: 4.116 | Time: 12.2s | ETA: 79.3s
+    Iter 150/750 | Loss: -6.7752 | Sharpe: 4.213 | Best: 4.213 | Time: 18.3s | ETA: 73.3s
+    Iter 200/750 | Loss: -7.9355 | Sharpe: 4.883 | Best: 4.883 | Time: 24.5s | ETA: 67.3s
+    Iter 250/750 | Loss: -11.5519 | Sharpe: 7.503 | Best: 7.503 | Time: 30.6s | ETA: 61.2s
+    Iter 300/750 | Loss: -18.9011 | Sharpe: 13.689 | Best: 13.689 | Time: 36.7s | ETA: 55.1s
+    Iter 350/750 | Loss: -19.8694 | Sharpe: 14.458 | Best: 14.458 | Time: 42.8s | ETA: 48.9s
+    Iter 400/750 | Loss: -20.5391 | Sharpe: 15.006 | Best: 15.036 | Time: 48.9s | ETA: 42.8s
+    Iter 450/750 | Loss: -21.0321 | Sharpe: 15.203 | Best: 15.525 | Time: 55.1s | ETA: 36.7s
+    Iter 500/750 | Loss: -21.4722 | Sharpe: 15.807 | Best: 15.813 | Time: 61.2s | ETA: 30.6s
+    Iter 550/750 | Loss: -21.3777 | Sharpe: 15.914 | Best: 15.971 | Time: 67.3s | ETA: 24.5s
+    Iter 600/750 | Loss: -21.8816 | Sharpe: 16.103 | Best: 16.103 | Time: 73.5s | ETA: 18.4s
+    Iter 650/750 | Loss: -16.5147 | Sharpe: 12.173 | Best: 16.182 | Time: 79.6s | ETA: 12.2s
+    Iter 700/750 | Loss: -21.7754 | Sharpe: 15.903 | Best: 16.182 | Time: 85.7s | ETA: 6.1s
+    Iter 750/750 | Loss: -22.0079 | Sharpe: 16.042 | Best: 16.182 | Time: 91.8s | ETA: 0.0s
+  Training complete in 91.9s | Final Sharpe: 16.042
+  Evaluation for 2021-12:
+    Raw Return: -0.785%
+    Transaction Cost: -0.15%
+    Net Return: -0.935%
+    Sharpe Ratio: -0.766
+    Daily Volatility: 1.221%
+  YTD Performance: -16.22%
+
+============================================================
+2021 SUMMARY
+============================================================
+  Annual Return: -16.22%
+  Trades Executed: 12/12
+  Win Rate: 33.3%
+  Average Monthly: -1.11%
+  Std Dev: 8.29%
+  Best Month: +16.14%
+  Worst Month: -18.64%
+  Processing Time: 18.4 minutes
+
+================================================================================
+PROCESSING YEAR 2022
+================================================================================
+
+============================================================
+Month 01/2022 | Trade 13/48
+Total Elapsed: 18.4 min
+ETA: 55.2 min remaining
+============================================================
+  Test date: 2022-01-01
+  File index: 442
+  Loading 7 training files...
+  Starting training for 2022-01 (750 iterations)
+    Iter  50/750 | Loss: +2.8235 | Sharpe: -1.750 | Best: -1.750 | Time: 6.2s | ETA: 86.9s
+    Iter 100/750 | Loss: -15.3481 | Sharpe: 11.100 | Best: 11.100 | Time: 12.5s | ETA: 81.0s
+    Iter 150/750 | Loss: -16.3563 | Sharpe: 11.887 | Best: 11.887 | Time: 18.7s | ETA: 74.9s
+    Iter 200/750 | Loss: -16.5044 | Sharpe: 12.002 | Best: 12.002 | Time: 25.0s | ETA: 68.7s
+    Iter 250/750 | Loss: -16.5629 | Sharpe: 12.050 | Best: 12.050 | Time: 31.2s | ETA: 62.5s
+    Iter 300/750 | Loss: -16.5935 | Sharpe: 12.075 | Best: 12.075 | Time: 37.5s | ETA: 56.2s
+    Iter 350/750 | Loss: -16.6120 | Sharpe: 12.090 | Best: 12.090 | Time: 43.7s | ETA: 50.0s
+    Iter 400/750 | Loss: -16.6245 | Sharpe: 12.101 | Best: 12.101 | Time: 50.0s | ETA: 43.7s
+    Iter 450/750 | Loss: -16.6336 | Sharpe: 12.108 | Best: 12.108 | Time: 56.2s | ETA: 37.5s
+    Iter 500/750 | Loss: -16.6409 | Sharpe: 12.113 | Best: 12.113 | Time: 62.5s | ETA: 31.3s
+    Iter 550/750 | Loss: -16.6463 | Sharpe: 12.117 | Best: 12.117 | Time: 68.8s | ETA: 25.0s
+    Iter 600/750 | Loss: -16.6509 | Sharpe: 12.120 | Best: 12.120 | Time: 75.0s | ETA: 18.8s
+    Iter 650/750 | Loss: -16.6548 | Sharpe: 12.122 | Best: 12.122 | Time: 81.3s | ETA: 12.5s
+    Iter 700/750 | Loss: -16.6582 | Sharpe: 12.124 | Best: 12.124 | Time: 87.5s | ETA: 6.3s
+    Iter 750/750 | Loss: -16.6613 | Sharpe: 12.125 | Best: 12.125 | Time: 93.8s | ETA: 0.0s
+  Training complete in 93.8s | Final Sharpe: 12.125
+  Evaluation for 2022-01:
+    Raw Return: +57.129%
+    Transaction Cost: -0.15%
+    Net Return: +56.979%
+    Sharpe Ratio: 5.347
+    Daily Volatility: 10.657%
+  YTD Performance: +56.98%
+
+============================================================
+Month 02/2022 | Trade 14/48
+Total Elapsed: 20.0 min
+ETA: 53.8 min remaining
+============================================================
+  Test date: 2022-02-01
+  File index: 464
+  Loading 7 training files...
+  Starting training for 2022-02 (750 iterations)
+    Iter  50/750 | Loss: -18.9888 | Sharpe: 13.767 | Best: 13.767 | Time: 6.2s | ETA: 87.0s
+    Iter 100/750 | Loss: -23.5844 | Sharpe: 17.094 | Best: 17.094 | Time: 12.5s | ETA: 81.2s
+    Iter 150/750 | Loss: -31.4735 | Sharpe: 22.992 | Best: 22.992 | Time: 18.8s | ETA: 75.0s
+    Iter 200/750 | Loss: -36.7664 | Sharpe: 27.541 | Best: 27.541 | Time: 25.0s | ETA: 68.8s
+    Iter 250/750 | Loss: -39.1404 | Sharpe: 29.720 | Best: 29.720 | Time: 31.3s | ETA: 62.6s
+    Iter 300/750 | Loss: -40.1169 | Sharpe: 30.558 | Best: 30.558 | Time: 37.6s | ETA: 56.3s
+    Iter 350/750 | Loss: -40.7187 | Sharpe: 31.117 | Best: 31.117 | Time: 43.8s | ETA: 50.1s
+    Iter 400/750 | Loss: -41.4048 | Sharpe: 31.701 | Best: 31.774 | Time: 50.1s | ETA: 43.8s
+    Iter 450/750 | Loss: -44.1647 | Sharpe: 34.469 | Best: 34.469 | Time: 56.4s | ETA: 37.6s
+    Iter 500/750 | Loss: -45.6309 | Sharpe: 35.564 | Best: 35.564 | Time: 62.7s | ETA: 31.3s
+    Iter 550/750 | Loss: -46.2047 | Sharpe: 36.050 | Best: 36.050 | Time: 68.9s | ETA: 25.1s
+    Iter 600/750 | Loss: -46.6033 | Sharpe: 36.428 | Best: 36.456 | Time: 75.2s | ETA: 18.8s
+    Iter 650/750 | Loss: -47.1661 | Sharpe: 36.935 | Best: 36.942 | Time: 81.5s | ETA: 12.5s
+    Iter 700/750 | Loss: -47.4629 | Sharpe: 37.168 | Best: 37.314 | Time: 87.7s | ETA: 6.3s
+    Iter 750/750 | Loss: -48.1654 | Sharpe: 37.825 | Best: 37.825 | Time: 94.0s | ETA: 0.0s
+  Training complete in 94.1s | Final Sharpe: 37.825
+  Evaluation for 2022-02:
+    Raw Return: -9.087%
+    Transaction Cost: -0.15%
+    Net Return: -9.237%
+    Sharpe Ratio: -4.007
+    Daily Volatility: 2.305%
+  YTD Performance: +42.48%
+
+============================================================
+Month 03/2022 | Trade 15/48
+Total Elapsed: 21.5 min
+ETA: 52.3 min remaining
+============================================================
+  Test date: 2022-03-01
+  File index: 485
+  Loading 7 training files...
+  Starting training for 2022-03 (750 iterations)
+    Iter  50/750 | Loss: -3.5963 | Sharpe: 2.463 | Best: 2.463 | Time: 6.0s | ETA: 84.5s
+    Iter 100/750 | Loss: -13.8151 | Sharpe: 9.693 | Best: 9.693 | Time: 12.1s | ETA: 78.8s
+    Iter 150/750 | Loss: -19.6838 | Sharpe: 13.735 | Best: 13.735 | Time: 18.2s | ETA: 72.9s
+    Iter 200/750 | Loss: -39.2471 | Sharpe: 27.530 | Best: 27.530 | Time: 24.3s | ETA: 66.8s
+    Iter 250/750 | Loss: -45.8651 | Sharpe: 32.407 | Best: 32.416 | Time: 30.4s | ETA: 60.8s
+    Iter 300/750 | Loss: -47.1958 | Sharpe: 33.972 | Best: 33.972 | Time: 36.5s | ETA: 54.7s
+    Iter 350/750 | Loss: -47.8286 | Sharpe: 34.470 | Best: 34.523 | Time: 42.6s | ETA: 48.7s
+    Iter 400/750 | Loss: -48.3396 | Sharpe: 35.084 | Best: 35.084 | Time: 48.7s | ETA: 42.6s
+    Iter 450/750 | Loss: -48.9731 | Sharpe: 35.027 | Best: 35.378 | Time: 54.8s | ETA: 36.5s
+    Iter 500/750 | Loss: -49.3480 | Sharpe: 35.182 | Best: 35.539 | Time: 60.8s | ETA: 30.4s
+    Iter 550/750 | Loss: -49.3756 | Sharpe: 34.962 | Best: 35.760 | Time: 66.9s | ETA: 24.3s
+    Iter 600/750 | Loss: -50.2403 | Sharpe: 35.976 | Best: 36.002 | Time: 73.0s | ETA: 18.3s
+    Iter 650/750 | Loss: -50.6794 | Sharpe: 36.005 | Best: 36.344 | Time: 79.1s | ETA: 12.2s
+    Iter 700/750 | Loss: -51.2228 | Sharpe: 36.615 | Best: 36.615 | Time: 85.2s | ETA: 6.1s
+    Iter 750/750 | Loss: -51.6173 | Sharpe: 36.941 | Best: 36.941 | Time: 91.3s | ETA: 0.0s
+  Training complete in 91.3s | Final Sharpe: 36.941
+  Evaluation for 2022-03:
+    Raw Return: -6.225%
+    Transaction Cost: -0.15%
+    Net Return: -6.375%
+    Sharpe Ratio: -4.742
+    Daily Volatility: 1.344%
+  YTD Performance: +33.40%
+
+============================================================
+Month 04/2022 | Trade 16/48
+Total Elapsed: 23.1 min
+ETA: 50.8 min remaining
+============================================================
+  Test date: 2022-04-01
+  File index: 507
+  Loading 7 training files...
+  Starting training for 2022-04 (750 iterations)
+    Iter  50/750 | Loss: +5.2003 | Sharpe: -2.982 | Best: -2.982 | Time: 6.2s | ETA: 87.0s
+    Iter 100/750 | Loss: +4.0605 | Sharpe: -2.157 | Best: -2.157 | Time: 12.5s | ETA: 81.1s
+    Iter 150/750 | Loss: +2.1664 | Sharpe: -0.855 | Best: -0.855 | Time: 18.7s | ETA: 75.0s
+    Iter 200/750 | Loss: -3.8576 | Sharpe: 2.378 | Best: 2.378 | Time: 25.0s | ETA: 68.8s
+    Iter 250/750 | Loss: -4.5877 | Sharpe: 2.771 | Best: 2.771 | Time: 31.3s | ETA: 62.5s
+    Iter 300/750 | Loss: -4.5972 | Sharpe: 2.776 | Best: 2.776 | Time: 37.5s | ETA: 56.3s
+    Iter 350/750 | Loss: -4.6007 | Sharpe: 2.777 | Best: 2.777 | Time: 43.8s | ETA: 50.1s
+    Iter 400/750 | Loss: -4.6030 | Sharpe: 2.778 | Best: 2.778 | Time: 50.1s | ETA: 43.8s
+    Iter 450/750 | Loss: -4.6047 | Sharpe: 2.778 | Best: 2.778 | Time: 56.3s | ETA: 37.6s
+    Iter 500/750 | Loss: -4.6062 | Sharpe: 2.779 | Best: 2.779 | Time: 62.6s | ETA: 31.3s
+    Iter 550/750 | Loss: -4.6079 | Sharpe: 2.779 | Best: 2.779 | Time: 68.9s | ETA: 25.0s
+    Iter 600/750 | Loss: -4.6099 | Sharpe: 2.779 | Best: 2.779 | Time: 75.1s | ETA: 18.8s
+    Iter 650/750 | Loss: -4.6125 | Sharpe: 2.779 | Best: 2.779 | Time: 81.4s | ETA: 12.5s
+    Iter 700/750 | Loss: -4.6158 | Sharpe: 2.779 | Best: 2.779 | Time: 87.7s | ETA: 6.3s
+    Iter 750/750 | Loss: -4.6200 | Sharpe: 2.779 | Best: 2.779 | Time: 93.9s | ETA: 0.0s
+  Training complete in 94.0s | Final Sharpe: 2.779
+  Evaluation for 2022-04:
+    Raw Return: +6.193%
+    Transaction Cost: -0.15%
+    Net Return: +6.043%
+    Sharpe Ratio: 1.085
+    Daily Volatility: 5.572%
+  YTD Performance: +41.46%
+
+============================================================
+Month 05/2022 | Trade 17/48
+Total Elapsed: 24.6 min
+ETA: 49.3 min remaining
+============================================================
+  Test date: 2022-05-02
+  File index: 529
+  Loading 7 training files...
+  Starting training for 2022-05 (750 iterations)
+    Iter  50/750 | Loss: -8.2349 | Sharpe: 5.432 | Best: 5.432 | Time: 6.1s | ETA: 84.7s
+    Iter 100/750 | Loss: -10.2441 | Sharpe: 6.856 | Best: 6.856 | Time: 12.2s | ETA: 79.0s
+    Iter 150/750 | Loss: -13.3316 | Sharpe: 8.877 | Best: 8.877 | Time: 18.3s | ETA: 73.0s
+    Iter 200/750 | Loss: -16.9832 | Sharpe: 11.355 | Best: 11.355 | Time: 24.4s | ETA: 67.0s
+    Iter 250/750 | Loss: -31.0578 | Sharpe: 22.036 | Best: 22.036 | Time: 30.5s | ETA: 60.9s
+    Iter 300/750 | Loss: -37.8147 | Sharpe: 27.631 | Best: 27.631 | Time: 36.6s | ETA: 54.8s
+    Iter 350/750 | Loss: -41.0203 | Sharpe: 30.472 | Best: 30.472 | Time: 42.6s | ETA: 48.7s
+    Iter 400/750 | Loss: -44.6556 | Sharpe: 33.503 | Best: 33.503 | Time: 48.8s | ETA: 42.7s
+    Iter 450/750 | Loss: -47.7015 | Sharpe: 35.964 | Best: 36.725 | Time: 54.9s | ETA: 36.6s
+    Iter 500/750 | Loss: -51.0774 | Sharpe: 39.024 | Best: 39.024 | Time: 61.0s | ETA: 30.5s
+    Iter 550/750 | Loss: -54.2839 | Sharpe: 41.720 | Best: 41.720 | Time: 67.1s | ETA: 24.4s
+    Iter 600/750 | Loss: -59.6404 | Sharpe: 46.344 | Best: 46.344 | Time: 73.2s | ETA: 18.3s
+    Iter 650/750 | Loss: -69.7792 | Sharpe: 57.324 | Best: 57.324 | Time: 79.3s | ETA: 12.2s
+    Iter 700/750 | Loss: -76.5387 | Sharpe: 63.198 | Best: 63.198 | Time: 85.4s | ETA: 6.1s
+    Iter 750/750 | Loss: -78.3374 | Sharpe: 66.119 | Best: 68.174 | Time: 91.4s | ETA: 0.0s
+  Training complete in 91.5s | Final Sharpe: 66.119
+  Evaluation for 2022-05:
+    Raw Return: +0.283%
+    Transaction Cost: -0.15%
+    Net Return: +0.133%
+    Sharpe Ratio: 1.467
+    Daily Volatility: 0.091%
+  YTD Performance: +41.64%
+
+============================================================
+Month 06/2022 | Trade 18/48
+Total Elapsed: 26.2 min
+ETA: 47.7 min remaining
+============================================================
+  Test date: 2022-06-01
+  File index: 551
+  Loading 7 training files...
+  Starting training for 2022-06 (750 iterations)
+    Iter  50/750 | Loss: -7.6200 | Sharpe: 5.845 | Best: 5.845 | Time: 5.9s | ETA: 82.3s
+    Iter 100/750 | Loss: -13.0799 | Sharpe: 9.522 | Best: 9.522 | Time: 11.8s | ETA: 76.8s
+    Iter 150/750 | Loss: -37.7472 | Sharpe: 27.692 | Best: 27.692 | Time: 17.7s | ETA: 71.0s
+    Iter 200/750 | Loss: -49.7329 | Sharpe: 38.247 | Best: 38.298 | Time: 23.7s | ETA: 65.1s
+    Iter 250/750 | Loss: -57.0347 | Sharpe: 45.323 | Best: 46.671 | Time: 29.6s | ETA: 59.2s
+    Iter 300/750 | Loss: -62.4523 | Sharpe: 51.115 | Best: 51.115 | Time: 35.5s | ETA: 53.3s
+    Iter 350/750 | Loss: -66.7548 | Sharpe: 54.870 | Best: 55.442 | Time: 41.5s | ETA: 47.4s
+    Iter 400/750 | Loss: -71.2073 | Sharpe: 59.619 | Best: 59.701 | Time: 47.4s | ETA: 41.5s
+    Iter 450/750 | Loss: -75.2854 | Sharpe: 63.231 | Best: 63.231 | Time: 53.3s | ETA: 35.5s
+    Iter 500/750 | Loss: -78.5055 | Sharpe: 65.882 | Best: 65.882 | Time: 59.2s | ETA: 29.6s
+    Iter 550/750 | Loss: -79.1690 | Sharpe: 67.178 | Best: 68.604 | Time: 65.2s | ETA: 23.7s
+    Iter 600/750 | Loss: -83.6238 | Sharpe: 71.767 | Best: 72.656 | Time: 71.1s | ETA: 17.8s
+    Iter 650/750 | Loss: -87.8412 | Sharpe: 74.853 | Best: 74.853 | Time: 77.0s | ETA: 11.8s
+    Iter 700/750 | Loss: -90.9472 | Sharpe: 77.342 | Best: 79.441 | Time: 83.0s | ETA: 5.9s
+    Iter 750/750 | Loss: -93.8763 | Sharpe: 81.398 | Best: 83.957 | Time: 88.9s | ETA: 0.0s
+  Training complete in 88.9s | Final Sharpe: 81.398
+  Evaluation for 2022-06:
+    Raw Return: -2.827%
+    Transaction Cost: -0.15%
+    Net Return: -2.977%
+    Sharpe Ratio: -1.230
+    Daily Volatility: 2.420%
+  YTD Performance: +37.43%
+
+============================================================
+Month 07/2022 | Trade 19/48
+Total Elapsed: 27.7 min
+ETA: 46.1 min remaining
+============================================================
+  Test date: 2022-07-01
+  File index: 572
+  Loading 7 training files...
+  Starting training for 2022-07 (750 iterations)
+    Iter  50/750 | Loss: -10.8961 | Sharpe: 7.563 | Best: 7.563 | Time: 6.0s | ETA: 84.5s
+    Iter 100/750 | Loss: -24.2265 | Sharpe: 16.905 | Best: 16.905 | Time: 12.1s | ETA: 78.8s
+    Iter 150/750 | Loss: -30.9224 | Sharpe: 21.171 | Best: 21.171 | Time: 18.2s | ETA: 72.9s
+    Iter 200/750 | Loss: -39.1939 | Sharpe: 27.892 | Best: 27.892 | Time: 24.3s | ETA: 66.9s
+    Iter 250/750 | Loss: -54.8149 | Sharpe: 43.435 | Best: 45.518 | Time: 30.4s | ETA: 60.8s
+    Iter 300/750 | Loss: -66.3039 | Sharpe: 51.367 | Best: 51.911 | Time: 36.5s | ETA: 54.7s
+    Iter 350/750 | Loss: -76.2020 | Sharpe: 58.935 | Best: 58.935 | Time: 42.6s | ETA: 48.7s
+    Iter 400/750 | Loss: -101.5956 | Sharpe: 84.794 | Best: 84.794 | Time: 48.7s | ETA: 42.6s
+    Iter 450/750 | Loss: -70.9777 | Sharpe: 54.825 | Best: 97.063 | Time: 54.8s | ETA: 36.5s
+    Iter 500/750 | Loss: -131.3851 | Sharpe: 115.078 | Best: 120.806 | Time: 60.9s | ETA: 30.4s
+    Iter 550/750 | Loss: -71.9186 | Sharpe: 58.967 | Best: 138.725 | Time: 67.0s | ETA: 24.3s
+    Iter 600/750 | Loss: -132.8634 | Sharpe: 116.685 | Best: 138.725 | Time: 73.1s | ETA: 18.3s
+    Iter 650/750 | Loss: -134.6985 | Sharpe: 116.485 | Best: 146.251 | Time: 79.1s | ETA: 12.2s
+    Iter 700/750 | Loss: -158.4596 | Sharpe: 142.151 | Best: 158.872 | Time: 85.2s | ETA: 6.1s
+    Iter 750/750 | Loss: -143.3616 | Sharpe: 127.242 | Best: 168.629 | Time: 91.3s | ETA: 0.0s
+  Training complete in 91.4s | Final Sharpe: 127.242
+  Evaluation for 2022-07:
+    Raw Return: -1.492%
+    Transaction Cost: -0.15%
+    Net Return: -1.642%
+    Sharpe Ratio: -0.916
+    Daily Volatility: 1.792%
+  YTD Performance: +35.17%
+
+============================================================
+Month 08/2022 | Trade 20/48
+Total Elapsed: 29.2 min
+ETA: 44.5 min remaining
+============================================================
+  Test date: 2022-08-01
+  File index: 594
+  Loading 7 training files...
+  Starting training for 2022-08 (750 iterations)
+    Iter  50/750 | Loss: -14.4006 | Sharpe: 10.042 | Best: 10.042 | Time: 6.2s | ETA: 86.9s
+    Iter 100/750 | Loss: -20.0134 | Sharpe: 14.437 | Best: 14.437 | Time: 12.5s | ETA: 81.0s
+    Iter 150/750 | Loss: -23.0972 | Sharpe: 16.933 | Best: 16.933 | Time: 18.7s | ETA: 74.9s
+    Iter 200/750 | Loss: -25.1819 | Sharpe: 18.600 | Best: 18.600 | Time: 25.0s | ETA: 68.7s
+    Iter 250/750 | Loss: -26.9838 | Sharpe: 20.134 | Best: 20.134 | Time: 31.2s | ETA: 62.5s
+    Iter 300/750 | Loss: -28.4720 | Sharpe: 21.550 | Best: 21.550 | Time: 37.5s | ETA: 56.2s
+    Iter 350/750 | Loss: -31.4024 | Sharpe: 24.030 | Best: 24.030 | Time: 43.7s | ETA: 50.0s
+    Iter 400/750 | Loss: -37.6958 | Sharpe: 28.662 | Best: 29.932 | Time: 50.0s | ETA: 43.8s
+    Iter 450/750 | Loss: -40.9753 | Sharpe: 32.516 | Best: 32.731 | Time: 56.3s | ETA: 37.5s
+    Iter 500/750 | Loss: -42.9766 | Sharpe: 34.136 | Best: 34.431 | Time: 62.5s | ETA: 31.3s
+    Iter 550/750 | Loss: -44.5214 | Sharpe: 35.543 | Best: 35.784 | Time: 68.8s | ETA: 25.0s
+    Iter 600/750 | Loss: -46.6756 | Sharpe: 37.783 | Best: 37.783 | Time: 75.0s | ETA: 18.8s
+    Iter 650/750 | Loss: -49.7449 | Sharpe: 41.357 | Best: 41.357 | Time: 81.3s | ETA: 12.5s
+    Iter 700/750 | Loss: -51.8777 | Sharpe: 44.221 | Best: 44.221 | Time: 87.6s | ETA: 6.3s
+    Iter 750/750 | Loss: -52.5556 | Sharpe: 45.325 | Best: 45.933 | Time: 93.8s | ETA: 0.0s
+  Training complete in 93.9s | Final Sharpe: 45.325
+  Evaluation for 2022-08:
+    Raw Return: +13.267%
+    Transaction Cost: -0.15%
+    Net Return: +13.117%
+    Sharpe Ratio: 4.196
+    Daily Volatility: 3.126%
+  YTD Performance: +52.90%
+
+============================================================
+Month 09/2022 | Trade 21/48
+Total Elapsed: 30.8 min
+ETA: 43.1 min remaining
+============================================================
+  Test date: 2022-09-01
+  File index: 616
+  Loading 7 training files...
+  Starting training for 2022-09 (750 iterations)
+    Iter  50/750 | Loss: +5.8949 | Sharpe: -3.837 | Best: -3.837 | Time: 6.3s | ETA: 87.7s
+    Iter 100/750 | Loss: -5.5209 | Sharpe: 3.047 | Best: 3.047 | Time: 12.6s | ETA: 81.8s
+    Iter 150/750 | Loss: -13.7357 | Sharpe: 8.584 | Best: 8.584 | Time: 18.9s | ETA: 75.6s
+    Iter 200/750 | Loss: -14.6959 | Sharpe: 8.938 | Best: 9.513 | Time: 25.2s | ETA: 69.3s
+    Iter 250/750 | Loss: -15.5468 | Sharpe: 9.591 | Best: 9.657 | Time: 31.5s | ETA: 63.0s
+    Iter 300/750 | Loss: -15.7983 | Sharpe: 9.743 | Best: 9.743 | Time: 37.8s | ETA: 56.8s
+    Iter 350/750 | Loss: -15.8648 | Sharpe: 9.775 | Best: 9.783 | Time: 44.2s | ETA: 50.5s
+    Iter 400/750 | Loss: -15.9057 | Sharpe: 9.807 | Best: 9.807 | Time: 50.5s | ETA: 44.2s
+    Iter 450/750 | Loss: -15.9285 | Sharpe: 9.822 | Best: 9.822 | Time: 56.8s | ETA: 37.9s
+    Iter 500/750 | Loss: -15.9628 | Sharpe: 9.839 | Best: 9.839 | Time: 63.1s | ETA: 31.5s
+    Iter 550/750 | Loss: -16.0327 | Sharpe: 9.825 | Best: 9.869 | Time: 69.4s | ETA: 25.2s
+    Iter 600/750 | Loss: -16.1235 | Sharpe: 9.905 | Best: 9.905 | Time: 75.7s | ETA: 18.9s
+    Iter 650/750 | Loss: -16.1295 | Sharpe: 9.906 | Best: 9.914 | Time: 82.0s | ETA: 12.6s
+    Iter 700/750 | Loss: -16.1355 | Sharpe: 9.909 | Best: 9.920 | Time: 88.3s | ETA: 6.3s
+    Iter 750/750 | Loss: -16.1498 | Sharpe: 9.921 | Best: 9.924 | Time: 94.7s | ETA: 0.0s
+  Training complete in 94.7s | Final Sharpe: 9.921
+  Evaluation for 2022-09:
+    Raw Return: -12.589%
+    Transaction Cost: -0.15%
+    Net Return: -12.739%
+    Sharpe Ratio: -5.178
+    Daily Volatility: 2.460%
+  YTD Performance: +33.42%
+
+============================================================
+Month 10/2022 | Trade 22/48
+Total Elapsed: 32.3 min
+ETA: 41.6 min remaining
+============================================================
+  Test date: 2022-10-03
+  File index: 639
+  Loading 7 training files...
+  Starting training for 2022-10 (750 iterations)
+    Iter  50/750 | Loss: +6.7546 | Sharpe: -6.885 | Best: -6.885 | Time: 6.1s | ETA: 85.3s
+    Iter 100/750 | Loss: +5.3466 | Sharpe: -5.788 | Best: -5.788 | Time: 12.2s | ETA: 79.5s
+    Iter 150/750 | Loss: -9.7908 | Sharpe: 5.379 | Best: 5.379 | Time: 18.4s | ETA: 73.5s
+    Iter 200/750 | Loss: -10.0312 | Sharpe: 5.564 | Best: 5.564 | Time: 24.5s | ETA: 67.4s
+    Iter 250/750 | Loss: -10.0668 | Sharpe: 5.589 | Best: 5.589 | Time: 30.7s | ETA: 61.3s
+    Iter 300/750 | Loss: -10.0880 | Sharpe: 5.604 | Best: 5.604 | Time: 36.8s | ETA: 55.2s
+    Iter 350/750 | Loss: -10.1020 | Sharpe: 5.614 | Best: 5.614 | Time: 43.0s | ETA: 49.1s
+    Iter 400/750 | Loss: -10.1120 | Sharpe: 5.621 | Best: 5.621 | Time: 49.1s | ETA: 43.0s
+    Iter 450/750 | Loss: -10.1193 | Sharpe: 5.627 | Best: 5.627 | Time: 55.3s | ETA: 36.8s
+    Iter 500/750 | Loss: -10.1248 | Sharpe: 5.631 | Best: 5.631 | Time: 61.4s | ETA: 30.7s
+    Iter 550/750 | Loss: -10.1292 | Sharpe: 5.634 | Best: 5.634 | Time: 67.5s | ETA: 24.6s
+    Iter 600/750 | Loss: -10.1326 | Sharpe: 5.637 | Best: 5.637 | Time: 73.7s | ETA: 18.4s
+    Iter 650/750 | Loss: -10.1354 | Sharpe: 5.639 | Best: 5.639 | Time: 79.8s | ETA: 12.3s
+    Iter 700/750 | Loss: -10.1377 | Sharpe: 5.640 | Best: 5.640 | Time: 86.0s | ETA: 6.1s
+    Iter 750/750 | Loss: -10.1396 | Sharpe: 5.642 | Best: 5.642 | Time: 92.1s | ETA: 0.0s
+  Training complete in 92.2s | Final Sharpe: 5.642
+  Evaluation for 2022-10:
+    Raw Return: -1.275%
+    Transaction Cost: -0.15%
+    Net Return: -1.425%
+    Sharpe Ratio: -3.434
+    Daily Volatility: 0.415%
+  YTD Performance: +31.52%
+
+============================================================
+Month 11/2022 | Trade 23/48
+Total Elapsed: 33.9 min
+ETA: 40.0 min remaining
+============================================================
+  Test date: 2022-11-01
+  File index: 661
+  Loading 7 training files...
+  Starting training for 2022-11 (750 iterations)
+    Iter  50/750 | Loss: -1.1912 | Sharpe: 0.858 | Best: 0.858 | Time: 6.1s | ETA: 85.1s
+    Iter 100/750 | Loss: -4.7756 | Sharpe: 3.313 | Best: 3.313 | Time: 12.2s | ETA: 79.3s
+    Iter 150/750 | Loss: -8.7556 | Sharpe: 6.123 | Best: 6.123 | Time: 18.3s | ETA: 73.3s
+    Iter 200/750 | Loss: -9.9196 | Sharpe: 6.997 | Best: 6.997 | Time: 24.5s | ETA: 67.3s
+    Iter 250/750 | Loss: -11.7256 | Sharpe: 8.602 | Best: 8.602 | Time: 30.6s | ETA: 61.2s
+    Iter 300/750 | Loss: -13.1193 | Sharpe: 9.749 | Best: 9.749 | Time: 36.7s | ETA: 55.1s
+    Iter 350/750 | Loss: -13.3520 | Sharpe: 9.904 | Best: 9.904 | Time: 42.8s | ETA: 49.0s
+    Iter 400/750 | Loss: -13.4742 | Sharpe: 9.978 | Best: 9.978 | Time: 49.0s | ETA: 42.8s
+    Iter 450/750 | Loss: -13.5773 | Sharpe: 10.035 | Best: 10.035 | Time: 55.1s | ETA: 36.7s
+    Iter 500/750 | Loss: -13.8247 | Sharpe: 10.195 | Best: 10.195 | Time: 61.2s | ETA: 30.6s
+    Iter 550/750 | Loss: -13.9187 | Sharpe: 10.218 | Best: 10.236 | Time: 67.3s | ETA: 24.5s
+    Iter 600/750 | Loss: -13.9801 | Sharpe: 10.257 | Best: 10.257 | Time: 73.5s | ETA: 18.4s
+    Iter 650/750 | Loss: -14.0234 | Sharpe: 10.269 | Best: 10.269 | Time: 79.6s | ETA: 12.2s
+    Iter 700/750 | Loss: -14.0583 | Sharpe: 10.279 | Best: 10.279 | Time: 85.7s | ETA: 6.1s
+    Iter 750/750 | Loss: -14.0929 | Sharpe: 10.288 | Best: 10.288 | Time: 91.9s | ETA: 0.0s
+  Training complete in 91.9s | Final Sharpe: 10.288
+  Evaluation for 2022-11:
+    Raw Return: -16.039%
+    Transaction Cost: -0.15%
+    Net Return: -16.189%
+    Sharpe Ratio: -4.670
+    Daily Volatility: 3.467%
+  YTD Performance: +10.23%
+
+============================================================
+Month 12/2022 | Trade 24/48
+Total Elapsed: 35.4 min
+ETA: 38.5 min remaining
+============================================================
+  Test date: 2022-12-01
+  File index: 682
+  Loading 7 training files...
+  Starting training for 2022-12 (750 iterations)
+    Iter  50/750 | Loss: -13.0648 | Sharpe: 9.499 | Best: 9.499 | Time: 6.0s | ETA: 83.6s
+    Iter 100/750 | Loss: -16.0706 | Sharpe: 12.025 | Best: 12.025 | Time: 12.0s | ETA: 78.0s
+    Iter 150/750 | Loss: -19.2702 | Sharpe: 14.860 | Best: 14.860 | Time: 18.0s | ETA: 72.1s
+    Iter 200/750 | Loss: -20.5348 | Sharpe: 16.106 | Best: 16.106 | Time: 24.1s | ETA: 66.2s
+    Iter 250/750 | Loss: -20.7783 | Sharpe: 16.195 | Best: 16.198 | Time: 30.1s | ETA: 60.2s
+    Iter 300/750 | Loss: -21.6088 | Sharpe: 16.647 | Best: 16.647 | Time: 36.1s | ETA: 54.2s
+    Iter 350/750 | Loss: -26.0869 | Sharpe: 18.995 | Best: 18.995 | Time: 42.1s | ETA: 48.2s
+    Iter 400/750 | Loss: -27.4810 | Sharpe: 19.600 | Best: 20.844 | Time: 48.2s | ETA: 42.1s
+    Iter 450/750 | Loss: -29.5265 | Sharpe: 21.054 | Best: 21.054 | Time: 54.2s | ETA: 36.1s
+    Iter 500/750 | Loss: -29.7948 | Sharpe: 21.262 | Best: 21.262 | Time: 60.2s | ETA: 30.1s
+    Iter 550/750 | Loss: -30.0149 | Sharpe: 21.451 | Best: 21.451 | Time: 66.2s | ETA: 24.1s
+    Iter 600/750 | Loss: -30.2617 | Sharpe: 21.652 | Best: 21.652 | Time: 72.3s | ETA: 18.1s
+    Iter 650/750 | Loss: -30.3585 | Sharpe: 21.800 | Best: 21.800 | Time: 78.3s | ETA: 12.0s
+    Iter 700/750 | Loss: -30.3262 | Sharpe: 21.733 | Best: 22.102 | Time: 84.3s | ETA: 6.0s
+    Iter 750/750 | Loss: -31.3719 | Sharpe: 22.753 | Best: 22.753 | Time: 90.4s | ETA: 0.0s
+  Training complete in 90.4s | Final Sharpe: 22.753
+  Evaluation for 2022-12:
+    Raw Return: +3.569%
+    Transaction Cost: -0.15%
+    Net Return: +3.419%
+    Sharpe Ratio: 3.873
+    Daily Volatility: 0.883%
+  YTD Performance: +14.00%
+
+============================================================
+2022 SUMMARY
+============================================================
+  Annual Return: +14.00%
+  Trades Executed: 12/12
+  Win Rate: 41.7%
+  Average Monthly: +2.43%
+  Std Dev: 18.17%
+  Best Month: +56.98%
+  Worst Month: -16.19%
+  Processing Time: 18.5 minutes
+
+================================================================================
+PROCESSING YEAR 2023
+================================================================================
+
+============================================================
+Month 01/2023 | Trade 25/48
+Total Elapsed: 36.9 min
+ETA: 36.9 min remaining
+============================================================
+  Test date: 2023-01-01
+  File index: 704
+  Loading 7 training files...
+  Starting training for 2023-01 (750 iterations)
+    Iter  50/750 | Loss: -14.7796 | Sharpe: 10.438 | Best: 10.438 | Time: 6.2s | ETA: 86.1s
+    Iter 100/750 | Loss: -23.1676 | Sharpe: 16.383 | Best: 16.383 | Time: 12.4s | ETA: 80.3s
+    Iter 150/750 | Loss: -27.9132 | Sharpe: 20.058 | Best: 20.058 | Time: 18.6s | ETA: 74.3s
+    Iter 200/750 | Loss: -29.4968 | Sharpe: 21.253 | Best: 21.276 | Time: 24.8s | ETA: 68.1s
+    Iter 250/750 | Loss: -30.4835 | Sharpe: 22.042 | Best: 22.042 | Time: 31.0s | ETA: 62.0s
+    Iter 300/750 | Loss: -31.0312 | Sharpe: 22.425 | Best: 22.425 | Time: 37.2s | ETA: 55.8s
+    Iter 350/750 | Loss: -31.2902 | Sharpe: 22.589 | Best: 22.606 | Time: 43.4s | ETA: 49.6s
+    Iter 400/750 | Loss: -31.4506 | Sharpe: 22.690 | Best: 22.719 | Time: 49.6s | ETA: 43.4s
+    Iter 450/750 | Loss: -31.5889 | Sharpe: 22.777 | Best: 22.787 | Time: 55.8s | ETA: 37.2s
+    Iter 500/750 | Loss: -31.6887 | Sharpe: 22.836 | Best: 22.836 | Time: 62.0s | ETA: 31.0s
+    Iter 550/750 | Loss: -31.7437 | Sharpe: 22.865 | Best: 22.865 | Time: 68.2s | ETA: 24.8s
+    Iter 600/750 | Loss: -31.7958 | Sharpe: 22.890 | Best: 22.891 | Time: 74.4s | ETA: 18.6s
+    Iter 650/750 | Loss: -31.8426 | Sharpe: 22.912 | Best: 22.912 | Time: 80.6s | ETA: 12.4s
+    Iter 700/750 | Loss: -31.8899 | Sharpe: 22.927 | Best: 22.931 | Time: 86.8s | ETA: 6.2s
+    Iter 750/750 | Loss: -31.9819 | Sharpe: 22.973 | Best: 22.973 | Time: 93.1s | ETA: 0.0s
+  Training complete in 93.1s | Final Sharpe: 22.973
+  Evaluation for 2023-01:
+    Raw Return: -1.232%
+    Transaction Cost: -0.15%
+    Net Return: -1.382%
+    Sharpe Ratio: -0.393
+    Daily Volatility: 3.512%
+  YTD Performance: -1.38%
+
+============================================================
+Month 02/2023 | Trade 26/48
+Total Elapsed: 38.5 min
+ETA: 35.4 min remaining
+============================================================
+  Test date: 2023-02-01
+  File index: 726
+  Loading 7 training files...
+  Starting training for 2023-02 (750 iterations)
+    Iter  50/750 | Loss: +0.4111 | Sharpe: -0.032 | Best: -0.032 | Time: 6.0s | ETA: 84.3s
+    Iter 100/750 | Loss: -13.4115 | Sharpe: 10.022 | Best: 10.022 | Time: 12.1s | ETA: 78.6s
+    Iter 150/750 | Loss: -15.7469 | Sharpe: 11.390 | Best: 11.390 | Time: 18.2s | ETA: 72.7s
+    Iter 200/750 | Loss: -16.6456 | Sharpe: 11.969 | Best: 11.969 | Time: 24.2s | ETA: 66.6s
+    Iter 250/750 | Loss: -17.0516 | Sharpe: 12.180 | Best: 12.180 | Time: 30.3s | ETA: 60.6s
+    Iter 300/750 | Loss: -17.2418 | Sharpe: 12.277 | Best: 12.277 | Time: 36.4s | ETA: 54.6s
+    Iter 350/750 | Loss: -17.3290 | Sharpe: 12.321 | Best: 12.321 | Time: 42.4s | ETA: 48.5s
+    Iter 400/750 | Loss: -17.3788 | Sharpe: 12.344 | Best: 12.344 | Time: 48.5s | ETA: 42.4s
+    Iter 450/750 | Loss: -17.4139 | Sharpe: 12.358 | Best: 12.358 | Time: 54.6s | ETA: 36.4s
+    Iter 500/750 | Loss: -17.4412 | Sharpe: 12.367 | Best: 12.367 | Time: 60.6s | ETA: 30.3s
+    Iter 550/750 | Loss: -17.4631 | Sharpe: 12.374 | Best: 12.374 | Time: 66.7s | ETA: 24.3s
+    Iter 600/750 | Loss: -17.4811 | Sharpe: 12.380 | Best: 12.380 | Time: 72.8s | ETA: 18.2s
+    Iter 650/750 | Loss: -17.4970 | Sharpe: 12.386 | Best: 12.386 | Time: 78.9s | ETA: 12.1s
+    Iter 700/750 | Loss: -17.5140 | Sharpe: 12.394 | Best: 12.394 | Time: 84.9s | ETA: 6.1s

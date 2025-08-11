@@ -1,0 +1,14 @@
+{
+  "total_return": "-0.77625453",
+  "num_trades": 36,
+  "num_skipped": 168,
+  "trade_ratio": 0.17647058823529413,
+  "avg_return": "-0.040385023",
+  "std_return": "0.02599785",
+  "sharpe_ratio": -4.931885795764745,
+  "win_rate": 0.05555555555555555,
+  "max_return": "0.010612533",
+  "min_return": "-0.101265445",
+  "avg_gamma": 0.4811681906382243,
+  "std_gamma": 0.0005165498305666805
+}

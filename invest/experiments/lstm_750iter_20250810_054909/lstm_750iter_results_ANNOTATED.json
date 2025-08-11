@@ -1,0 +1,230 @@
+{
+  "_metadata": {
+    "description": "LSTM Sequential Model Results with 750 iterations",
+    "created": "2025-08-10",
+    "important_note": "ACTUAL TRADING YEARS - The years shown are the ACTUAL trading years, which are 1 year after the test_data_start_date in the filenames",
+    "date_mapping": {
+      "files_with_2020_dates": "trade_in_2021",
+      "files_with_2021_dates": "trade_in_2022"
+    },
+    "configuration": {
+      "gamma": 0.3,
+      "iterations": 750,
+      "lstm_hidden_dim": 64,
+      "lstm_layers": 2,
+      "gradient_clipping": 5.0,
+      "transaction_cost": 0.0015
+    }
+  },
+  "2021_actual_trading": {
+    "year": 2021,
+    "year_note": "Files used had test_data_start_date_2020_XX_XX",
+    "market_context": "Bull market continuation from 2020 recovery",
+    "sp500_performance": "~+27% for full year (we only have May-Dec)",
+    "monthly_returns": {
+      "5": 0.3515873350203037,
+      "6": 6.186494535207748,
+      "7": -2.4199922323226932,
+      "8": -0.24023010497912764,
+      "9": -1.9489490181207658,
+      "10": 3.2926789730787274,
+      "11": 12.338655745983123,
+      "12": -4.866208949685097
+    },
+    "trades": [
+      {
+        "month": 5,
+        "month_name": "May",
+        "return": 0.3515873350203037,
+        "num_stocks": 18
+      },
+      {
+        "month": 6,
+        "month_name": "June",
+        "return": 6.186494535207748,
+        "num_stocks": 1
+      },
+      {
+        "month": 7,
+        "month_name": "July",
+        "return": -2.4199922323226932,
+        "num_stocks": 26
+      },
+      {
+        "month": 8,
+        "month_name": "August",
+        "return": -0.24023010497912764,
+        "num_stocks": 6
+      },
+      {
+        "month": 9,
+        "month_name": "September",
+        "return": -1.9489490181207658,
+        "num_stocks": 29
+      },
+      {
+        "month": 10,
+        "month_name": "October",
+        "return": 3.2926789730787274,
+        "num_stocks": 4
+      },
+      {
+        "month": 11,
+        "month_name": "November",
+        "return": 12.338655745983123,
+        "num_stocks": 3
+      },
+      {
+        "month": 12,
+        "month_name": "December",
+        "return": -4.866208949685097,
+        "num_stocks": 10
+      }
+    ],
+    "summary": {
+      "annual_return": 12.278250846995098,
+      "average_monthly": 1.5867545355227772,
+      "win_rate": 0.5,
+      "best_month": 12.338655745983123,
+      "worst_month": -4.866208949685097,
+      "num_months": 8,
+      "months_traded": [5, 6, 7, 8, 9, 10, 11, 12],
+      "note": "Only 8 months of data (May-December 2021)"
+    }
+  },
+  "2022_actual_trading": {
+    "year": 2022,
+    "year_note": "Files used had test_data_start_date_2021_XX_XX",
+    "market_context": "Bear market - Fed rate hikes, inflation concerns",
+    "sp500_performance": "-18.1% for full year",
+    "monthly_returns": {
+      "1": -21.5917964220047,
+      "2": 2.689626371860504,
+      "3": -7.057442212104798,
+      "4": 4.134820705652237,
+      "5": -5.017184162139893,
+      "6": -4.9885180532932285,
+      "7": 4.410133814811706,
+      "8": 2.4036553934216496,
+      "9": -4.644515061378479,
+      "10": 19.01487216949463,
+      "11": -0.3951894804835319,
+      "12": -2.5428729817271236
+    },
+    "trades": [
+      {
+        "month": 1,
+        "month_name": "January",
+        "return": -21.5917964220047,
+        "num_stocks": 5,
+        "note": "Large drawdown at start of bear market"
+      },
+      {
+        "month": 2,
+        "month_name": "February",
+        "return": 2.689626371860504,
+        "num_stocks": 9
+      },
+      {
+        "month": 3,
+        "month_name": "March",
+        "return": -7.057442212104798,
+        "num_stocks": 5
+      },
+      {
+        "month": 4,
+        "month_name": "April",
+        "return": 4.134820705652237,
+        "num_stocks": 4
+      },
+      {
+        "month": 5,
+        "month_name": "May",
+        "return": -5.017184162139893,
+        "num_stocks": 40,
+        "note": "Unusually high stock count"
+      },
+      {
+        "month": 6,
+        "month_name": "June",
+        "return": -4.9885180532932285,
+        "num_stocks": 0,
+        "note": "CONVERGENCE ISSUE - no stocks selected"
+      },
+      {
+        "month": 7,
+        "month_name": "July",
+        "return": 4.410133814811706,
+        "num_stocks": 0,
+        "note": "CONVERGENCE ISSUE - no stocks selected"
+      },
+      {
+        "month": 8,
+        "month_name": "August",
+        "return": 2.4036553934216496,
+        "num_stocks": 15
+      },
+      {
+        "month": 9,
+        "month_name": "September",
+        "return": -4.644515061378479,
+        "num_stocks": 21
+      },
+      {
+        "month": 10,
+        "month_name": "October",
+        "return": 19.01487216949463,
+        "num_stocks": 7,
+        "note": "Exceptional performance - best month"
+      },
+      {
+        "month": 11,
+        "month_name": "November",
+        "return": -0.3951894804835319,
+        "num_stocks": 15
+      },
+      {
+        "month": 12,
+        "month_name": "December",
+        "return": -2.5428729817271236,
+        "num_stocks": 6
+      }
+    ],
+    "summary": {
+      "annual_return": -17.16407097781798,
+      "average_monthly": -1.1320341598242523,
+      "win_rate": 0.4166666666666667,
+      "best_month": 19.01487216949463,
+      "worst_month": -21.5917964220047,
+      "num_months": 12,
+      "months_traded": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
+      "vs_sp500": "Outperformed by 0.94 percentage points",
+      "note": "Full year of data with convergence issues in June/July"
+    }
+  },
+  "comparison_with_sequential": {
+    "note": "Sequential Supervised results from REALIGNED_GAMMA_RESULTS_CORRECT_DATES.md",
+    "2021_H2": {
+      "lstm": "8 months (May-Dec): +12.28%",
+      "sequential": "6 months (Jul-Dec): -28.96%",
+      "winner": "LSTM by 41.24pp",
+      "sp500_H2": "+11%",
+      "market_context": "Bull market - LSTM dramatically outperformed"
+    },
+    "2022": {
+      "lstm": "12 months: -17.16%",
+      "sequential": "12 months: -16.22%",
+      "winner": "Sequential by 0.94pp",
+      "sp500": "-18.1%",
+      "both_beat_market": true,
+      "market_context": "Bear market - both models similar, slight edge to Sequential"
+    },
+    "2023": {
+      "lstm": "Not tested",
+      "sequential": "12 months: +14.00%",
+      "sp500": "+24.2%",
+      "market_context": "Recovery year - no LSTM data for comparison"
+    },
+    "overall_pattern": "LSTM excels in bull markets, Sequential slightly better in bear markets"
+  }
+}

@@ -1,0 +1,124 @@
+Loaded 1070 data files
+Device: cuda
+Output: /home/ubuntu/code/angle_rl/invest/experiments/gamma_750iter_20250807_153512/
+================================================================================
+
+================================================================================
+GAMMA EXPERIMENTS - 750 ITERATIONS, 7-DAY SEQUENCES
+Testing Gamma values: 0.1 (less discounting) and 0.5 (more discounting)
+Baseline Gamma: 0.3
+Start time: 2025-08-07 15:35:12
+================================================================================
+
+======================================================================
+TESTING GAMMA = 0.1
+======================================================================
+
+  Processing Year 2021 with Gamma=0.1
+  ------------------------------------------------------------
+      Training 2021-01 (gamma=0.1): 150 300 450 600 750 Done! [88.9s]
+      Return: -14.92% | YTD: -14.92%
+      Training 2021-02 (gamma=0.1): 150 300 450 600 750 Done! [89.2s]
+      Return: +0.38% | YTD: -14.60%
+      Training 2021-03 (gamma=0.1): 150 300 450 600 750 Done! [90.1s]
+      Return: +7.85% | YTD: -7.90%
+      Training 2021-04 (gamma=0.1): 150 300 450 600 750 Done! [90.7s]
+      Return: -14.90% | YTD: -21.62%
+      Training 2021-05 (gamma=0.1): 150 300 450 600 750 Done! [91.1s]
+      Return: +1.85% | YTD: -20.17%
+      Training 2021-06 (gamma=0.1): 150 300 450 600 750 Done! [92.5s]
+      Return: -5.78% | YTD: -24.79%
+      Training 2021-07 (gamma=0.1): 150 300 450 600 750 Done! [92.2s]
+      Return: +4.35% | YTD: -21.52%
+      Training 2021-08 (gamma=0.1): 150 300 450 600 750 Done! [91.2s]
+      Return: -2.61% | YTD: -23.56%
+      Training 2021-09 (gamma=0.1): 150 300 450 600 750 Done! [89.6s]
+      Return: -20.65% | YTD: -39.34%
+      Training 2021-10 (gamma=0.1): 150 300 450 600 750 Done! [90.2s]
+      Return: +0.64% | YTD: -38.95%
+      Training 2021-11 (gamma=0.1): 150 300 450 600 750 Done! [90.9s]
+      Return: -1.90% | YTD: -40.12%
+      Training 2021-12 (gamma=0.1): 150 300 450 600 750 Done! [90.8s]
+      Return: -3.80% | YTD: -42.39%
+
+    2021 Summary (Gamma=0.1):
+      Annual Return: -42.39%
+      Win Rate: 42%
+      Trades: 12/12
+      Time: 18.2 minutes
+
+  Processing Year 2022 with Gamma=0.1
+  ------------------------------------------------------------
+      Training 2022-01 (gamma=0.1): 150 300 450 600 750 Done! [92.7s]
+      Return: +2.76% | YTD: +2.76%
+      Training 2022-02 (gamma=0.1): 150 300 450 600 750 Done! [92.9s]
+      Return: -0.04% | YTD: +2.71%
+      Training 2022-03 (gamma=0.1): 150 300 450 600 750 Done! [90.2s]
+      Return: -8.07% | YTD: -5.58%
+      Training 2022-04 (gamma=0.1): 150 300 450 600 750 Done! [92.9s]
+      Return: -0.05% | YTD: -5.63%
+      Training 2022-05 (gamma=0.1): 150 300 450 600 750 Done! [90.4s]
+      Return: -0.02% | YTD: -5.64%
+      Training 2022-06 (gamma=0.1): 150 300 450 600 750 Done! [87.9s]
+      Return: +3.45% | YTD: -2.39%
+      Training 2022-07 (gamma=0.1): 150 300 450 600 750 Done! [90.3s]
+      Return: +13.19% | YTD: +10.48%
+      Training 2022-08 (gamma=0.1): 150 300 450 600 750 Done! [92.8s]
+      Return: +10.44% | YTD: +22.02%
+      Training 2022-09 (gamma=0.1): 150 300 450 600 750 Done! [93.7s]
+      Return: -16.33% | YTD: +2.09%
+      Training 2022-10 (gamma=0.1): 150 300 450 600 750 Done! [91.2s]
+      Return: -1.79% | YTD: +0.26%
+      Training 2022-11 (gamma=0.1): 150 300 450 600 750 Done! [90.9s]
+      Return: -18.37% | YTD: -18.16%
+      Training 2022-12 (gamma=0.1): 150 300 450 600 750 Done! [89.4s]
+      Return: -1.73% | YTD: -19.57%
+
+    2022 Summary (Gamma=0.1):
+      Annual Return: -19.57%
+      Win Rate: 33%
+      Trades: 12/12
+      Time: 18.3 minutes
+
+  Processing Year 2023 with Gamma=0.1
+  ------------------------------------------------------------
+      Training 2023-01 (gamma=0.1): 150 300 450 600 750 Done! [92.0s]
+      Return: -6.34% | YTD: -6.34%
+      Training 2023-02 (gamma=0.1): 150 300 450 600 750 Done! [90.0s]
+      Return: +50.65% | YTD: +41.09%
+      Training 2023-03 (gamma=0.1): 150 300 450 600 750 Done! [88.2s]
+      Return: +2.44% | YTD: +44.54%
+      Training 2023-04 (gamma=0.1): 150 300 450 600 750 Done! [91.3s]
+      Return: -5.67% | YTD: +36.34%
+      Training 2023-05 (gamma=0.1): 150 300 450 600 750 Done! [88.4s]
+      Return: +117.11% | YTD: +196.00%
+      Training 2023-06 (gamma=0.1): 150 300 450 600 750 Done! [88.2s]
+      Return: -5.89% | YTD: +178.56%
+      Training 2023-07 (gamma=0.1): 150 300 450 600 750 Done! [88.3s]
+      Return: +18.18% | YTD: +229.20%
+      Training 2023-08 (gamma=0.1): 150 300 450 600 750 Done! [88.7s]
+      Return: +4.96% | YTD: +245.53%
+      Training 2023-09 (gamma=0.1): 150 300 450 600 750 Done! [87.8s]
+      Return: +0.78% | YTD: +248.23%
+      Training 2023-10 (gamma=0.1): 150 300 450 600 750 Done! [87.5s]
+      Return: +1.99% | YTD: +255.17%
+      Training 2023-11 (gamma=0.1): 150 300 450 600 750 Done! [87.3s]
+      Return: +30.12% | YTD: +362.15%
+      Training 2023-12 (gamma=0.1): 150 300 450 600 750 Done! [88.4s]
+      Return: +1.79% | YTD: +370.41%
+
+    2023 Summary (Gamma=0.1):
+      Annual Return: +370.41%
+      Win Rate: 75%
+      Trades: 12/12
+      Time: 17.8 minutes
+
+  Processing Year 2024 with Gamma=0.1
+  ------------------------------------------------------------
+      Training 2024-01 (gamma=0.1): 150 300 450 600 750 Done! [89.5s]
+      Return: -5.90% | YTD: -5.90%
+      Training 2024-02 (gamma=0.1): 150 300 450 600 750 Done! [89.5s]
+      Return: -9.20% | YTD: -14.56%
+      Training 2024-03 (gamma=0.1): 150 300 450 600 750 Done! [86.3s]
+      Return: -13.71% | YTD: -26.27%
+      Training 2024-04 (gamma=0.1): 150 300 450 600 

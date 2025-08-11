@@ -1,0 +1,28 @@
+FULL DATASET COMPARISON REPORT
+============================================================
+
+Date Range: 2020-04-26 to 2024-05-05
+Total Files: 1070
+Training Files: 321
+Validation Files: 107
+Testing Files: 642
+
+PERFORMANCE SUMMARY
+----------------------------------------
+
+SEQUENTIAL SUPERVISED
+  Total Return: 7585.09%
+  Sharpe Ratio: 2.166
+  Win Rate: 75.0%
+  Max Drawdown: 72.3%
+  Avg Monthly: 19.83%
+  Std Monthly: 31.72%
+
+LSTM ADAPTIVE
+  Total Return: 232.71%
+  Sharpe Ratio: 2.057
+  Win Rate: 75.0%
+  Max Drawdown: 12.3%
+  Avg Monthly: 4.04%
+  Std Monthly: 6.81%
+

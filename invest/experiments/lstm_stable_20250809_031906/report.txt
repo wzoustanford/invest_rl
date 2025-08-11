@@ -1,0 +1,18 @@
+LSTM TRADING STABILITY EXPERIMENT RESULTS
+============================================================
+
+STRATEGY: Dynamic Gamma with Trade Timing
+----------------------------------------
+
+Total Return: -77.63%
+Number of Trades: 36
+Number Skipped: 168
+Trade Execution Rate: 17.6%
+Win Rate: 5.6%
+Sharpe Ratio: -4.932
+Average Return: -4.04%
+Return Volatility: 2.60%
+Best Trade: 1.06%
+Worst Trade: -10.13%
+Average Gamma: 0.481
+Gamma Std Dev: 0.001
