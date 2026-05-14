@@ -1,10 +1,6 @@
-# angle_rl 
+# Invest with Reinforcement Learning  by AngleNexus 
 
-reinforcement learning for angle
+This repo was created for individual investors who won't have access to teams of analysts or costly data systems.
 
-investment signals are difficult to capture, especially for individual investors who won't have access to teams of analysts or costly data systems. At Angle, we believe with AI and machine learning, it's possible to give every investor, the benefit of capturing market opportunities. 
-
-this is why for the first time, we created a repo for applying reinforcement learning for equity investing. We intend to give equal opportunity to the household, and individual investor population who are entitled to benefit better from the free market. 
-
-the baseline algorithm is very simple and straightforward. the model buys a portfolio and holds it for a number of days. 
+The baseline algorithm is simple to understand and performs well. Back-test shows ~22% annual returns with weekly portfolio changes. 
 
