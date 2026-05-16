@@ -3,7 +3,7 @@
 mkdir code 
 cd code 
 
-git clone https://wzoustanford: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@github.com/wzoustanford/angle_rl.git
+git clone https://wzoustanford:xxx@github.com/wzoustanford/angle_rl.git
 
 mkdir ~/.aws/
 touch ~/.aws/credentials
