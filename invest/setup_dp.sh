@@ -7,7 +7,7 @@ git clone https://wzoustanford:xxx@github.com/wzoustanford/angle_rl.git
 
 mkdir ~/.aws/
 touch ~/.aws/credentials 
-echo -e "[default]\naws_access_key_id = AKIASDQ36EOJONW2RDHZ\naws_secret_access_key = xxx" > ~/.aws/credentials
+echo -e "[default]\naws_access_key_id = xxx\naws_secret_access_key = xxx" > ~/.aws/credentials
 cd angle_rl/invest/data 
 
 #aws s3 cp --recursive s3://illumenti-backend-general/angle_rl_data/dec23_to_mar24_benchmark_data/ ./
